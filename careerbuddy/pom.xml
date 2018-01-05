@@ -5,12 +5,17 @@
     <artifactId>careerbuddy</artifactId>
     <version>0.0.1</version>
     <packaging>war</packaging>
-    
+
     <dependencies>
         <dependency>
             <groupId>org.jnosql.artemis</groupId>
             <artifactId>graph-extension</artifactId>
-            <version>0.0.3</version>
+            <version>0.0.4-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jnosql.artemis</groupId>
+            <artifactId>artemis-configuration</artifactId>
+            <version>0.0.4-SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>org.apache.tinkerpop</groupId>
@@ -34,8 +39,8 @@
             <type>jar</type>
         </dependency>
     </dependencies>
-    
-    
+
+
     <build>
         <finalName>careerbuddy</finalName>
     </build>
@@ -44,6 +49,19 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <tinkerpop.version>3.3.0</tinkerpop.version>        
+        <tinkerpop.version>3.3.0</tinkerpop.version>
     </properties>
+
+    <repositories>
+        <repository>
+            <id>snapshots-repo</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <releases>
+                <enabled>false</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>

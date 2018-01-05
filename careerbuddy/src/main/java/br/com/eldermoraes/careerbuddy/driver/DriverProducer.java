@@ -15,10 +15,10 @@
 package br.com.eldermoraes.careerbuddy.driver;
 
 
+import org.jnosql.artemis.ConfigurationReader;
+import org.jnosql.artemis.ConfigurationSettingsUnit;
 import org.jnosql.artemis.ConfigurationUnit;
 import org.jnosql.artemis.configuration.ConfigurationException;
-import org.jnosql.artemis.configuration.ConfigurationReader;
-import org.jnosql.artemis.configuration.ConfigurationSettingsUnit;
 import org.jnosql.diana.api.Settings;
 import org.neo4j.driver.v1.AuthToken;
 import org.neo4j.driver.v1.AuthTokens;

@@ -15,7 +15,7 @@ public class Buddy implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Id
-    private Integer id;
+    private Long id;
     
     @Column
     private String name;
@@ -32,11 +32,11 @@ public class Buddy implements Serializable {
         this.salary = salary;
     }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
