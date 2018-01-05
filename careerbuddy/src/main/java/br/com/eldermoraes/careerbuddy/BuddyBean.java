@@ -1,6 +1,6 @@
 package br.com.eldermoraes.careerbuddy;
 
-import javax.annotation.PostConstruct;
+import javax.ejb.Init;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import org.jnosql.artemis.graph.GraphTemplate;
@@ -52,6 +52,8 @@ public class BuddyBean {
    
     public String getBuddies() {
         
+        loadData();
+        
         Buddy jose = (Buddy) getValue(BUDDY, NAME, JOSE, graph);
         Buddy mario = (Buddy) getValue(BUDDY, NAME, MARIO, graph);
         Buddy joao = (Buddy) getValue(BUDDY, NAME, JOAO, graph);
@@ -69,35 +71,34 @@ public class BuddyBean {
         Technology container = (Technology) getValue(TECHNOLOGY, NAME, CONTAINER, graph);
         Technology go = (Technology) getValue(TECHNOLOGY, NAME, GO, graph);
         
-        graph.edge(jose, WORKS_WITH, JAVA).add(LEVEL, ADVANCED);
-        graph.edge(jose, WORKS_WITH, NOSQL).add(LEVEL, BEGINNER);
-        graph.edge(jose, WORKS_WITH, CLOUD).add(LEVEL, INTERMEDIATE);
-        graph.edge(jose, WORKS_WITH, CONTAINER).add(LEVEL, ADVANCED);
+        graph.edge(jose, WORKS_WITH, java).add(LEVEL, ADVANCED);
+        graph.edge(jose, WORKS_WITH, nosql).add(LEVEL, BEGINNER);
+        graph.edge(jose, WORKS_WITH, cloud).add(LEVEL, INTERMEDIATE);
+        graph.edge(jose, WORKS_WITH, container).add(LEVEL, ADVANCED);
         graph.edge(jose, LIVES_IN, saopaulo);
         
-        graph.edge(mario, WORKS_WITH, GO).add(LEVEL, ADVANCED);
-        graph.edge(mario, WORKS_WITH, NOSQL).add(LEVEL, ADVANCED);
-        graph.edge(mario, WORKS_WITH, CLOUD).add(LEVEL, BEGINNER);
-        graph.edge(mario, WORKS_WITH, CONTAINER).add(LEVEL, BEGINNER);
+        graph.edge(mario, WORKS_WITH, go).add(LEVEL, ADVANCED);
+        graph.edge(mario, WORKS_WITH, nosql).add(LEVEL, ADVANCED);
+        graph.edge(mario, WORKS_WITH, cloud).add(LEVEL, BEGINNER);
+        graph.edge(mario, WORKS_WITH, container).add(LEVEL, BEGINNER);
         graph.edge(mario, LIVES_IN, salvador);
         
-        graph.edge(joao, WORKS_WITH, JAVA).add(LEVEL, INTERMEDIATE);
-        graph.edge(joao, WORKS_WITH, CLOUD).add(LEVEL, ADVANCED);
-        graph.edge(joao, WORKS_WITH, CONTAINER).add(LEVEL, ADVANCED);
-        graph.edge(joao, WORKS_WITH, GO).add(LEVEL, BEGINNER);
+        graph.edge(joao, WORKS_WITH, java).add(LEVEL, INTERMEDIATE);
+        graph.edge(joao, WORKS_WITH, cloud).add(LEVEL, ADVANCED);
+        graph.edge(joao, WORKS_WITH, container).add(LEVEL, ADVANCED);
+        graph.edge(joao, WORKS_WITH, go).add(LEVEL, BEGINNER);
         graph.edge(joao, LIVES_IN, belohorizonte);
         
-        graph.edge(pedro, WORKS_WITH, GO).add(LEVEL, BEGINNER);
-        graph.edge(pedro, WORKS_WITH, CONTAINER).add(LEVEL, BEGINNER);
+        graph.edge(pedro, WORKS_WITH, go).add(LEVEL, BEGINNER);
+        graph.edge(pedro, WORKS_WITH, container).add(LEVEL, BEGINNER);
         graph.edge(pedro, LIVES_IN, saopaulo);
         
         thinkerpop.tx().commit();
         
-        return null;
+        return "ainda vazio";
     }
     
-    @PostConstruct
-    public void loadData(){
+    private void loadData(){
         
         graph.insert(Buddy.of(JOSE, 3_000D));
         graph.insert(Buddy.of(MARIO, 5_000D));
