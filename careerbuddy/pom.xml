@@ -13,6 +13,11 @@
             <version>0.0.4-SNAPSHOT</version>
         </dependency>
         <dependency>
+            <groupId>org.jnosql.artemis</groupId>
+            <artifactId>artemis-configuration</artifactId>
+            <version>0.0.4-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.tinkerpop</groupId>
             <artifactId>gremlin-core</artifactId>
             <version>${tinkerpop.version}</version>
