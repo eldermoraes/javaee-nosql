@@ -59,8 +59,6 @@ public class BuddyBean {
 
     public String getBuddies() {
 
-        loadData();
-
         Buddy jose = (Buddy) getValue(BUDDY, NAME, JOSE, graph);
         Buddy mario = (Buddy) getValue(BUDDY, NAME, MARIO, graph);
         Buddy joao = (Buddy) getValue(BUDDY, NAME, JOAO, graph);
@@ -112,8 +110,29 @@ public class BuddyBean {
         return jsonBBuilder.toJson(list);
     }
 
-    private void loadData() {
+    public void loadData() {
+         
+        graph.getTraversalEdge().has(NAME, WORKS_WITH).stream().collect(toList()).forEach((o) -> {
+            graph.delete(o.getId());
+        });
+        
+        graph.getTraversalEdge().has(NAME, LIVES_IN).stream().collect(toList()).forEach((o) -> {
+            graph.delete(o.getId());
+        });   
+        
+        graph.getTraversalVertex().hasLabel(CITY).<City>stream().collect(toList()).forEach((o) -> {
+            graph.delete(o.getId());
+        });
 
+        graph.getTraversalVertex().hasLabel(TECHNOLOGY).<Technology>stream().collect(toList()).forEach((o) -> {
+            graph.delete(o.getId());
+        });    
+        
+        graph.getTraversalVertex().hasLabel(BUDDY).<Buddy>stream().collect(toList()).forEach((o) -> {
+            graph.delete(o.getId());
+        }); 
+     
+        
         graph.insert(Buddy.of(JOSE, 3_000D));
         graph.insert(Buddy.of(MARIO, 5_000D));
         graph.insert(Buddy.of(JOAO, 9_000D));
