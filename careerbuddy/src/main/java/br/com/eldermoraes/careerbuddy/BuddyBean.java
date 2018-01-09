@@ -4,8 +4,6 @@ import java.util.List;
 import static java.util.stream.Collectors.toList;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
-import javax.json.Json;
-import javax.json.JsonBuilderFactory;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import org.jnosql.artemis.graph.GraphTemplate;
@@ -24,28 +22,27 @@ public class BuddyBean {
     @Inject
     private Graph thinkerpop;
 
-    private static final JsonBuilderFactory BUILDERFACTORY = Json.createBuilderFactory(null);
     private final Jsonb jsonBBuilder = JsonbBuilder.create();
 
     private static final String CITY = "City";
-    private static final String SAO_PAULO = "Sao Paulo";
-    private static final String BELO_HORIZONTE = "Belo Horizonte";
-    private static final String SALVADOR = "Salvador";
-    private static final String RIO_JANEIRO = "Rio de Janeiro";
-    private static final String CURITIBA = "Curitiba";
+    public static final String SAO_PAULO = "Sao Paulo";
+    public static final String BELO_HORIZONTE = "Belo Horizonte";
+    public static final String SALVADOR = "Salvador";
+    public static final String RIO_JANEIRO = "Rio de Janeiro";
+    public static final String CURITIBA = "Curitiba";
 
     private static final String TECHNOLOGY = "Technology";
-    private static final String JAVA = "Java";
-    private static final String NOSQL = "NoSQL";
-    private static final String CLOUD = "Cloud";
-    private static final String CONTAINER = "Containers";
-    private static final String GO = "Go";
+    public static final String JAVA = "Java";
+    public static final String NOSQL = "NoSQL";
+    public static final String CLOUD = "Cloud";
+    public static final String CONTAINER = "Containers";
+    public static final String GO = "Go";
 
     private static final String BUDDY = "Buddy";
-    private static final String JOSE = "Jose";
-    private static final String MARIO = "Mario";
-    private static final String JOAO = "Joao";
-    private static final String PEDRO = "Pedro";
+    public static final String JOSE = "Jose";
+    public static final String MARIO = "Mario";
+    public static final String JOAO = "Joao";
+    public static final String PEDRO = "Pedro";
 
     private static final String NAME = "name";
 
@@ -57,24 +54,106 @@ public class BuddyBean {
     private static final String INTERMEDIATE = "intermediate";
     private static final String ADVANCED = "advanced";
 
-    public String getBuddies() {
+    public String getBuddiesByTechonology(String technology) {
 
-        Buddy jose = (Buddy) getValue(BUDDY, NAME, JOSE, graph);
-        Buddy mario = (Buddy) getValue(BUDDY, NAME, MARIO, graph);
-        Buddy joao = (Buddy) getValue(BUDDY, NAME, JOAO, graph);
-        Buddy pedro = (Buddy) getValue(BUDDY, NAME, PEDRO, graph);
+        List<Buddy> list = graph.getTraversalVertex()
+                .hasLabel(TECHNOLOGY)
+                .has(NAME, technology)
+                .in(WORKS_WITH)
+                .<Buddy>stream()
+                .collect(toList());
 
-        City saopaulo = (City) getValue(CITY, NAME, SAO_PAULO, graph);
-        City belohorizonte = (City) getValue(CITY, NAME, BELO_HORIZONTE, graph);
-        City salvador = (City) getValue(CITY, NAME, SALVADOR, graph);
-        City riojaneiro = (City) getValue(CITY, NAME, RIO_JANEIRO, graph);
-        City curitiba = (City) getValue(CITY, NAME, CURITIBA, graph);
+        return jsonBBuilder.toJson(list);
+    }
 
-        Technology java = (Technology) getValue(TECHNOLOGY, NAME, JAVA, graph);
-        Technology nosql = (Technology) getValue(TECHNOLOGY, NAME, NOSQL, graph);
-        Technology cloud = (Technology) getValue(TECHNOLOGY, NAME, CLOUD, graph);
-        Technology container = (Technology) getValue(TECHNOLOGY, NAME, CONTAINER, graph);
-        Technology go = (Technology) getValue(TECHNOLOGY, NAME, GO, graph);
+    public String getBuddiesByTechonology(String tech1, String tech2) {
+
+        List<Buddy> list = graph.getTraversalVertex()
+                .hasLabel(TECHNOLOGY)
+                .has(NAME, tech1)
+                .in(WORKS_WITH)
+                .<Buddy>stream()
+                .collect(toList());
+
+        return jsonBBuilder.toJson(list);
+    }
+
+    public void loadData() {
+        removeData();
+        createEntities();
+        createEdges();
+    }
+
+    private static Object getObject(String entity, String identifier, String identifierValue, GraphTemplate graph) {
+        return graph.getTraversalVertex().hasLabel(entity)
+                .has(identifier, identifierValue)
+                .next()
+                .orElseThrow(() -> new IllegalStateException("Entity does not find"));
+    }
+
+    private void removeData() {
+        
+        graph.getTraversalEdge().has(NAME, WORKS_WITH).stream().collect(toList()).forEach((o) -> {
+            graph.delete(o.getId());
+        });
+
+        graph.getTraversalEdge().has(NAME, LIVES_IN).stream().collect(toList()).forEach((o) -> {
+            graph.delete(o.getId());
+        });
+
+        graph.getTraversalVertex().hasLabel(CITY).<City>stream().collect(toList()).forEach((o) -> {
+            graph.delete(o.getId());
+        });
+
+        graph.getTraversalVertex().hasLabel(TECHNOLOGY).<Technology>stream().collect(toList()).forEach((o) -> {
+            graph.delete(o.getId());
+        });
+
+        graph.getTraversalVertex().hasLabel(BUDDY).<Buddy>stream().collect(toList()).forEach((o) -> {
+            graph.delete(o.getId());
+        });
+
+        thinkerpop.tx().commit();
+    }
+
+    private void createEntities() {
+        graph.insert(Buddy.of(JOSE, 3_000D));
+        graph.insert(Buddy.of(MARIO, 5_000D));
+        graph.insert(Buddy.of(JOAO, 9_000D));
+        graph.insert(Buddy.of(PEDRO, 14_000D));
+
+        graph.insert(City.of(SAO_PAULO));
+        graph.insert(City.of(BELO_HORIZONTE));
+        graph.insert(City.of(SALVADOR));
+        graph.insert(City.of(RIO_JANEIRO));
+        graph.insert(City.of(CURITIBA));
+
+        graph.insert(Technology.of(JAVA));
+        graph.insert(Technology.of(NOSQL));
+        graph.insert(Technology.of(CLOUD));
+        graph.insert(Technology.of(CONTAINER));
+        graph.insert(Technology.of(GO));
+
+        thinkerpop.tx().commit();
+    }
+
+    private void createEdges() {
+        Buddy jose = (Buddy) getObject(BUDDY, NAME, JOSE, graph);
+        Buddy mario = (Buddy) getObject(BUDDY, NAME, MARIO, graph);
+        Buddy joao = (Buddy) getObject(BUDDY, NAME, JOAO, graph);
+        Buddy pedro = (Buddy) getObject(BUDDY, NAME, PEDRO, graph);
+
+        City saopaulo = (City) getObject(CITY, NAME, SAO_PAULO, graph);
+        City belohorizonte = (City) getObject(CITY, NAME, BELO_HORIZONTE, graph);
+        City salvador = (City) getObject(CITY, NAME, SALVADOR, graph);
+        //City riojaneiro = (City) getObject(CITY, NAME, RIO_JANEIRO, graph);
+        //City curitiba = (City) getObject(CITY, NAME, CURITIBA, graph);
+
+        Technology java = (Technology) getObject(TECHNOLOGY, NAME, JAVA, graph);
+        Technology nosql = (Technology) getObject(TECHNOLOGY, NAME, NOSQL, graph);
+        Technology cloud = (Technology) getObject(TECHNOLOGY, NAME, CLOUD, graph);
+        Technology container = (Technology) getObject(TECHNOLOGY, NAME, CONTAINER, graph);
+        Technology go = (Technology) getObject(TECHNOLOGY, NAME, GO, graph);
 
         graph.edge(jose, WORKS_WITH, java).add(LEVEL, ADVANCED);
         graph.edge(jose, WORKS_WITH, nosql).add(LEVEL, BEGINNER);
@@ -99,64 +178,5 @@ public class BuddyBean {
         graph.edge(pedro, LIVES_IN, saopaulo);
 
         thinkerpop.tx().commit();
-
-        List<Buddy> list = graph.getTraversalVertex()
-                .hasLabel(TECHNOLOGY)
-                    .has(NAME, CLOUD)
-                .in(WORKS_WITH)
-                .<Buddy>stream()
-                .collect(toList());
-
-        return jsonBBuilder.toJson(list);
-    }
-
-    public void loadData() {
-         
-        graph.getTraversalEdge().has(NAME, WORKS_WITH).stream().collect(toList()).forEach((o) -> {
-            graph.delete(o.getId());
-        });
-        
-        graph.getTraversalEdge().has(NAME, LIVES_IN).stream().collect(toList()).forEach((o) -> {
-            graph.delete(o.getId());
-        });   
-        
-        graph.getTraversalVertex().hasLabel(CITY).<City>stream().collect(toList()).forEach((o) -> {
-            graph.delete(o.getId());
-        });
-
-        graph.getTraversalVertex().hasLabel(TECHNOLOGY).<Technology>stream().collect(toList()).forEach((o) -> {
-            graph.delete(o.getId());
-        });    
-        
-        graph.getTraversalVertex().hasLabel(BUDDY).<Buddy>stream().collect(toList()).forEach((o) -> {
-            graph.delete(o.getId());
-        }); 
-     
-        
-        graph.insert(Buddy.of(JOSE, 3_000D));
-        graph.insert(Buddy.of(MARIO, 5_000D));
-        graph.insert(Buddy.of(JOAO, 9_000D));
-        graph.insert(Buddy.of(PEDRO, 14_000D));
-
-        graph.insert(City.of(SAO_PAULO));
-        graph.insert(City.of(BELO_HORIZONTE));
-        graph.insert(City.of(SALVADOR));
-        graph.insert(City.of(RIO_JANEIRO));
-        graph.insert(City.of(CURITIBA));
-
-        graph.insert(Technology.of(JAVA));
-        graph.insert(Technology.of(NOSQL));
-        graph.insert(Technology.of(CLOUD));
-        graph.insert(Technology.of(CONTAINER));
-        graph.insert(Technology.of(GO));
-
-        thinkerpop.tx().commit();
-    }
-
-    private static Object getValue(String entity, String identifier, String identifierValue, GraphTemplate graph) {
-        return graph.getTraversalVertex().hasLabel(entity)
-                .has(identifier, identifierValue)
-                .<City>next()
-                .orElseThrow(() -> new IllegalStateException("Entity does not find"));
     }
 }
