@@ -1,3 +1,3 @@
 # javaee-nosql
 
-Arquivos para palestra no evento de NoSQL
+Files used in the NoSQL session
