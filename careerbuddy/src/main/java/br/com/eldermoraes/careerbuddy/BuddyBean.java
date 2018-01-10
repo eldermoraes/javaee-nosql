@@ -8,6 +8,7 @@ import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import org.jnosql.artemis.graph.GraphTemplate;
 import org.apache.tinkerpop.gremlin.structure.Graph;
+import org.apache.tinkerpop.gremlin.process.traversal.P;
 
 /**
  *
@@ -70,9 +71,10 @@ public class BuddyBean {
 
         List<Buddy> list = graph.getTraversalVertex()
                 .hasLabel(TECHNOLOGY)
-                .has(NAME, tech1)
+                .has(NAME, P.eq(tech1).or(P.eq(tech2)))
                 .in(WORKS_WITH)
                 .<Buddy>stream()
+                .distinct()
                 .collect(toList());
 
         return jsonBBuilder.toJson(list);
