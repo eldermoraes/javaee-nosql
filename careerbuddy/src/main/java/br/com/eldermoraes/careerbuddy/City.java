@@ -9,7 +9,7 @@ import org.jnosql.artemis.Id;
  *
  * @author eldermoraes
  */
-@Entity
+@Entity(value = "CITY")
 public class City implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -67,8 +67,8 @@ public class City implements Serializable {
         return "br.com.eldermoraes.careerbuddy.City[ id=" + id + " ]";
     }
 
-    public static City of(String name){
-        return new City(name);
+    public static City of(Enums.City city){
+        return new City(city.name());
     }
     
 }

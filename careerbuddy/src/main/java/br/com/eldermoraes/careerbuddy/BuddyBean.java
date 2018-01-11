@@ -23,61 +23,19 @@ public class BuddyBean {
     @Inject
     private Graph thinkerpop;
 
-    private final Jsonb jsonBBuilder = JsonbBuilder.create();
+    private final Jsonb jsonbBuilder = JsonbBuilder.create();
+    
 
-    private static final String CITY = "City";
-    public static final String SAO_PAULO = "Sao Paulo";
-    public static final String BELO_HORIZONTE = "Belo Horizonte";
-    public static final String SALVADOR = "Salvador";
-    public static final String RIO_JANEIRO = "Rio de Janeiro";
-    public static final String CURITIBA = "Curitiba";
-
-    private static final String TECHNOLOGY = "Technology";
-    public static final String JAVA = "Java";
-    public static final String NOSQL = "NoSQL";
-    public static final String CLOUD = "Cloud";
-    public static final String CONTAINER = "Containers";
-    public static final String GO = "Go";
-
-    private static final String BUDDY = "Buddy";
-    public static final String JOSE = "Jose";
-    public static final String MARIO = "Mario";
-    public static final String JOAO = "Joao";
-    public static final String PEDRO = "Pedro";
-
-    private static final String NAME = "name";
-
-    private static final String WORKS_WITH = "works with";
-    private static final String LIVES_IN = "lives in";
-
-    private static final String LEVEL = "level";
-    private static final String BEGINNER = "beginner";
-    private static final String INTERMEDIATE = "intermediate";
-    private static final String ADVANCED = "advanced";
-
-    public String getBuddiesByTechonology(String technology) {
+    public String getBuddiesByTechnology(Enums.Technology tech) {
 
         List<Buddy> list = graph.getTraversalVertex()
-                .hasLabel(TECHNOLOGY)
-                .has(NAME, technology)
-                .in(WORKS_WITH)
+                .hasLabel(Enums.Entity.TECHNOLOGY.name())
+                .has(Enums.Property.NAME.name().toLowerCase(), tech.name())
+                .in(Enums.Edge.WORKS_WITH.name())
                 .<Buddy>stream()
                 .collect(toList());
 
-        return jsonBBuilder.toJson(list);
-    }
-
-    public String getBuddiesByTechonology(String tech1, String tech2) {
-
-        List<Buddy> list = graph.getTraversalVertex()
-                .hasLabel(TECHNOLOGY)
-                .has(NAME, P.eq(tech1).or(P.eq(tech2)))
-                .in(WORKS_WITH)
-                .<Buddy>stream()
-                .distinct()
-                .collect(toList());
-
-        return jsonBBuilder.toJson(list);
+        return jsonbBuilder.toJson(list);
     }
 
     public void loadData() {
@@ -86,32 +44,32 @@ public class BuddyBean {
         createEdges();
     }
 
-    private static Object getObject(String entity, String identifier, String identifierValue, GraphTemplate graph) {
-        return graph.getTraversalVertex().hasLabel(entity)
-                .has(identifier, identifierValue)
+    private static Object getObject(Enums.Entity entity, Enums.Property identifier, Enum identifierValue, GraphTemplate graph) {
+        return graph.getTraversalVertex().hasLabel(entity.name())
+                .has(identifier.name().toLowerCase(), identifierValue.name())
                 .next()
                 .orElseThrow(() -> new IllegalStateException("Entity does not find"));
     }
 
     private void removeData() {
-        
-        graph.getTraversalEdge().has(NAME, WORKS_WITH).stream().collect(toList()).forEach((o) -> {
+
+        graph.getTraversalEdge().has(Enums.Property.NAME.name(), Enums.Edge.WORKS_WITH.name()).stream().collect(toList()).forEach((o) -> {
             graph.delete(o.getId());
         });
 
-        graph.getTraversalEdge().has(NAME, LIVES_IN).stream().collect(toList()).forEach((o) -> {
+        graph.getTraversalEdge().has(Enums.Property.NAME.name(), Enums.Edge.LIVES_IN.name()).stream().collect(toList()).forEach((o) -> {
             graph.delete(o.getId());
         });
 
-        graph.getTraversalVertex().hasLabel(CITY).<City>stream().collect(toList()).forEach((o) -> {
+        graph.getTraversalVertex().hasLabel(Enums.Entity.CITY.name()).<City>stream().collect(toList()).forEach((o) -> {
             graph.delete(o.getId());
         });
 
-        graph.getTraversalVertex().hasLabel(TECHNOLOGY).<Technology>stream().collect(toList()).forEach((o) -> {
+        graph.getTraversalVertex().hasLabel(Enums.Entity.TECHNOLOGY.name()).<Technology>stream().collect(toList()).forEach((o) -> {
             graph.delete(o.getId());
         });
 
-        graph.getTraversalVertex().hasLabel(BUDDY).<Buddy>stream().collect(toList()).forEach((o) -> {
+        graph.getTraversalVertex().hasLabel(Enums.Entity.BUDDY.name()).<Buddy>stream().collect(toList()).forEach((o) -> {
             graph.delete(o.getId());
         });
 
@@ -119,65 +77,65 @@ public class BuddyBean {
     }
 
     private void createEntities() {
-        graph.insert(Buddy.of(JOSE, 3_000D));
-        graph.insert(Buddy.of(MARIO, 5_000D));
-        graph.insert(Buddy.of(JOAO, 9_000D));
-        graph.insert(Buddy.of(PEDRO, 14_000D));
+        graph.insert(Buddy.of(Enums.Buddy.JOSE, 3_000D));
+        graph.insert(Buddy.of(Enums.Buddy.MARIO, 5_000D));
+        graph.insert(Buddy.of(Enums.Buddy.JOAO, 9_000D));
+        graph.insert(Buddy.of(Enums.Buddy.PEDRO, 14_000D));
 
-        graph.insert(City.of(SAO_PAULO));
-        graph.insert(City.of(BELO_HORIZONTE));
-        graph.insert(City.of(SALVADOR));
-        graph.insert(City.of(RIO_JANEIRO));
-        graph.insert(City.of(CURITIBA));
+        graph.insert(City.of(Enums.City.SAO_PAULO));
+        graph.insert(City.of(Enums.City.BELO_HORIZONTE));
+        graph.insert(City.of(Enums.City.SALVADOR));
+        graph.insert(City.of(Enums.City.RIO_JANEIRO));
+        graph.insert(City.of(Enums.City.CURITIBA));
 
-        graph.insert(Technology.of(JAVA));
-        graph.insert(Technology.of(NOSQL));
-        graph.insert(Technology.of(CLOUD));
-        graph.insert(Technology.of(CONTAINER));
-        graph.insert(Technology.of(GO));
+        graph.insert(Technology.of(Enums.Technology.JAVA));
+        graph.insert(Technology.of(Enums.Technology.NOSQL));
+        graph.insert(Technology.of(Enums.Technology.CLOUD));
+        graph.insert(Technology.of(Enums.Technology.CONTAINER));
+        graph.insert(Technology.of(Enums.Technology.GO));
 
         thinkerpop.tx().commit();
     }
 
     private void createEdges() {
-        Buddy jose = (Buddy) getObject(BUDDY, NAME, JOSE, graph);
-        Buddy mario = (Buddy) getObject(BUDDY, NAME, MARIO, graph);
-        Buddy joao = (Buddy) getObject(BUDDY, NAME, JOAO, graph);
-        Buddy pedro = (Buddy) getObject(BUDDY, NAME, PEDRO, graph);
+        Buddy jose = (Buddy) getObject(Enums.Entity.BUDDY, Enums.Property.NAME, Enums.Buddy.JOSE, graph);
+        Buddy mario = (Buddy) getObject(Enums.Entity.BUDDY, Enums.Property.NAME, Enums.Buddy.MARIO, graph);
+        Buddy joao = (Buddy) getObject(Enums.Entity.BUDDY, Enums.Property.NAME, Enums.Buddy.JOAO, graph);
+        Buddy pedro = (Buddy) getObject(Enums.Entity.BUDDY, Enums.Property.NAME, Enums.Buddy.PEDRO, graph);
 
-        City saopaulo = (City) getObject(CITY, NAME, SAO_PAULO, graph);
-        City belohorizonte = (City) getObject(CITY, NAME, BELO_HORIZONTE, graph);
-        City salvador = (City) getObject(CITY, NAME, SALVADOR, graph);
+        City saopaulo = (City) getObject(Enums.Entity.CITY, Enums.Property.NAME, Enums.City.SAO_PAULO, graph);
+        City belohorizonte = (City) getObject(Enums.Entity.CITY, Enums.Property.NAME, Enums.City.BELO_HORIZONTE, graph);
+        City salvador = (City) getObject(Enums.Entity.CITY, Enums.Property.NAME, Enums.City.SALVADOR, graph);
         //City riojaneiro = (City) getObject(CITY, NAME, RIO_JANEIRO, graph);
         //City curitiba = (City) getObject(CITY, NAME, CURITIBA, graph);
 
-        Technology java = (Technology) getObject(TECHNOLOGY, NAME, JAVA, graph);
-        Technology nosql = (Technology) getObject(TECHNOLOGY, NAME, NOSQL, graph);
-        Technology cloud = (Technology) getObject(TECHNOLOGY, NAME, CLOUD, graph);
-        Technology container = (Technology) getObject(TECHNOLOGY, NAME, CONTAINER, graph);
-        Technology go = (Technology) getObject(TECHNOLOGY, NAME, GO, graph);
+        Technology java = (Technology) getObject(Enums.Entity.TECHNOLOGY, Enums.Property.NAME, Enums.Technology.JAVA, graph);
+        Technology nosql = (Technology) getObject(Enums.Entity.TECHNOLOGY, Enums.Property.NAME, Enums.Technology.NOSQL, graph);
+        Technology cloud = (Technology) getObject(Enums.Entity.TECHNOLOGY, Enums.Property.NAME, Enums.Technology.CLOUD, graph);
+        Technology container = (Technology) getObject(Enums.Entity.TECHNOLOGY, Enums.Property.NAME, Enums.Technology.CONTAINER, graph);
+        Technology go = (Technology) getObject(Enums.Entity.TECHNOLOGY, Enums.Property.NAME, Enums.Technology.GO, graph);
 
-        graph.edge(jose, WORKS_WITH, java).add(LEVEL, ADVANCED);
-        graph.edge(jose, WORKS_WITH, nosql).add(LEVEL, BEGINNER);
-        graph.edge(jose, WORKS_WITH, cloud).add(LEVEL, INTERMEDIATE);
-        graph.edge(jose, WORKS_WITH, container).add(LEVEL, ADVANCED);
-        graph.edge(jose, LIVES_IN, saopaulo);
+        graph.edge(jose, Enums.Edge.WORKS_WITH.name(), java).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
+        graph.edge(jose, Enums.Edge.WORKS_WITH.name(), nosql).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
+        graph.edge(jose, Enums.Edge.WORKS_WITH.name(), cloud).add(Enums.Entity.LEVEL.name(), Enums.Level.INTERMEDIATE.name());
+        graph.edge(jose, Enums.Edge.WORKS_WITH.name(), container).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
+        graph.edge(jose, Enums.Edge.LIVES_IN.name(), saopaulo);
 
-        graph.edge(mario, WORKS_WITH, go).add(LEVEL, ADVANCED);
-        graph.edge(mario, WORKS_WITH, nosql).add(LEVEL, ADVANCED);
-        graph.edge(mario, WORKS_WITH, cloud).add(LEVEL, BEGINNER);
-        graph.edge(mario, WORKS_WITH, container).add(LEVEL, BEGINNER);
-        graph.edge(mario, LIVES_IN, salvador);
+        graph.edge(mario, Enums.Edge.WORKS_WITH.name(), go).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
+        graph.edge(mario, Enums.Edge.WORKS_WITH.name(), nosql).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
+        graph.edge(mario, Enums.Edge.WORKS_WITH.name(), cloud).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
+        graph.edge(mario, Enums.Edge.WORKS_WITH.name(), container).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
+        graph.edge(mario, Enums.Edge.LIVES_IN.name(), salvador);
 
-        graph.edge(joao, WORKS_WITH, java).add(LEVEL, INTERMEDIATE);
-        graph.edge(joao, WORKS_WITH, cloud).add(LEVEL, ADVANCED);
-        graph.edge(joao, WORKS_WITH, container).add(LEVEL, ADVANCED);
-        graph.edge(joao, WORKS_WITH, go).add(LEVEL, BEGINNER);
-        graph.edge(joao, LIVES_IN, belohorizonte);
+        graph.edge(joao, Enums.Edge.WORKS_WITH.name(), java).add(Enums.Entity.LEVEL.name(), Enums.Level.INTERMEDIATE.name());
+        graph.edge(joao, Enums.Edge.WORKS_WITH.name(), cloud).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
+        graph.edge(joao, Enums.Edge.WORKS_WITH.name(), container).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
+        graph.edge(joao, Enums.Edge.WORKS_WITH.name(), go).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
+        graph.edge(joao, Enums.Edge.LIVES_IN.name(), belohorizonte);
 
-        graph.edge(pedro, WORKS_WITH, go).add(LEVEL, BEGINNER);
-        graph.edge(pedro, WORKS_WITH, container).add(LEVEL, BEGINNER);
-        graph.edge(pedro, LIVES_IN, saopaulo);
+        graph.edge(pedro, Enums.Edge.WORKS_WITH.name(), go).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
+        graph.edge(pedro, Enums.Edge.WORKS_WITH.name(), container).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
+        graph.edge(pedro, Enums.Edge.LIVES_IN.name(), saopaulo);
 
         thinkerpop.tx().commit();
     }

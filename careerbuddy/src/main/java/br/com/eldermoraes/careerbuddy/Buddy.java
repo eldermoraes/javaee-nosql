@@ -9,7 +9,7 @@ import org.jnosql.artemis.Id;
  *
  * @author eldermoraes
  */
-@Entity
+@Entity(value = "BUDDY")
 public class Buddy implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -80,8 +80,8 @@ public class Buddy implements Serializable {
         return "br.com.eldermoraes.careerbuddy.Buddy[ id=" + id + " ]";
     }
     
-    public static Buddy of (String name, Double salary){
-        return new Buddy(name, salary);
+    public static Buddy of (Enums.Buddy buddy, Double salary){
+        return new Buddy(buddy.name(), salary);
     }
 
     

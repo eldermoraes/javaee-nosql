@@ -9,7 +9,7 @@ import org.jnosql.artemis.Id;
  *
  * @author eldermoraes
  */
-@Entity
+@Entity(value = "TECHNOLOGY")
 public class Technology implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,8 +20,8 @@ public class Technology implements Serializable {
     @Column
     private String name;
 
-    public Technology(String name) {
-        this.name = name;
+    public Technology(Enums.Technology tech) {
+        this.name = tech.name();
     }
 
     public Technology() {
@@ -67,7 +67,7 @@ public class Technology implements Serializable {
         return "br.com.eldermoraes.careerbuddy.Technology[ id=" + id + " ]";
     }
 
-    public static Technology of (String name){
+    public static Technology of (Enums.Technology name){
         return new Technology(name);
     }
 }

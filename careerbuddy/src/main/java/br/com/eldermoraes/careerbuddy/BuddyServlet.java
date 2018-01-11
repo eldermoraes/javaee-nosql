@@ -1,5 +1,6 @@
 package br.com.eldermoraes.careerbuddy;
 
+import br.com.eldermoraes.careerbuddy.Enums.Technology;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.ejb.EJB;
@@ -30,9 +31,8 @@ public class BuddyServlet extends HttpServlet {
             throws ServletException, IOException {
         
         try(PrintWriter writer = response.getWriter()){
-            writer.print("JAVA Buddies: " + buddyBean.getBuddiesByTechonology(BuddyBean.JAVA) + "\n");
-            writer.print("CLOUD Buddies: " + buddyBean.getBuddiesByTechonology(BuddyBean.CLOUD) + "\n");
-            writer.print("JAVA & CLOUD Buddies: " + buddyBean.getBuddiesByTechonology(BuddyBean.JAVA, BuddyBean.CLOUD) + "\n");
+            writer.print(Technology.JAVA + " Buddies: " + buddyBean.getBuddiesByTechnology(Technology.JAVA) + "\n");
+            writer.print(Technology.CLOUD + " Buddies: " + buddyBean.getBuddiesByTechnology(Technology.CLOUD) + "\n");
         }
     }
 
