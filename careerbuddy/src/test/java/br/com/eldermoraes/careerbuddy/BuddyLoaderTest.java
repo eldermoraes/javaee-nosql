@@ -1,7 +1,8 @@
 package br.com.eldermoraes.careerbuddy;
 
 import br.com.eldermoraes.careerbuddy.cdi.CDIExtension;
-import br.com.eldermoraes.careerbuddy.driver.Team;
+import org.apache.tinkerpop.gremlin.structure.Graph;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -12,12 +13,16 @@ public class BuddyLoaderTest {
 
 
     @Inject
-    private Team team;
+    private BuddyLoader buddyLoader;
+
+    @Inject
+    private Graph graph;
 
 
 
     @Test
     public void shouldCreateEdges() {
-
+        buddyLoader.loadEdges();
+        Assertions.assertEquals(15, graph.traversal().V().toList().size());
     }
 }
