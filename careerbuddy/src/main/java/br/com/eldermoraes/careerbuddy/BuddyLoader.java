@@ -102,8 +102,8 @@ public class BuddyLoader {
 
 
         City saopaulo = cityRepository.findByName(Enums.City.SAO_PAULO.name());
-        City belohorizonte = cityRepository.findByName(Enums.City.SAO_PAULO.name());
-        City salvador = cityRepository.findByName(Enums.City.SAO_PAULO.name());
+        City belohorizonte = cityRepository.findByName(Enums.City.BELO_HORIZONTE.name());
+        City salvador = cityRepository.findByName(Enums.City.SALVADOR.name());
 
         Technology java = technologyRepository.findByName(Enums.Technology.JAVA.name());
         Technology nosql = technologyRepository.findByName(Enums.Technology.NOSQL.name());
