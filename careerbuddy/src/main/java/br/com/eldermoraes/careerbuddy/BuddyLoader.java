@@ -51,6 +51,7 @@ public class BuddyLoader {
     private Graph graph;
 
 
+
     @Transactional
     public void clean() {
 
@@ -61,7 +62,6 @@ public class BuddyLoader {
 
     @Transactional
     public void loadVertex() {
-
 
         if (!isElementEmpty()) {
             return;
@@ -112,27 +112,27 @@ public class BuddyLoader {
         Technology go = technologyRepository.findByName(Enums.Technology.GO.name());
 
 
-        template.edge(jose, Edges.WORKS_WITH, java).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
-        template.edge(jose, Edges.WORKS_WITH, nosql).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
-        template.edge(jose, Edges.WORKS_WITH, cloud).add(Enums.Entity.LEVEL.name(), Enums.Level.INTERMEDIATE.name());
-        template.edge(jose, Edges.WORKS_WITH, container).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
-        template.edge(jose, Edges.LIVES_IN, saopaulo);
+        template.edge(jose, Edges.WORKS, java).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
+        template.edge(jose, Edges.WORKS, nosql).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
+        template.edge(jose, Edges.WORKS, cloud).add(Enums.Entity.LEVEL.name(), Enums.Level.INTERMEDIATE.name());
+        template.edge(jose, Edges.WORKS, container).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
+        template.edge(jose, Edges.LIVES, saopaulo);
 
-        template.edge(mario, Edges.WORKS_WITH, go).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
-        template.edge(mario, Edges.WORKS_WITH, nosql).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
-        template.edge(mario, Edges.WORKS_WITH, cloud).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
-        template.edge(mario, Edges.WORKS_WITH, container).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
-        template.edge(mario, Edges.LIVES_IN, salvador);
+        template.edge(mario, Edges.WORKS, go).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
+        template.edge(mario, Edges.WORKS, nosql).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
+        template.edge(mario, Edges.WORKS, cloud).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
+        template.edge(mario, Edges.WORKS, container).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
+        template.edge(mario, Edges.LIVES, salvador);
 
-        template.edge(joao, Edges.WORKS_WITH, java).add(Enums.Entity.LEVEL.name(), Enums.Level.INTERMEDIATE.name());
-        template.edge(joao, Edges.WORKS_WITH, cloud).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
-        template.edge(joao, Edges.WORKS_WITH, container).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
-        template.edge(joao, Edges.WORKS_WITH, go).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
-        template.edge(joao, Edges.LIVES_IN, belohorizonte);
+        template.edge(joao, Edges.WORKS, java).add(Enums.Entity.LEVEL.name(), Enums.Level.INTERMEDIATE.name());
+        template.edge(joao, Edges.WORKS, cloud).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
+        template.edge(joao, Edges.WORKS, container).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
+        template.edge(joao, Edges.WORKS, go).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
+        template.edge(joao, Edges.LIVES, belohorizonte);
 
-        template.edge(pedro, Edges.WORKS_WITH, go).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
-        template.edge(pedro, Edges.WORKS_WITH, container).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
-        template.edge(pedro, Edges.LIVES_IN, saopaulo);
+        template.edge(pedro, Edges.WORKS, go).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
+        template.edge(pedro, Edges.WORKS, container).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
+        template.edge(pedro, Edges.LIVES, saopaulo);
     }
 
     private boolean isEdgeEmpty() {

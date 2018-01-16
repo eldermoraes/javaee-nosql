@@ -68,7 +68,7 @@ public class BuddyLoaderTest {
         buddyLoader.loadEdges();
         assertEquals(18, graph.traversal().E().toList().size());
     }
-    
+
     @Test
     public void shouldCreateEdgeOnce() {
         buddyLoader.loadVertex();

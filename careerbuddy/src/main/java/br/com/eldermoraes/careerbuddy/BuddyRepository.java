@@ -23,4 +23,5 @@ public interface BuddyRepository extends Repository<Buddy, Long> {
 
     Buddy findByName(String name);
 
+
 }
