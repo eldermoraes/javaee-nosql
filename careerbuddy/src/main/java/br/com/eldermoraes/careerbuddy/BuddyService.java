@@ -66,11 +66,11 @@ public class BuddyService {
                 .hasLabel(Technology.class)
                 .has("name", technology)
                 .in(Edges.WORKS)
-                .filter(b -> {
-                    Collection<EdgeEntity> edges = graphTemplate.getEdges(b, Direction.OUT, Edges.LIVES);
-                    return true;
-                })
-                .orderBy("name").asc().stream();
+                .filter(b -> graphTemplate.getEdges(b, Direction.OUT, Edges.LIVES).stream()
+                            .<City>map(EdgeEntity::getInbound)
+                            .anyMatch(c -> city.equals(c.getName()))
+
+                    ).orderBy("name").asc().stream();
 
         return buddies.collect(Collectors.toList());
     }
