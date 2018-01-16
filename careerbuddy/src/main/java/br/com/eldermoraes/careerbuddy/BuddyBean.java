@@ -16,15 +16,17 @@
 
 package br.com.eldermoraes.careerbuddy;
 
-import java.util.List;
-import static java.util.stream.Collectors.toList;
+import org.apache.tinkerpop.gremlin.structure.Graph;
+import org.jnosql.artemis.graph.GraphTemplate;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
-import org.jnosql.artemis.graph.GraphTemplate;
-import org.apache.tinkerpop.gremlin.structure.Graph;
-import org.apache.tinkerpop.gremlin.process.traversal.P;
+import java.util.List;
+
+import static br.com.eldermoraes.careerbuddy.TechnologyLevel.EDGE_PROPERTY;
+import static java.util.stream.Collectors.toList;
 
 /**
  *
@@ -131,26 +133,26 @@ public class BuddyBean {
         Technology container = (Technology) getObject(Enums.Entity.TECHNOLOGY, Enums.Property.NAME, Enums.Technology.CONTAINER, graph);
         Technology go = (Technology) getObject(Enums.Entity.TECHNOLOGY, Enums.Property.NAME, Enums.Technology.GO, graph);
 
-        graph.edge(jose, Enums.Edge.WORKS_WITH.name(), java).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
-        graph.edge(jose, Enums.Edge.WORKS_WITH.name(), nosql).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
-        graph.edge(jose, Enums.Edge.WORKS_WITH.name(), cloud).add(Enums.Entity.LEVEL.name(), Enums.Level.INTERMEDIATE.name());
-        graph.edge(jose, Enums.Edge.WORKS_WITH.name(), container).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
+        graph.edge(jose, Enums.Edge.WORKS_WITH.name(), java).add(EDGE_PROPERTY, TechnologyLevel.ADVANCED.name());
+        graph.edge(jose, Enums.Edge.WORKS_WITH.name(), nosql).add(EDGE_PROPERTY, TechnologyLevel.BEGINNER.name());
+        graph.edge(jose, Enums.Edge.WORKS_WITH.name(), cloud).add(EDGE_PROPERTY, TechnologyLevel.INTERMEDIATE.name());
+        graph.edge(jose, Enums.Edge.WORKS_WITH.name(), container).add(EDGE_PROPERTY, TechnologyLevel.ADVANCED.name());
         graph.edge(jose, Enums.Edge.LIVES_IN.name(), saopaulo);
 
-        graph.edge(mario, Enums.Edge.WORKS_WITH.name(), go).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
-        graph.edge(mario, Enums.Edge.WORKS_WITH.name(), nosql).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
-        graph.edge(mario, Enums.Edge.WORKS_WITH.name(), cloud).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
-        graph.edge(mario, Enums.Edge.WORKS_WITH.name(), container).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
+        graph.edge(mario, Enums.Edge.WORKS_WITH.name(), go).add(EDGE_PROPERTY, TechnologyLevel.ADVANCED.name());
+        graph.edge(mario, Enums.Edge.WORKS_WITH.name(), nosql).add(EDGE_PROPERTY, TechnologyLevel.ADVANCED.name());
+        graph.edge(mario, Enums.Edge.WORKS_WITH.name(), cloud).add(EDGE_PROPERTY, TechnologyLevel.BEGINNER.name());
+        graph.edge(mario, Enums.Edge.WORKS_WITH.name(), container).add(EDGE_PROPERTY, TechnologyLevel.BEGINNER.name());
         graph.edge(mario, Enums.Edge.LIVES_IN.name(), salvador);
 
-        graph.edge(joao, Enums.Edge.WORKS_WITH.name(), java).add(Enums.Entity.LEVEL.name(), Enums.Level.INTERMEDIATE.name());
-        graph.edge(joao, Enums.Edge.WORKS_WITH.name(), cloud).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
-        graph.edge(joao, Enums.Edge.WORKS_WITH.name(), container).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
-        graph.edge(joao, Enums.Edge.WORKS_WITH.name(), go).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
+        graph.edge(joao, Enums.Edge.WORKS_WITH.name(), java).add(EDGE_PROPERTY, TechnologyLevel.INTERMEDIATE.name());
+        graph.edge(joao, Enums.Edge.WORKS_WITH.name(), cloud).add(EDGE_PROPERTY, TechnologyLevel.ADVANCED.name());
+        graph.edge(joao, Enums.Edge.WORKS_WITH.name(), container).add(EDGE_PROPERTY, TechnologyLevel.ADVANCED.name());
+        graph.edge(joao, Enums.Edge.WORKS_WITH.name(), go).add(EDGE_PROPERTY, TechnologyLevel.BEGINNER.name());
         graph.edge(joao, Enums.Edge.LIVES_IN.name(), belohorizonte);
 
-        graph.edge(pedro, Enums.Edge.WORKS_WITH.name(), go).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
-        graph.edge(pedro, Enums.Edge.WORKS_WITH.name(), container).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
+        graph.edge(pedro, Enums.Edge.WORKS_WITH.name(), go).add(EDGE_PROPERTY, TechnologyLevel.BEGINNER.name());
+        graph.edge(pedro, Enums.Edge.WORKS_WITH.name(), container).add(EDGE_PROPERTY, TechnologyLevel.BEGINNER.name());
         graph.edge(pedro, Enums.Edge.LIVES_IN.name(), saopaulo);
 
         thinkerpop.tx().commit();

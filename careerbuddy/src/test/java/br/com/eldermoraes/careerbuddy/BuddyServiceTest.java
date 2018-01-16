@@ -25,6 +25,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import javax.inject.Inject;
 import java.util.List;
 
+import static br.com.eldermoraes.careerbuddy.Enums.City.SAO_PAULO;
+import static br.com.eldermoraes.careerbuddy.Enums.Technology.CONTAINER;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -66,7 +68,7 @@ class BuddyServiceTest {
 
     @Test
     public void shouldFindByCity() {
-        List<Buddy> paulistano = buddyRepository.findByCity(Enums.City.SAO_PAULO.name());
+        List<Buddy> paulistano = buddyRepository.findByCity(SAO_PAULO.name());
         assertFalse(paulistano.isEmpty());
         assertEquals(2, paulistano.size());
 
@@ -74,6 +76,22 @@ class BuddyServiceTest {
             assertEquals(Enums.Buddy.JOSE.name(), paulistano.get(0).getName());
         }, () -> {
             assertEquals(Enums.Buddy.PEDRO.name(), paulistano.get(1).getName());
+        });
+    }
+
+
+    @Test
+    public void shouldFindByCityAndTechnology() {
+        List<Buddy> paulistanoWithGo = buddyRepository
+                .findByTechnologyAndCity(CONTAINER.name(), SAO_PAULO.name());
+
+        assertFalse(paulistanoWithGo.isEmpty());
+        assertEquals(2, paulistanoWithGo.size());
+
+        assertAll(() -> {
+            assertEquals(Enums.Buddy.JOSE.name(), paulistanoWithGo.get(0).getName());
+        }, () -> {
+            assertEquals(Enums.Buddy.PEDRO.name(), paulistanoWithGo.get(1).getName());
         });
     }
 }
