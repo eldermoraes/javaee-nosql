@@ -17,6 +17,8 @@
 package br.com.eldermoraes.careerbuddy;
 
 import java.io.Serializable;
+import java.util.Objects;
+
 import org.jnosql.artemis.Column;
 import org.jnosql.artemis.Entity;
 import org.jnosql.artemis.Id;
@@ -40,47 +42,43 @@ public class Technology implements Serializable {
         this.name = tech.name();
     }
 
-    public Technology() {
+    Technology() {
     }
     
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-       
+
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Technology)) {
+            return false;
+        }
+        Technology technology = (Technology) o;
+        return Objects.equals(id, technology.id);
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof Technology)) {
-            return false;
-        }
-        Technology other = (Technology) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 
     @Override
     public String toString() {
-        return "br.com.eldermoraes.careerbuddy.Technology[ id=" + id + " ]";
+        final StringBuilder sb = new StringBuilder("Technology{");
+        sb.append("id=").append(id);
+        sb.append(", name='").append(name).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 
     public static Technology of (Enums.Technology name){

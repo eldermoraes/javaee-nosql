@@ -19,10 +19,13 @@ package br.com.eldermoraes.careerbuddy;
 import br.com.eldermoraes.careerbuddy.cdi.CDIExtension;
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import javax.inject.Inject;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(CDIExtension.class)
 public class BuddyLoaderTest {
@@ -35,10 +38,27 @@ public class BuddyLoaderTest {
     private Graph graph;
 
 
+    @BeforeEach
+    public void SetUp() {
+        buddyLoader.clean();
+    }
 
     @Test
     public void shouldCreateEdges() {
         buddyLoader.loadVertex();
-        Assertions.assertEquals(14, graph.traversal().V().toList().size());
+        assertEquals(14, graph.traversal().V().toList().size());
+    }
+
+    @Test
+    public void shouldCreateEntitiesOnce() {
+        buddyLoader.loadVertex();
+        assertEquals(14, graph.traversal().V().toList().size());
+        buddyLoader.loadVertex();
+        assertEquals(14, graph.traversal().V().toList().size());
+    }
+
+    @Test
+    public void shouldReturnErrorWhenLoadEdgesWithVertexEmpty() {
+        Assertions.assertThrows(IllegalStateException.class, buddyLoader::loadEdges);
     }
 }

@@ -25,8 +25,12 @@ import org.jnosql.artemis.graph.GraphTemplate;
 import org.jnosql.artemis.graph.Transactional;
 
 import javax.inject.Inject;
+import java.util.logging.Logger;
 
 public class BuddyLoader {
+
+
+    private static final Logger LOGGER = Logger.getLogger(BuddyLoader.class.getName());
 
     @Inject
     @Database(DatabaseType.GRAPH)
@@ -47,9 +51,8 @@ public class BuddyLoader {
     private Graph graph;
 
 
-
     @Transactional
-    public void delete() {
+    public void clean() {
 
         graph.traversal().V().toList().forEach(Vertex::remove);
         graph.traversal().E().toList().forEach(Edge::remove);
@@ -59,6 +62,10 @@ public class BuddyLoader {
     @Transactional
     public void loadVertex() {
 
+
+        if (!isElementEmpty()) {
+            return;
+        }
         buddyRepository.save(Buddy.of(Enums.Buddy.JOSE, 3_000D));
         buddyRepository.save(Buddy.of(Enums.Buddy.MARIO, 5_000D));
         buddyRepository.save(Buddy.of(Enums.Buddy.JOAO, 9_000D));
@@ -81,6 +88,9 @@ public class BuddyLoader {
     public void loadEdges() {
 
 
+        if (isElementEmpty()) {
+            throw new IllegalStateException("You cannot load");
+        }
 
         Buddy jose = buddyRepository.findByName(Enums.Buddy.JOSE.name());
         Buddy mario = buddyRepository.findByName(Enums.Buddy.MARIO.name());
@@ -120,5 +130,11 @@ public class BuddyLoader {
         template.edge(pedro, Edges.WORKS_WITH, go).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
         template.edge(pedro, Edges.WORKS_WITH, container).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
         template.edge(pedro, Edges.LIVES_IN, saopaulo);
+    }
+
+    private boolean isElementEmpty() {
+        long elements = graph.traversal().V().count().tryNext().orElse(0L);
+        LOGGER.info("Elements numbers in the database: " + elements);
+        return elements == 0;
     }
 }
