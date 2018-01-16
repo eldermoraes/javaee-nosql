@@ -24,15 +24,21 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.function.Predicate;
 
 import static br.com.eldermoraes.careerbuddy.Enums.City.SAO_PAULO;
 import static br.com.eldermoraes.careerbuddy.Enums.Technology.CONTAINER;
+import static br.com.eldermoraes.careerbuddy.Enums.Technology.JAVA;
+import static br.com.eldermoraes.careerbuddy.TechnologyLevel.ADVANCED;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(CDIExtension.class)
 class BuddyServiceTest {
+    private static final Predicate<String> IS_JOSE = Enums.Buddy.JOSE.name()::equals;
+    private static final Predicate<String> IS_PEDRO = Enums.Buddy.PEDRO.name()::equals;
 
     @Inject
     private BuddyService buddyRepository;
@@ -55,14 +61,26 @@ class BuddyServiceTest {
     @Test
     public void shouldFindByTechnology() {
 
-        List<Buddy> javaDevelopers = buddyRepository.findByTechnology(Enums.Technology.JAVA.name());
+        List<Buddy> javaDevelopers = buddyRepository.findByTechnology(JAVA.name());
 
         assertFalse(javaDevelopers.isEmpty());
-        assertEquals(2, javaDevelopers.size());
+
         assertAll(() -> {
-            assertEquals(Enums.Buddy.JOAO.name(), javaDevelopers.get(0).getName());
+            assertEquals(2, javaDevelopers.size());
         }, () -> {
-            assertEquals(Enums.Buddy.JOSE.name(), javaDevelopers.get(1).getName());
+
+        });
+    }
+
+    @Test
+    public void shouldFindByTechnologyWithLevel() {
+
+        List<Buddy> javaDevelopers = buddyRepository.findByTechnology(JAVA.name(), ADVANCED);
+
+        assertFalse(javaDevelopers.isEmpty());
+        assertEquals(1, javaDevelopers.size());
+        assertAll(() -> {
+            assertTrue(javaDevelopers.stream().map(Buddy::getName).allMatch(IS_JOSE));
         });
     }
 
@@ -70,28 +88,28 @@ class BuddyServiceTest {
     public void shouldFindByCity() {
         List<Buddy> paulistano = buddyRepository.findByCity(SAO_PAULO.name());
         assertFalse(paulistano.isEmpty());
-        assertEquals(2, paulistano.size());
+
 
         assertAll(() -> {
-            assertEquals(Enums.Buddy.JOSE.name(), paulistano.get(0).getName());
+            assertEquals(2, paulistano.size());
         }, () -> {
-            assertEquals(Enums.Buddy.PEDRO.name(), paulistano.get(1).getName());
+            assertTrue(paulistano.stream().map(Buddy::getName).allMatch(IS_PEDRO.or(IS_JOSE)));
         });
     }
 
 
     @Test
     public void shouldFindByCityAndTechnology() {
-        List<Buddy> paulistanoWithGo = buddyRepository
+        List<Buddy> paulistanoWithContainer = buddyRepository
                 .findByTechnologyAndCity(CONTAINER.name(), SAO_PAULO.name());
 
-        assertFalse(paulistanoWithGo.isEmpty());
-        assertEquals(2, paulistanoWithGo.size());
+        assertFalse(paulistanoWithContainer.isEmpty());
+
 
         assertAll(() -> {
-            assertEquals(Enums.Buddy.JOSE.name(), paulistanoWithGo.get(0).getName());
+            assertEquals(2, paulistanoWithContainer.size());
         }, () -> {
-            assertEquals(Enums.Buddy.PEDRO.name(), paulistanoWithGo.get(1).getName());
+            assertTrue(paulistanoWithContainer.stream().map(Buddy::getName).allMatch(IS_PEDRO.or(IS_JOSE)));
         });
     }
 }

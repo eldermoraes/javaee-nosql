@@ -46,6 +46,19 @@ public class BuddyService {
         return buddies.collect(Collectors.toList());
     }
 
+    public List<Buddy> findByTechnology(String technology, TechnologyLevel level) throws NullPointerException {
+        requireNonNull(technology, "technology is required");
+        requireNonNull(level, "level is required");
+
+        Stream<Buddy> buddies = graphTemplate.getTraversalVertex()
+                .hasLabel(Technology.class)
+                .has("name", technology)
+                .inE(Edges.WORKS).has(TechnologyLevel.EDGE_PROPERTY, level.get())
+                .outV().orderBy("name").asc().stream();
+
+        return buddies.collect(Collectors.toList());
+    }
+
     public List<Buddy> findByCity(String city) throws NullPointerException {
         requireNonNull(city, "city is required");
 
