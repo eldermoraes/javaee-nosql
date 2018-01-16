@@ -27,6 +27,11 @@ import org.jnosql.artemis.graph.Transactional;
 import javax.inject.Inject;
 import java.util.logging.Logger;
 
+import static br.com.eldermoraes.careerbuddy.TechnologyLevel.ADVANCED;
+import static br.com.eldermoraes.careerbuddy.TechnologyLevel.BEGINNER;
+import static br.com.eldermoraes.careerbuddy.TechnologyLevel.EDGE_PROPERTY;
+import static br.com.eldermoraes.careerbuddy.TechnologyLevel.INTERMEDIATE;
+
 public class BuddyLoader {
 
 
@@ -111,27 +116,27 @@ public class BuddyLoader {
         Technology container = technologyRepository.findByName(Enums.Technology.CONTAINER.name());
         Technology go = technologyRepository.findByName(Enums.Technology.GO.name());
 
-
-        template.edge(jose, Edges.WORKS, java).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
-        template.edge(jose, Edges.WORKS, nosql).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
-        template.edge(jose, Edges.WORKS, cloud).add(Enums.Entity.LEVEL.name(), Enums.Level.INTERMEDIATE.name());
-        template.edge(jose, Edges.WORKS, container).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
+        
+        template.edge(jose, Edges.WORKS, java).add(EDGE_PROPERTY, ADVANCED.get());
+        template.edge(jose, Edges.WORKS, nosql).add(EDGE_PROPERTY, BEGINNER.get());
+        template.edge(jose, Edges.WORKS, cloud).add(EDGE_PROPERTY, INTERMEDIATE.get());
+        template.edge(jose, Edges.WORKS, container).add(EDGE_PROPERTY, ADVANCED.get());
         template.edge(jose, Edges.LIVES, saopaulo);
 
-        template.edge(mario, Edges.WORKS, go).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
-        template.edge(mario, Edges.WORKS, nosql).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
-        template.edge(mario, Edges.WORKS, cloud).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
-        template.edge(mario, Edges.WORKS, container).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
+        template.edge(mario, Edges.WORKS, go).add(EDGE_PROPERTY, ADVANCED.get());
+        template.edge(mario, Edges.WORKS, nosql).add(EDGE_PROPERTY, ADVANCED.get());
+        template.edge(mario, Edges.WORKS, cloud).add(EDGE_PROPERTY, BEGINNER.get());
+        template.edge(mario, Edges.WORKS, container).add(EDGE_PROPERTY, BEGINNER.get());
         template.edge(mario, Edges.LIVES, salvador);
 
-        template.edge(joao, Edges.WORKS, java).add(Enums.Entity.LEVEL.name(), Enums.Level.INTERMEDIATE.name());
-        template.edge(joao, Edges.WORKS, cloud).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
-        template.edge(joao, Edges.WORKS, container).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
-        template.edge(joao, Edges.WORKS, go).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
+        template.edge(joao, Edges.WORKS, java).add(EDGE_PROPERTY, INTERMEDIATE.get());
+        template.edge(joao, Edges.WORKS, cloud).add(EDGE_PROPERTY, ADVANCED.get());
+        template.edge(joao, Edges.WORKS, container).add(EDGE_PROPERTY, ADVANCED.get());
+        template.edge(joao, Edges.WORKS, go).add(EDGE_PROPERTY, BEGINNER.get());
         template.edge(joao, Edges.LIVES, belohorizonte);
 
-        template.edge(pedro, Edges.WORKS, go).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
-        template.edge(pedro, Edges.WORKS, container).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
+        template.edge(pedro, Edges.WORKS, go).add(EDGE_PROPERTY, BEGINNER.get());
+        template.edge(pedro, Edges.WORKS, container).add(EDGE_PROPERTY, BEGINNER.get());
         template.edge(pedro, Edges.LIVES, saopaulo);
     }
 

@@ -16,48 +16,18 @@
 
 package br.com.eldermoraes.careerbuddy;
 
-/**
- *
- * @author eldermoraes
- */
-public class Enums {
+import java.util.Locale;
+import java.util.function.Supplier;
 
-    public enum Technology {
-        JAVA,
-        NOSQL,
-        CLOUD,
-        CONTAINER,
-        GO
-    }
+public enum TechnologyLevel implements Supplier<String> {
+    BEGINNER,
+    INTERMEDIATE,
+    ADVANCED;
 
-    public enum City {
-        SAO_PAULO,
-        BELO_HORIZONTE,
-        SALVADOR,
-        RIO_JANEIRO,
-        CURITIBA
-    }
+    static final String EDGE_PROPERTY = "label";
 
-    public enum Buddy {
-        JOSE,
-        MARIO,
-        JOAO,
-        PEDRO
-    }
-
-    public enum Edge {
-        WORKS_WITH,
-        LIVES_IN
-    }
-
-
-    public enum Entity {
-        CITY,
-        TECHNOLOGY,
-        BUDDY,
-    }
-    
-    public enum Property{
-        NAME
+    @Override
+    public String get() {
+        return name().toLowerCase(Locale.US);
     }
 }
