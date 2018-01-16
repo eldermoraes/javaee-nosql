@@ -61,4 +61,10 @@ public class BuddyLoaderTest {
     public void shouldReturnErrorWhenLoadEdgesWithVertexEmpty() {
         Assertions.assertThrows(IllegalStateException.class, buddyLoader::loadEdges);
     }
+
+    @Test
+    public void shouldCreateEdge() {
+        buddyLoader.loadVertex();
+        buddyLoader.loadEdges();
+    }
 }

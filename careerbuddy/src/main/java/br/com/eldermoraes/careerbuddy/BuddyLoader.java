@@ -92,6 +92,9 @@ public class BuddyLoader {
             throw new IllegalStateException("You cannot load");
         }
 
+        if(!isEdgeEmpty()) {
+            return;
+        }
         Buddy jose = buddyRepository.findByName(Enums.Buddy.JOSE.name());
         Buddy mario = buddyRepository.findByName(Enums.Buddy.MARIO.name());
         Buddy joao = buddyRepository.findByName(Enums.Buddy.JOAO.name());
@@ -132,6 +135,11 @@ public class BuddyLoader {
         template.edge(pedro, Edges.LIVES_IN, saopaulo);
     }
 
+    private boolean isEdgeEmpty() {
+        long edges = graph.traversal().E().count().tryNext().orElse(0L);
+        LOGGER.info("Edges numbers in the database: " + edges);
+        return edges == 0;
+    }
     private boolean isElementEmpty() {
         long elements = graph.traversal().V().count().tryNext().orElse(0L);
         LOGGER.info("Elements numbers in the database: " + elements);
