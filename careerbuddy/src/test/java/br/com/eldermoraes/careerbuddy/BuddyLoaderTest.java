@@ -22,7 +22,7 @@ public class BuddyLoaderTest {
 
     @Test
     public void shouldCreateEdges() {
-        buddyLoader.loadEdges();
-        Assertions.assertEquals(15, graph.traversal().V().toList().size());
+        buddyLoader.loadVertex();
+        Assertions.assertEquals(14, graph.traversal().V().toList().size());
     }
 }
