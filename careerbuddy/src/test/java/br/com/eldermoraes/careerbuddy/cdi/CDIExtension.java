@@ -10,12 +10,8 @@ import java.lang.reflect.Field;
 
 public class CDIExtension implements TestInstancePostProcessor {
 
-    private static final SeContainer CONTAINER;
 
-    static {
-        CONTAINER = SeContainerInitializer.newInstance().initialize();
-        Runtime.getRuntime().addShutdownHook(new Thread(CONTAINER::close));
-    }
+    private static final SeContainer CONTAINER = SeContainerInitializer.newInstance().initialize();
     @Override
     public void postProcessTestInstance(Object testInstance, ExtensionContext context) throws IllegalAccessException {
 

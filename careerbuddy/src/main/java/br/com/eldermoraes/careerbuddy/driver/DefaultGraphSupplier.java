@@ -9,8 +9,10 @@ import org.neo4j.driver.v1.Driver;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.inject.Instance;
+import javax.enterprise.inject.Vetoed;
 import javax.inject.Inject;
 
+@Vetoed
 public class DefaultGraphSupplier implements GraphSupplier {
 
     private Neo4JGraph graph;
@@ -30,6 +32,7 @@ public class DefaultGraphSupplier implements GraphSupplier {
     }
 
 
+    @Override
     public Graph get() {
         return graph;
     }

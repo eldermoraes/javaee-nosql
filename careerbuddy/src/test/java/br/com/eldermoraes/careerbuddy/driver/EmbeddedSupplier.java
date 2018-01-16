@@ -6,6 +6,7 @@ import org.apache.tinkerpop.gremlin.structure.Graph;
 import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
+import javax.enterprise.inject.Produces;
 import javax.interceptor.Interceptor;
 import java.io.File;
 
@@ -17,6 +18,7 @@ public class EmbeddedSupplier implements GraphSupplier {
     private Graph graph = Neo4jGraph.open(new File("").getAbsolutePath() + "/target/jnosql-graph");
 
     @Override
+    @Produces
     public Graph get() {
         return graph;
     }

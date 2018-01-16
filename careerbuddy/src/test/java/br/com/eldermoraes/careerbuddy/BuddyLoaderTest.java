@@ -1,20 +1,23 @@
 package br.com.eldermoraes.careerbuddy;
 
 import br.com.eldermoraes.careerbuddy.cdi.CDIExtension;
-import org.apache.tinkerpop.gremlin.structure.Graph;
+import br.com.eldermoraes.careerbuddy.driver.Team;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
 import javax.inject.Inject;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(CDIExtension.class)
 public class BuddyLoaderTest {
 
 
     @Inject
-    private BuddyLoader buddyLoader;
+    private Team team;
 
-    @Inject
-    private Graph graph;
+
+
+    @Test
+    public void shouldCreateEdges() {
+
+    }
 }
