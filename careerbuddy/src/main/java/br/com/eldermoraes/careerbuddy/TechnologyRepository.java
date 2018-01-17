@@ -23,4 +23,6 @@ import java.util.Optional;
 public interface TechnologyRepository extends Repository<Technology, Long> {
 
     Optional<Technology> findByName(String name);
+
+    void deleteByName(String buddyName);
 }
