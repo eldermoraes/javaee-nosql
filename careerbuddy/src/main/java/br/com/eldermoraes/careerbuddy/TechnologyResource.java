@@ -34,25 +34,25 @@ import javax.ws.rs.core.Response;
 import static org.jnosql.artemis.DatabaseType.GRAPH;
 
 @ApplicationScoped
-@Path("cities")
+@Path("technologies")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-public class CityResource {
+public class TechnologyResource {
 
 
     @Inject
     @Database(GRAPH)
-    private CityRepository cityRepository;
+    private TechnologyRepository cityRepository;
 
 
     @POST
     public void insert(@Name String name) {
 
         cityRepository.findByName(name).ifPresent(b -> {
-            throw new WebApplicationException("There is city that already does exist", Response.Status.BAD_REQUEST);
+            throw new WebApplicationException("There is a technology that already does exist", Response.Status.BAD_REQUEST);
         });
 
-        cityRepository.save(new City(name));
+        cityRepository.save(new Technology(name));
     }
 
 

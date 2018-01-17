@@ -61,7 +61,7 @@ public class BuddyResource {
     public void insert(@Valid BuddyDTO buddy) {
 
         buddyRepository.findByName(buddy.getName()).ifPresent(b -> {
-            throw new WebApplicationException("There is a name that already does exist", Response.Status.BAD_REQUEST);
+            throw new WebApplicationException("There is a buddy that already does exist", Response.Status.BAD_REQUEST);
         });
 
         buddyRepository.save(buddy.toEnity());
