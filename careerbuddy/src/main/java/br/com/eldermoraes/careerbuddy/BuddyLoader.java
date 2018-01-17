@@ -30,7 +30,6 @@ import java.util.logging.Logger;
 
 import static br.com.eldermoraes.careerbuddy.TechnologyLevel.ADVANCED;
 import static br.com.eldermoraes.careerbuddy.TechnologyLevel.BEGINNER;
-import static br.com.eldermoraes.careerbuddy.TechnologyLevel.EDGE_PROPERTY;
 import static br.com.eldermoraes.careerbuddy.TechnologyLevel.INTERMEDIATE;
 
 public class BuddyLoader {
@@ -50,6 +49,9 @@ public class BuddyLoader {
     @Inject
     @Database(DatabaseType.GRAPH)
     private CityRepository cityRepository;
+
+    @Inject
+    private BuddyService buddyService;
 
     @Inject
     private GraphTemplate template;
@@ -119,28 +121,31 @@ public class BuddyLoader {
         Technology container = technologyRepository.findByName(Enums.Technology.CONTAINER.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
         Technology go = technologyRepository.findByName(Enums.Technology.GO.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
 
-        
-        template.edge(jose, Edges.WORKS, java).add(EDGE_PROPERTY, ADVANCED.get());
-        template.edge(jose, Edges.WORKS, nosql).add(EDGE_PROPERTY, BEGINNER.get());
-        template.edge(jose, Edges.WORKS, cloud).add(EDGE_PROPERTY, INTERMEDIATE.get());
-        template.edge(jose, Edges.WORKS, container).add(EDGE_PROPERTY, ADVANCED.get());
-        template.edge(jose, Edges.LIVES, saopaulo);
 
-        template.edge(mario, Edges.WORKS, go).add(EDGE_PROPERTY, ADVANCED.get());
-        template.edge(mario, Edges.WORKS, nosql).add(EDGE_PROPERTY, ADVANCED.get());
-        template.edge(mario, Edges.WORKS, cloud).add(EDGE_PROPERTY, BEGINNER.get());
-        template.edge(mario, Edges.WORKS, container).add(EDGE_PROPERTY, BEGINNER.get());
-        template.edge(mario, Edges.LIVES, salvador);
+        buddyService.work(jose, java, ADVANCED);
+        buddyService.work(jose, nosql, BEGINNER);
+        buddyService.work(jose, cloud, INTERMEDIATE);
+        buddyService.work(jose, container, ADVANCED);
+        buddyService.live(jose, saopaulo);
 
-        template.edge(joao, Edges.WORKS, java).add(EDGE_PROPERTY, INTERMEDIATE.get());
-        template.edge(joao, Edges.WORKS, cloud).add(EDGE_PROPERTY, ADVANCED.get());
-        template.edge(joao, Edges.WORKS, container).add(EDGE_PROPERTY, ADVANCED.get());
-        template.edge(joao, Edges.WORKS, go).add(EDGE_PROPERTY, BEGINNER.get());
-        template.edge(joao, Edges.LIVES, belohorizonte);
 
-        template.edge(pedro, Edges.WORKS, go).add(EDGE_PROPERTY, BEGINNER.get());
-        template.edge(pedro, Edges.WORKS, container).add(EDGE_PROPERTY, BEGINNER.get());
-        template.edge(pedro, Edges.LIVES, saopaulo);
+        buddyService.work(mario, go, ADVANCED);
+        buddyService.work(mario, nosql, ADVANCED);
+        buddyService.work(mario, cloud, BEGINNER);
+        buddyService.work(mario, container, BEGINNER);
+        buddyService.live(mario, salvador);
+
+        buddyService.work(joao, java, INTERMEDIATE);
+        buddyService.work(joao, cloud, ADVANCED);
+        buddyService.work(joao, container, ADVANCED);
+        buddyService.work(joao, go, BEGINNER);
+        buddyService.live(joao, belohorizonte);
+
+
+        buddyService.work(pedro, go, BEGINNER);
+        buddyService.work(pedro, container, ADVANCED);
+        buddyService.live(pedro, saopaulo);
+
     }
 
     private boolean isEdgeEmpty() {
