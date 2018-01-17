@@ -18,7 +18,9 @@ package br.com.eldermoraes.careerbuddy;
 
 import org.jnosql.artemis.Repository;
 
+import java.util.Optional;
+
 public interface CityRepository extends Repository<City, Long> {
 
-    City findByName(String name);
+    Optional<City> findByName(String name);
 }

@@ -16,15 +16,47 @@
 
 package br.com.eldermoraes.careerbuddy;
 
-import org.jnosql.artemis.Column;
+import br.com.eldermoraes.careerbuddy.validation.Name;
+
+import javax.validation.constraints.NegativeOrZero;
 
 public class BuddyDTO {
 
+    @Name
     private String name;
 
+    @NegativeOrZero
     private Double salary;
 
+    @Name
     private String city;
 
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Double getSalary() {
+        return salary;
+    }
+
+    public void setSalary(Double salary) {
+        this.salary = salary;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
+    }
+
+    public Buddy toEnity() {
+        return new Buddy(name, salary);
+    }
 }

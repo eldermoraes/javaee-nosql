@@ -18,10 +18,12 @@ package br.com.eldermoraes.careerbuddy;
 
 import org.jnosql.artemis.Repository;
 
+import java.util.Optional;
+
 public interface BuddyRepository extends Repository<Buddy, Long> {
 
 
-    Buddy findByName(String name);
+    Optional<Buddy> findByName(String name);
 
-
+    void deleteByName(String buddyName);
 }
