@@ -18,6 +18,7 @@ package br.com.eldermoraes.careerbuddy;
 
 import br.com.eldermoraes.careerbuddy.validation.Name;
 import org.jnosql.artemis.Database;
+import org.jnosql.artemis.graph.Transactional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -39,6 +40,7 @@ import static org.jnosql.artemis.DatabaseType.GRAPH;
 @Path("buddies")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
+@Transactional
 public class BuddyResource {
 
 
