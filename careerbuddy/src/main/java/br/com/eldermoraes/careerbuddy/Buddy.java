@@ -17,6 +17,8 @@
 package br.com.eldermoraes.careerbuddy;
 
 import java.io.Serializable;
+import java.util.Objects;
+
 import org.jnosql.artemis.Column;
 import org.jnosql.artemis.Entity;
 import org.jnosql.artemis.Id;
@@ -39,7 +41,7 @@ public class Buddy implements Serializable {
     @Column
     private Double salary;
     
-    public Buddy(){
+    Buddy(){
         
     }
 
@@ -52,50 +54,43 @@ public class Buddy implements Serializable {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public Double getSalary() {
         return salary;
     }
 
-    public void setSalary(Double salary) {
-        this.salary = salary;
-    }    
 
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Buddy)) {
+            return false;
+        }
+        Buddy buddy = (Buddy) o;
+        return Objects.equals(id, buddy.id);
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof Buddy)) {
-            return false;
-        }
-        Buddy other = (Buddy) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+
+        return Objects.hash(id);
     }
 
     @Override
     public String toString() {
-        return "br.com.eldermoraes.careerbuddy.Buddy[ id=" + id + " ]";
+        final StringBuilder sb = new StringBuilder("Buddy{");
+        sb.append("id=").append(id);
+        sb.append(", name='").append(name).append('\'');
+        sb.append(", salary=").append(salary);
+        sb.append('}');
+        return sb.toString();
     }
-    
+
     public static Buddy of (Enums.Buddy buddy, Double salary){
         return new Buddy(buddy.name(), salary);
     }

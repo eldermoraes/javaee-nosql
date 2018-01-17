@@ -50,17 +50,11 @@ public class Enums {
         LIVES_IN
     }
 
-    public enum Level {
-        BEGINNER,
-        INTERMEDIATE,
-        ADVANCED
-    }
 
     public enum Entity {
         CITY,
         TECHNOLOGY,
         BUDDY,
-        LEVEL
     }
     
     public enum Property{

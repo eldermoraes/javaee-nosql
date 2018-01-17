@@ -16,12 +16,18 @@
 
 package br.com.eldermoraes.careerbuddy;
 
-import org.jnosql.artemis.Repository;
+import java.util.Locale;
+import java.util.function.Supplier;
 
-public interface BuddyRepository extends Repository<Buddy, Long> {
+public enum TechnologyLevel implements Supplier<String> {
+    BEGINNER,
+    INTERMEDIATE,
+    ADVANCED;
 
+    static final String EDGE_PROPERTY = "label";
 
-    Buddy findByName(String name);
-
-
+    @Override
+    public String get() {
+        return name().toLowerCase(Locale.US);
+    }
 }

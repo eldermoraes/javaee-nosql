@@ -25,8 +25,17 @@ import org.jnosql.artemis.graph.GraphTemplate;
 import org.jnosql.artemis.graph.Transactional;
 
 import javax.inject.Inject;
+import java.util.logging.Logger;
+
+import static br.com.eldermoraes.careerbuddy.TechnologyLevel.ADVANCED;
+import static br.com.eldermoraes.careerbuddy.TechnologyLevel.BEGINNER;
+import static br.com.eldermoraes.careerbuddy.TechnologyLevel.EDGE_PROPERTY;
+import static br.com.eldermoraes.careerbuddy.TechnologyLevel.INTERMEDIATE;
 
 public class BuddyLoader {
+
+
+    private static final Logger LOGGER = Logger.getLogger(BuddyLoader.class.getName());
 
     @Inject
     @Database(DatabaseType.GRAPH)
@@ -49,7 +58,7 @@ public class BuddyLoader {
 
 
     @Transactional
-    public void delete() {
+    public void clean() {
 
         graph.traversal().V().toList().forEach(Vertex::remove);
         graph.traversal().E().toList().forEach(Edge::remove);
@@ -59,6 +68,9 @@ public class BuddyLoader {
     @Transactional
     public void loadVertex() {
 
+        if (!isElementEmpty()) {
+            return;
+        }
         buddyRepository.save(Buddy.of(Enums.Buddy.JOSE, 3_000D));
         buddyRepository.save(Buddy.of(Enums.Buddy.MARIO, 5_000D));
         buddyRepository.save(Buddy.of(Enums.Buddy.JOAO, 9_000D));
@@ -81,7 +93,13 @@ public class BuddyLoader {
     public void loadEdges() {
 
 
+        if (isElementEmpty()) {
+            throw new IllegalStateException("You cannot load");
+        }
 
+        if(!isEdgeEmpty()) {
+            return;
+        }
         Buddy jose = buddyRepository.findByName(Enums.Buddy.JOSE.name());
         Buddy mario = buddyRepository.findByName(Enums.Buddy.MARIO.name());
         Buddy joao = buddyRepository.findByName(Enums.Buddy.JOAO.name());
@@ -89,8 +107,8 @@ public class BuddyLoader {
 
 
         City saopaulo = cityRepository.findByName(Enums.City.SAO_PAULO.name());
-        City belohorizonte = cityRepository.findByName(Enums.City.SAO_PAULO.name());
-        City salvador = cityRepository.findByName(Enums.City.SAO_PAULO.name());
+        City belohorizonte = cityRepository.findByName(Enums.City.BELO_HORIZONTE.name());
+        City salvador = cityRepository.findByName(Enums.City.SALVADOR.name());
 
         Technology java = technologyRepository.findByName(Enums.Technology.JAVA.name());
         Technology nosql = technologyRepository.findByName(Enums.Technology.NOSQL.name());
@@ -98,27 +116,38 @@ public class BuddyLoader {
         Technology container = technologyRepository.findByName(Enums.Technology.CONTAINER.name());
         Technology go = technologyRepository.findByName(Enums.Technology.GO.name());
 
+        
+        template.edge(jose, Edges.WORKS, java).add(EDGE_PROPERTY, ADVANCED.get());
+        template.edge(jose, Edges.WORKS, nosql).add(EDGE_PROPERTY, BEGINNER.get());
+        template.edge(jose, Edges.WORKS, cloud).add(EDGE_PROPERTY, INTERMEDIATE.get());
+        template.edge(jose, Edges.WORKS, container).add(EDGE_PROPERTY, ADVANCED.get());
+        template.edge(jose, Edges.LIVES, saopaulo);
 
-        template.edge(jose, Edges.WORKS_WITH, java).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
-        template.edge(jose, Edges.WORKS_WITH, nosql).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
-        template.edge(jose, Edges.WORKS_WITH, cloud).add(Enums.Entity.LEVEL.name(), Enums.Level.INTERMEDIATE.name());
-        template.edge(jose, Edges.WORKS_WITH, container).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
-        template.edge(jose, Edges.LIVES_IN, saopaulo);
+        template.edge(mario, Edges.WORKS, go).add(EDGE_PROPERTY, ADVANCED.get());
+        template.edge(mario, Edges.WORKS, nosql).add(EDGE_PROPERTY, ADVANCED.get());
+        template.edge(mario, Edges.WORKS, cloud).add(EDGE_PROPERTY, BEGINNER.get());
+        template.edge(mario, Edges.WORKS, container).add(EDGE_PROPERTY, BEGINNER.get());
+        template.edge(mario, Edges.LIVES, salvador);
 
-        template.edge(mario, Edges.WORKS_WITH, go).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
-        template.edge(mario, Edges.WORKS_WITH, nosql).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
-        template.edge(mario, Edges.WORKS_WITH, cloud).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
-        template.edge(mario, Edges.WORKS_WITH, container).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
-        template.edge(mario, Edges.LIVES_IN, salvador);
+        template.edge(joao, Edges.WORKS, java).add(EDGE_PROPERTY, INTERMEDIATE.get());
+        template.edge(joao, Edges.WORKS, cloud).add(EDGE_PROPERTY, ADVANCED.get());
+        template.edge(joao, Edges.WORKS, container).add(EDGE_PROPERTY, ADVANCED.get());
+        template.edge(joao, Edges.WORKS, go).add(EDGE_PROPERTY, BEGINNER.get());
+        template.edge(joao, Edges.LIVES, belohorizonte);
 
-        template.edge(joao, Edges.WORKS_WITH, java).add(Enums.Entity.LEVEL.name(), Enums.Level.INTERMEDIATE.name());
-        template.edge(joao, Edges.WORKS_WITH, cloud).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
-        template.edge(joao, Edges.WORKS_WITH, container).add(Enums.Entity.LEVEL.name(), Enums.Level.ADVANCED.name());
-        template.edge(joao, Edges.WORKS_WITH, go).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
-        template.edge(joao, Edges.LIVES_IN, belohorizonte);
+        template.edge(pedro, Edges.WORKS, go).add(EDGE_PROPERTY, BEGINNER.get());
+        template.edge(pedro, Edges.WORKS, container).add(EDGE_PROPERTY, BEGINNER.get());
+        template.edge(pedro, Edges.LIVES, saopaulo);
+    }
 
-        template.edge(pedro, Edges.WORKS_WITH, go).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
-        template.edge(pedro, Edges.WORKS_WITH, container).add(Enums.Entity.LEVEL.name(), Enums.Level.BEGINNER.name());
-        template.edge(pedro, Edges.LIVES_IN, saopaulo);
+    private boolean isEdgeEmpty() {
+        long edges = graph.traversal().E().count().tryNext().orElse(0L);
+        LOGGER.info("Edges numbers in the database: " + edges);
+        return edges == 0;
+    }
+    private boolean isElementEmpty() {
+        long elements = graph.traversal().V().count().tryNext().orElse(0L);
+        LOGGER.info("Elements numbers in the database: " + elements);
+        return elements == 0;
     }
 }

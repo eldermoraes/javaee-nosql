@@ -16,10 +16,12 @@
 
 package br.com.eldermoraes.careerbuddy;
 
-import java.io.Serializable;
 import org.jnosql.artemis.Column;
 import org.jnosql.artemis.Entity;
 import org.jnosql.artemis.Id;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  *
@@ -40,47 +42,42 @@ public class City implements Serializable {
         this.name = name;
     }
 
-    public City() {
+    City() {
     }    
     
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-    
     public String getName() {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }    
 
     @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof City)) {
+            return false;
+        }
+        City city = (City) o;
+        return Objects.equals(id, city.id);
     }
 
     @Override
-    public boolean equals(Object object) {
-        if (!(object instanceof City)) {
-            return false;
-        }
-        City other = (City) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
+    public int hashCode() {
+        return Objects.hashCode(id);
     }
 
     @Override
     public String toString() {
-        return "br.com.eldermoraes.careerbuddy.City[ id=" + id + " ]";
+        final StringBuilder sb = new StringBuilder("City{");
+        sb.append("id=").append(id);
+        sb.append(", name='").append(name).append('\'');
+        sb.append('}');
+        return sb.toString();
     }
 
     public static City of(Enums.City city){
