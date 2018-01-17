@@ -25,6 +25,7 @@ import org.jnosql.artemis.graph.GraphTemplate;
 import org.jnosql.artemis.graph.Transactional;
 
 import javax.inject.Inject;
+import java.util.function.Supplier;
 import java.util.logging.Logger;
 
 import static br.com.eldermoraes.careerbuddy.TechnologyLevel.ADVANCED;
@@ -34,7 +35,8 @@ import static br.com.eldermoraes.careerbuddy.TechnologyLevel.INTERMEDIATE;
 
 public class BuddyLoader {
 
-
+    private static final Supplier<IllegalStateException> ENTITY_DOES_NOT_FOUND =
+            () -> new IllegalStateException("Entity does not found");
     private static final Logger LOGGER = Logger.getLogger(BuddyLoader.class.getName());
 
     @Inject
@@ -100,21 +102,22 @@ public class BuddyLoader {
         if(!isEdgeEmpty()) {
             return;
         }
-        Buddy jose = buddyRepository.findByName(Enums.Buddy.JOSE.name());
-        Buddy mario = buddyRepository.findByName(Enums.Buddy.MARIO.name());
-        Buddy joao = buddyRepository.findByName(Enums.Buddy.JOAO.name());
-        Buddy pedro = buddyRepository.findByName(Enums.Buddy.PEDRO.name());
+
+        Buddy jose = buddyRepository.findByName(Enums.Buddy.JOSE.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Buddy mario = buddyRepository.findByName(Enums.Buddy.MARIO.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Buddy joao = buddyRepository.findByName(Enums.Buddy.JOAO.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Buddy pedro = buddyRepository.findByName(Enums.Buddy.PEDRO.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
 
 
-        City saopaulo = cityRepository.findByName(Enums.City.SAO_PAULO.name());
-        City belohorizonte = cityRepository.findByName(Enums.City.BELO_HORIZONTE.name());
-        City salvador = cityRepository.findByName(Enums.City.SALVADOR.name());
+        City saopaulo = cityRepository.findByName(Enums.City.SAO_PAULO.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        City belohorizonte = cityRepository.findByName(Enums.City.BELO_HORIZONTE.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        City salvador = cityRepository.findByName(Enums.City.SALVADOR.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
 
-        Technology java = technologyRepository.findByName(Enums.Technology.JAVA.name());
-        Technology nosql = technologyRepository.findByName(Enums.Technology.NOSQL.name());
-        Technology cloud = technologyRepository.findByName(Enums.Technology.CLOUD.name());
-        Technology container = technologyRepository.findByName(Enums.Technology.CONTAINER.name());
-        Technology go = technologyRepository.findByName(Enums.Technology.GO.name());
+        Technology java = technologyRepository.findByName(Enums.Technology.JAVA.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Technology nosql = technologyRepository.findByName(Enums.Technology.NOSQL.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Technology cloud = technologyRepository.findByName(Enums.Technology.CLOUD.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Technology container = technologyRepository.findByName(Enums.Technology.CONTAINER.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Technology go = technologyRepository.findByName(Enums.Technology.GO.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
 
         
         template.edge(jose, Edges.WORKS, java).add(EDGE_PROPERTY, ADVANCED.get());
