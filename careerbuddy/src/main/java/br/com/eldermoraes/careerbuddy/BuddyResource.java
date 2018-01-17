@@ -18,7 +18,6 @@ package br.com.eldermoraes.careerbuddy;
 
 import br.com.eldermoraes.careerbuddy.validation.Name;
 import org.jnosql.artemis.Database;
-import org.jnosql.artemis.graph.GraphTemplate;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -56,13 +55,13 @@ public class BuddyResource {
     private TechnologyRepository technologyRepository;
 
     @Inject
-    private GraphTemplate graphTemplate;
+    private BuddyService service;
 
     @POST
     public void insert(@Valid BuddyDTO buddy) {
 
         buddyRepository.findByName(buddy.getName()).ifPresent(b -> {
-        throw new WebApplicationException("There is a name that already does exist", Response.Status.BAD_REQUEST);
+            throw new WebApplicationException("There is a name that already does exist", Response.Status.BAD_REQUEST);
         });
 
         buddyRepository.save(buddy.toEnity());
@@ -86,9 +85,8 @@ public class BuddyResource {
     }
 
 
-
     @POST
-    @Path("{buddy}/lives/{city}")
+    @Path("{buddy}/live/{city}")
     public void lives(@PathParam("buddy") @Name String buddyName, @PathParam("city") @Name String cityName) {
 
         Buddy buddy = buddyRepository.findByName(buddyName)
@@ -97,7 +95,8 @@ public class BuddyResource {
         City city = cityRepository.findByName(cityName)
                 .orElseThrow(() -> new WebApplicationException("city does not found", Response.Status.NOT_FOUND));
 
-        graphTemplate.edge(buddy, Edges.LIVES, city);
+
+        service.live(buddy, city);
     }
 
     @POST
@@ -110,6 +109,21 @@ public class BuddyResource {
         Technology technology = technologyRepository.findByName(technologyName)
                 .orElseThrow(() -> new WebApplicationException("city does not found", Response.Status.NOT_FOUND));
 
-        graphTemplate.edge(buddy, Edges.WORKS, technology);
+        service.work(buddy, technology);
+    }
+
+    @POST
+    @Path("{buddy}/works/{technology}/level/{level}")
+    public void worksLevel(@PathParam("buddy") @Name String buddyName,
+                           @PathParam("technology") @Name String technologyName,
+                           @PathParam("level") TechnologyLevel level) {
+
+        Buddy buddy = buddyRepository.findByName(buddyName)
+                .orElseThrow(() -> new WebApplicationException("buddy does not found", Response.Status.NOT_FOUND));
+
+        Technology technology = technologyRepository.findByName(technologyName)
+                .orElseThrow(() -> new WebApplicationException("city does not found", Response.Status.NOT_FOUND));
+
+        service.work(buddy, technology, level);
     }
 }
