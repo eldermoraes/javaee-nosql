@@ -24,6 +24,7 @@ import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -57,7 +58,7 @@ public class TechnologyResource {
         cityRepository.save(new Technology(name));
     }
 
-    @DELETE
+    @GET
     @Path("{name}")
     public TechnologyDTO get(@PathParam("name")String name) {
         Technology technology = cityRepository.findByName(name)
