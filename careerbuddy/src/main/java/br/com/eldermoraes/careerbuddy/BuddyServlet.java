@@ -20,6 +20,7 @@ import br.com.eldermoraes.careerbuddy.Enums.Technology;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.ejb.EJB;
+import javax.inject.Inject;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -34,7 +35,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "BuddyServlet", urlPatterns = {"/BuddyServlet"}, loadOnStartup = 1)
 public class BuddyServlet extends HttpServlet {
 
-    @EJB
+    @Inject
     private BuddyBean buddyBean;
     
     @Override
