@@ -28,8 +28,6 @@ public class BuddyDTO {
     @NegativeOrZero
     private Double salary;
 
-    @Name
-    private String city;
 
 
     public String getName() {
@@ -48,15 +46,15 @@ public class BuddyDTO {
         this.salary = salary;
     }
 
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public Buddy toEnity() {
         return new Buddy(name, salary);
+    }
+
+
+    public static BuddyDTO of(Buddy buddy) {
+        BuddyDTO dto = new BuddyDTO();
+        dto.setName(buddy.getName());
+        dto.setSalary(buddy.getSalary());
+        return dto;
     }
 }

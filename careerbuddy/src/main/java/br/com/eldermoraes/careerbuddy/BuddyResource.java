@@ -25,6 +25,7 @@ import javax.inject.Inject;
 import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -59,6 +60,7 @@ public class BuddyResource {
     @Inject
     private BuddyService service;
 
+
     @POST
     public void insert(@Valid BuddyDTO buddy) {
 
@@ -67,6 +69,14 @@ public class BuddyResource {
         });
 
         buddyRepository.save(buddy.toEnity());
+    }
+
+    @GET
+    @Path("{buddy}")
+    public BuddyDTO get(@PathParam("buddy") @Name String buddyName) {
+        Buddy buddy = buddyRepository.findByName(buddyName)
+                .orElseThrow(() -> new WebApplicationException("buddy does not found", Response.Status.NOT_FOUND));
+       return BuddyDTO.of(buddy);
     }
 
 
