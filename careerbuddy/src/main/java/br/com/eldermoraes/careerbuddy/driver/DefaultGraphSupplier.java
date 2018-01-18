@@ -24,11 +24,11 @@ import org.jnosql.artemis.ConfigurationUnit;
 import org.neo4j.driver.v1.Driver;
 
 import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Instance;
-import javax.enterprise.inject.Vetoed;
 import javax.inject.Inject;
 
-@Vetoed
+@ApplicationScoped
 public class DefaultGraphSupplier implements GraphSupplier {
 
     private Neo4JGraph graph;
