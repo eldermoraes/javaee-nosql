@@ -57,6 +57,15 @@ public class TechnologyResource {
         cityRepository.save(new Technology(name));
     }
 
+    @DELETE
+    @Path("{name}")
+    public TechnologyDTO get(@PathParam("name")String name) {
+        Technology technology = cityRepository.findByName(name)
+                .orElseThrow(() -> new WebApplicationException("technology does not found", Response.Status.NOT_FOUND));
+
+        return new TechnologyDTO(technology);
+    }
+
 
     @DELETE
     @Path("{name}")

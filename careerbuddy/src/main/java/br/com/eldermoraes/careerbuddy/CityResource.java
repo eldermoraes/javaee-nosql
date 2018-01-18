@@ -57,6 +57,15 @@ public class CityResource {
         cityRepository.save(new City(name));
     }
 
+    @DELETE
+    @Path("{name}")
+    public CityDTO get(@PathParam("name")String name) {
+        City city = cityRepository.findByName(name)
+                .orElseThrow(() -> new WebApplicationException("city does not found", Response.Status.NOT_FOUND));
+
+        return new CityDTO(city);
+    }
+
 
     @DELETE
     @Path("{name}")
