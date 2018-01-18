@@ -34,7 +34,9 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
 
+import static java.util.stream.Collectors.toList;
 import static org.jnosql.artemis.DatabaseType.GRAPH;
 
 @ApplicationScoped
@@ -79,6 +81,33 @@ public class BuddyResource {
        return BuddyDTO.of(buddy);
     }
 
+    @GET
+    @Path("cities/{city}")
+    public List<BuddyDTO> getCities(@PathParam("city") @Name String city) {
+        return service.findByCity(city).stream().map(BuddyDTO::of).collect(toList());
+    }
+
+    @GET
+    @Path("technologies/{technology}")
+    public List<BuddyDTO> getTechnologies(@PathParam("technology") @Name String technology) {
+        return service.findByTechnology(technology).stream().map(BuddyDTO::of).collect(toList());
+    }
+
+    @GET
+    @Path("technologies/{technology}/levels/{level}")
+    public List<BuddyDTO> getTechnologiesLevel(@PathParam("technology") @Name String technology,
+                                               @PathParam("level") TechnologyLevel level) {
+
+        return service.findByTechnology(technology, level).stream().map(BuddyDTO::of).collect(toList());
+    }
+
+    @GET
+    @Path("cities/{city}/technologies/{technology}")
+    public List<BuddyDTO> getCitiesTechnologies(@PathParam("city") @Name String city,
+                                                @PathParam("technology") @Name String technology) {
+
+        return service.findByTechnologyAndCity(technology, city).stream().map(BuddyDTO::of).collect(toList());
+    }
 
     @PUT
     @Path("{buddy}")
