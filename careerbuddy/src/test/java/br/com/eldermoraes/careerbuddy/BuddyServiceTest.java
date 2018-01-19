@@ -17,6 +17,8 @@
 package br.com.eldermoraes.careerbuddy;
 
 import br.com.eldermoraes.careerbuddy.cdi.CDIExtension;
+import org.jnosql.artemis.Database;
+import org.jnosql.artemis.DatabaseType;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,10 +28,12 @@ import javax.inject.Inject;
 import java.util.List;
 import java.util.function.Predicate;
 
+import static br.com.eldermoraes.careerbuddy.Enums.Buddy.MARIO;
 import static br.com.eldermoraes.careerbuddy.Enums.City.SAO_PAULO;
 import static br.com.eldermoraes.careerbuddy.Enums.Technology.CONTAINER;
 import static br.com.eldermoraes.careerbuddy.Enums.Technology.JAVA;
 import static br.com.eldermoraes.careerbuddy.TechnologyLevel.ADVANCED;
+import static br.com.eldermoraes.careerbuddy.TechnologyLevel.INTERMEDIATE;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -41,10 +45,22 @@ class BuddyServiceTest {
     private static final Predicate<String> IS_PEDRO = Enums.Buddy.PEDRO.name()::equals;
 
     @Inject
-    private BuddyService buddyRepository;
+    private BuddyService service;
 
     @Inject
     private BuddyLoader loader;
+
+    @Inject
+    @Database(DatabaseType.GRAPH)
+    private BuddyRepository buddyRepository;
+
+    @Inject
+    @Database(DatabaseType.GRAPH)
+    private CityRepository cityRepository;
+
+    @Inject
+    @Database(DatabaseType.GRAPH)
+    private TechnologyRepository technologyRepository;
 
     @BeforeEach
     public void setUp() {
@@ -61,7 +77,7 @@ class BuddyServiceTest {
     @Test
     public void shouldFindByTechnology() {
 
-        List<Buddy> javaDevelopers = buddyRepository.findByTechnology(JAVA.name());
+        List<Buddy> javaDevelopers = service.findByTechnology(JAVA.name());
 
         assertFalse(javaDevelopers.isEmpty());
 
@@ -75,7 +91,7 @@ class BuddyServiceTest {
     @Test
     public void shouldFindByTechnologyWithLevel() {
 
-        List<Buddy> javaDevelopers = buddyRepository.findByTechnology(JAVA.name(), ADVANCED);
+        List<Buddy> javaDevelopers = service.findByTechnology(JAVA.name(), ADVANCED);
 
         assertFalse(javaDevelopers.isEmpty());
         assertEquals(1, javaDevelopers.size());
@@ -86,7 +102,7 @@ class BuddyServiceTest {
 
     @Test
     public void shouldFindByCity() {
-        List<Buddy> paulistano = buddyRepository.findByCity(SAO_PAULO.name());
+        List<Buddy> paulistano = service.findByCity(SAO_PAULO.name());
         assertFalse(paulistano.isEmpty());
 
 
@@ -100,7 +116,7 @@ class BuddyServiceTest {
 
     @Test
     public void shouldFindByCityAndTechnology() {
-        List<Buddy> paulistanoWithContainer = buddyRepository
+        List<Buddy> paulistanoWithContainer = service
                 .findByTechnologyAndCity(CONTAINER.name(), SAO_PAULO.name());
 
         assertFalse(paulistanoWithContainer.isEmpty());
@@ -111,5 +127,39 @@ class BuddyServiceTest {
         }, () -> {
             assertTrue(paulistanoWithContainer.stream().map(Buddy::getName).allMatch(IS_PEDRO.or(IS_JOSE)));
         });
+    }
+
+
+    @Test
+    public void shouldLive() {
+        String buddyName = MARIO.name();
+        City saoPaulo = cityRepository.findByName(Enums.City.SAO_PAULO.name()).orElseThrow(() -> new RuntimeException());
+        Buddy mario = buddyRepository.findByName(buddyName).orElseThrow(() -> new RuntimeException());
+
+        service.live(mario, saoPaulo);
+        assertTrue(service.findByCity(Enums.City.SAO_PAULO.name()).stream().anyMatch(b -> b.getName().equals(buddyName)));
+
+    }
+
+    @Test
+    public void shouldWork() {
+        String buddyName = MARIO.name();
+
+        Technology java = technologyRepository.findByName(JAVA.name()).orElseThrow(() -> new RuntimeException());
+        Buddy mario = buddyRepository.findByName(buddyName).orElseThrow(() -> new RuntimeException());
+
+        service.work(mario, java);
+        assertTrue(service.findByTechnology(JAVA.name()).stream().anyMatch(b -> b.getName().equals(buddyName)));
+    }
+
+    @Test
+    public void shouldWorkLevel() {
+        String buddyName = MARIO.name();
+
+        Technology java = technologyRepository.findByName(JAVA.name()).orElseThrow(() -> new RuntimeException());
+        Buddy mario = buddyRepository.findByName(buddyName).orElseThrow(() -> new RuntimeException());
+
+        service.work(mario, java, INTERMEDIATE);
+        assertTrue(service.findByTechnology(JAVA.name(), INTERMEDIATE).stream().anyMatch(b -> b.getName().equals(buddyName)));
     }
 }

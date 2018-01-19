@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 
-package br.com.eldermoraes.careerbuddy;
+package br.com.eldermoraes.careerbuddy.rest;
 
-import org.jnosql.artemis.Repository;
+import javax.ws.rs.ApplicationPath;
+import javax.ws.rs.core.Application;
 
-import java.util.Optional;
-
-public interface CityRepository extends Repository<City, Long> {
-
-    Optional<City> findByName(String name);
-
-    void deleteByName(String buddyName);
+@ApplicationPath("/resource")
+public class ApplicationConfiguration extends Application {
 }

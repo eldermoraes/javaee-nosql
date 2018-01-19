@@ -44,20 +44,4 @@ public class Enums {
         JOAO,
         PEDRO
     }
-
-    public enum Edge {
-        WORKS_WITH,
-        LIVES_IN
-    }
-
-
-    public enum Entity {
-        CITY,
-        TECHNOLOGY,
-        BUDDY,
-    }
-    
-    public enum Property{
-        NAME
-    }
 }

@@ -25,16 +25,17 @@ import org.jnosql.artemis.graph.GraphTemplate;
 import org.jnosql.artemis.graph.Transactional;
 
 import javax.inject.Inject;
+import java.util.function.Supplier;
 import java.util.logging.Logger;
 
 import static br.com.eldermoraes.careerbuddy.TechnologyLevel.ADVANCED;
 import static br.com.eldermoraes.careerbuddy.TechnologyLevel.BEGINNER;
-import static br.com.eldermoraes.careerbuddy.TechnologyLevel.EDGE_PROPERTY;
 import static br.com.eldermoraes.careerbuddy.TechnologyLevel.INTERMEDIATE;
 
 public class BuddyLoader {
 
-
+    private static final Supplier<IllegalStateException> ENTITY_DOES_NOT_FOUND =
+            () -> new IllegalStateException("Entity does not found");
     private static final Logger LOGGER = Logger.getLogger(BuddyLoader.class.getName());
 
     @Inject
@@ -48,6 +49,9 @@ public class BuddyLoader {
     @Inject
     @Database(DatabaseType.GRAPH)
     private CityRepository cityRepository;
+
+    @Inject
+    private BuddyService buddyService;
 
     @Inject
     private GraphTemplate template;
@@ -100,44 +104,48 @@ public class BuddyLoader {
         if(!isEdgeEmpty()) {
             return;
         }
-        Buddy jose = buddyRepository.findByName(Enums.Buddy.JOSE.name());
-        Buddy mario = buddyRepository.findByName(Enums.Buddy.MARIO.name());
-        Buddy joao = buddyRepository.findByName(Enums.Buddy.JOAO.name());
-        Buddy pedro = buddyRepository.findByName(Enums.Buddy.PEDRO.name());
+
+        Buddy jose = buddyRepository.findByName(Enums.Buddy.JOSE.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Buddy mario = buddyRepository.findByName(Enums.Buddy.MARIO.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Buddy joao = buddyRepository.findByName(Enums.Buddy.JOAO.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Buddy pedro = buddyRepository.findByName(Enums.Buddy.PEDRO.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
 
 
-        City saopaulo = cityRepository.findByName(Enums.City.SAO_PAULO.name());
-        City belohorizonte = cityRepository.findByName(Enums.City.BELO_HORIZONTE.name());
-        City salvador = cityRepository.findByName(Enums.City.SALVADOR.name());
+        City saopaulo = cityRepository.findByName(Enums.City.SAO_PAULO.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        City belohorizonte = cityRepository.findByName(Enums.City.BELO_HORIZONTE.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        City salvador = cityRepository.findByName(Enums.City.SALVADOR.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
 
-        Technology java = technologyRepository.findByName(Enums.Technology.JAVA.name());
-        Technology nosql = technologyRepository.findByName(Enums.Technology.NOSQL.name());
-        Technology cloud = technologyRepository.findByName(Enums.Technology.CLOUD.name());
-        Technology container = technologyRepository.findByName(Enums.Technology.CONTAINER.name());
-        Technology go = technologyRepository.findByName(Enums.Technology.GO.name());
+        Technology java = technologyRepository.findByName(Enums.Technology.JAVA.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Technology nosql = technologyRepository.findByName(Enums.Technology.NOSQL.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Technology cloud = technologyRepository.findByName(Enums.Technology.CLOUD.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Technology container = technologyRepository.findByName(Enums.Technology.CONTAINER.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Technology go = technologyRepository.findByName(Enums.Technology.GO.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
 
-        
-        template.edge(jose, Edges.WORKS, java).add(EDGE_PROPERTY, ADVANCED.get());
-        template.edge(jose, Edges.WORKS, nosql).add(EDGE_PROPERTY, BEGINNER.get());
-        template.edge(jose, Edges.WORKS, cloud).add(EDGE_PROPERTY, INTERMEDIATE.get());
-        template.edge(jose, Edges.WORKS, container).add(EDGE_PROPERTY, ADVANCED.get());
-        template.edge(jose, Edges.LIVES, saopaulo);
 
-        template.edge(mario, Edges.WORKS, go).add(EDGE_PROPERTY, ADVANCED.get());
-        template.edge(mario, Edges.WORKS, nosql).add(EDGE_PROPERTY, ADVANCED.get());
-        template.edge(mario, Edges.WORKS, cloud).add(EDGE_PROPERTY, BEGINNER.get());
-        template.edge(mario, Edges.WORKS, container).add(EDGE_PROPERTY, BEGINNER.get());
-        template.edge(mario, Edges.LIVES, salvador);
+        buddyService.work(jose, java, ADVANCED);
+        buddyService.work(jose, nosql, BEGINNER);
+        buddyService.work(jose, cloud, INTERMEDIATE);
+        buddyService.work(jose, container, ADVANCED);
+        buddyService.live(jose, saopaulo);
 
-        template.edge(joao, Edges.WORKS, java).add(EDGE_PROPERTY, INTERMEDIATE.get());
-        template.edge(joao, Edges.WORKS, cloud).add(EDGE_PROPERTY, ADVANCED.get());
-        template.edge(joao, Edges.WORKS, container).add(EDGE_PROPERTY, ADVANCED.get());
-        template.edge(joao, Edges.WORKS, go).add(EDGE_PROPERTY, BEGINNER.get());
-        template.edge(joao, Edges.LIVES, belohorizonte);
 
-        template.edge(pedro, Edges.WORKS, go).add(EDGE_PROPERTY, BEGINNER.get());
-        template.edge(pedro, Edges.WORKS, container).add(EDGE_PROPERTY, BEGINNER.get());
-        template.edge(pedro, Edges.LIVES, saopaulo);
+        buddyService.work(mario, go, ADVANCED);
+        buddyService.work(mario, nosql, ADVANCED);
+        buddyService.work(mario, cloud, BEGINNER);
+        buddyService.work(mario, container, BEGINNER);
+        buddyService.live(mario, salvador);
+
+        buddyService.work(joao, java, INTERMEDIATE);
+        buddyService.work(joao, cloud, ADVANCED);
+        buddyService.work(joao, container, ADVANCED);
+        buddyService.work(joao, go, BEGINNER);
+        buddyService.live(joao, belohorizonte);
+
+
+        buddyService.work(pedro, go, BEGINNER);
+        buddyService.work(pedro, container, ADVANCED);
+        buddyService.live(pedro, saopaulo);
+
     }
 
     private boolean isEdgeEmpty() {

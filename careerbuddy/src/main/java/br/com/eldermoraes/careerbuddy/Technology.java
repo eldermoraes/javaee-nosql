@@ -42,6 +42,10 @@ public class Technology implements Serializable {
         this.name = tech.name();
     }
 
+    public Technology(String name) {
+        this.name = name;
+    }
+
     Technology() {
     }
     

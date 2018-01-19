@@ -16,13 +16,27 @@
 
 package br.com.eldermoraes.careerbuddy;
 
-import org.jnosql.artemis.Repository;
+public class CityDTO {
 
-import java.util.Optional;
+    private String name;
 
-public interface CityRepository extends Repository<City, Long> {
+    public CityDTO(City city) {
+        this.name = city.getName();
+    }
 
-    Optional<City> findByName(String name);
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    void deleteByName(String buddyName);
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        final StringBuilder sb = new StringBuilder("CityDTO{");
+        sb.append("name='").append(name).append('\'');
+        sb.append('}');
+        return sb.toString();
+    }
 }

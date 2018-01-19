@@ -88,4 +88,25 @@ public class BuddyService {
         return buddies.collect(Collectors.toList());
     }
 
+    public void live(Buddy buddy, City city) throws NullPointerException{
+        requireNonNull(buddy, "buddy is required");
+        requireNonNull(city, "city is required");
+        graphTemplate.edge(buddy, Edges.LIVES, city);
+    }
+
+    public void work(Buddy buddy, Technology technology) {
+        requireNonNull(buddy, "buddy is required");
+        requireNonNull(technology, "technology is required");
+
+        graphTemplate.edge(buddy, Edges.WORKS,technology);
+    }
+
+    public void work(Buddy buddy, Technology technology, TechnologyLevel level) {
+        requireNonNull(buddy, "buddy is required");
+        requireNonNull(technology, "technology is required");
+        requireNonNull(level, "level is required");
+
+        EdgeEntity edge = graphTemplate.edge(buddy, Edges.WORKS, technology);
+        edge.add(TechnologyLevel.EDGE_PROPERTY, level.get());
+    }
 }

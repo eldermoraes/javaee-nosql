@@ -62,6 +62,9 @@ public class Buddy implements Serializable {
         return salary;
     }
 
+    public void setSalary(Double salary) {
+        this.salary = salary;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -95,5 +98,5 @@ public class Buddy implements Serializable {
         return new Buddy(buddy.name(), salary);
     }
 
-    
+
 }
