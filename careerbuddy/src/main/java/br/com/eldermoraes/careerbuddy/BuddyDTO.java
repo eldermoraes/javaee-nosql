@@ -53,7 +53,7 @@ public class BuddyDTO {
 
     public static BuddyDTO of(Buddy buddy) {
         BuddyDTO dto = new BuddyDTO();
-        dto.setName(buddy.getName());
+        dto.setName(buddy.getDisplayName());
         dto.setSalary(buddy.getSalary());
         return dto;
     }

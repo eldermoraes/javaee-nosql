@@ -96,7 +96,7 @@ class BuddyServiceTest {
         assertFalse(javaDevelopers.isEmpty());
         assertEquals(1, javaDevelopers.size());
         assertAll(() -> {
-            assertTrue(javaDevelopers.stream().map(Buddy::getName).allMatch(IS_JOSE));
+            assertTrue(javaDevelopers.stream().map(Buddy::getDisplayName).allMatch(IS_JOSE));
         });
     }
 
@@ -109,7 +109,7 @@ class BuddyServiceTest {
         assertAll(() -> {
             assertEquals(2, paulistano.size());
         }, () -> {
-            assertTrue(paulistano.stream().map(Buddy::getName).allMatch(IS_PEDRO.or(IS_JOSE)));
+            assertTrue(paulistano.stream().map(Buddy::getDisplayName).allMatch(IS_PEDRO.or(IS_JOSE)));
         });
     }
 
@@ -125,7 +125,7 @@ class BuddyServiceTest {
         assertAll(() -> {
             assertEquals(2, paulistanoWithContainer.size());
         }, () -> {
-            assertTrue(paulistanoWithContainer.stream().map(Buddy::getName).allMatch(IS_PEDRO.or(IS_JOSE)));
+            assertTrue(paulistanoWithContainer.stream().map(Buddy::getDisplayName).allMatch(IS_PEDRO.or(IS_JOSE)));
         });
     }
 
@@ -137,7 +137,7 @@ class BuddyServiceTest {
         Buddy mario = buddyRepository.findByName(buddyName).orElseThrow(() -> new RuntimeException());
 
         service.live(mario, saoPaulo);
-        assertTrue(service.findByCity(Enums.City.SAO_PAULO.name()).stream().anyMatch(b -> b.getName().equals(buddyName)));
+        assertTrue(service.findByCity(Enums.City.SAO_PAULO.name()).stream().anyMatch(b -> b.getDisplayName().equals(buddyName)));
 
     }
 
@@ -149,7 +149,7 @@ class BuddyServiceTest {
         Buddy mario = buddyRepository.findByName(buddyName).orElseThrow(() -> new RuntimeException());
 
         service.work(mario, java);
-        assertTrue(service.findByTechnology(JAVA.name()).stream().anyMatch(b -> b.getName().equals(buddyName)));
+        assertTrue(service.findByTechnology(JAVA.name()).stream().anyMatch(b -> b.getDisplayName().equals(buddyName)));
     }
 
     @Test
@@ -160,6 +160,6 @@ class BuddyServiceTest {
         Buddy mario = buddyRepository.findByName(buddyName).orElseThrow(() -> new RuntimeException());
 
         service.work(mario, java, INTERMEDIATE);
-        assertTrue(service.findByTechnology(JAVA.name(), INTERMEDIATE).stream().anyMatch(b -> b.getName().equals(buddyName)));
+        assertTrue(service.findByTechnology(JAVA.name(), INTERMEDIATE).stream().anyMatch(b -> b.getDisplayName().equals(buddyName)));
     }
 }

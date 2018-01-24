@@ -19,6 +19,7 @@ package br.com.eldermoraes.careerbuddy;
 import java.io.Serializable;
 import java.util.Objects;
 
+import br.com.eldermoraes.careerbuddy.driver.NameConverter;
 import org.jnosql.artemis.Column;
 import org.jnosql.artemis.Convert;
 import org.jnosql.artemis.Entity;
@@ -37,7 +38,7 @@ public class Buddy implements Serializable {
     private Long id;
     
     @Column
-    @Convert()
+    @Convert(NameConverter.class)
     private Name name;
 
     @Column
