@@ -111,7 +111,7 @@ public class BuddyResource {
 
     @PUT
     @Path("{buddy}")
-    public void insert(@PathParam("buddy") @Name String buddyName, @Valid BuddyDTO dto) {
+    public void update(@PathParam("buddy") @Name String buddyName, @Valid BuddyDTO dto) {
         Buddy buddy = buddyRepository.findByName(buddyName)
                 .orElseThrow(() -> new WebApplicationException("buddy does not found", Response.Status.NOT_FOUND));
 
@@ -126,7 +126,7 @@ public class BuddyResource {
     }
 
 
-    @POST
+    @PUT
     @Path("{buddy}/live/{city}")
     public void lives(@PathParam("buddy") @Name String buddyName, @PathParam("city") @Name String cityName) {
 
@@ -140,7 +140,7 @@ public class BuddyResource {
         service.live(buddy, city);
     }
 
-    @POST
+    @PUT
     @Path("{buddy}/works/{technology}")
     public void works(@PathParam("buddy") @Name String buddyName, @PathParam("technology") @Name String technologyName) {
 
@@ -153,8 +153,8 @@ public class BuddyResource {
         service.work(buddy, technology);
     }
 
-    @POST
-    @Path("{buddy}/works/{technology}/level/{level}")
+    @PUT
+    @Path("{buddy}/works/{technology}/{level}")
     public void worksLevel(@PathParam("buddy") @Name String buddyName,
                            @PathParam("technology") @Name String technologyName,
                            @PathParam("level") TechnologyLevel level) {
