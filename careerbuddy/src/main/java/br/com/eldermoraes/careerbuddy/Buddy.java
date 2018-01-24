@@ -20,6 +20,7 @@ import java.io.Serializable;
 import java.util.Objects;
 
 import org.jnosql.artemis.Column;
+import org.jnosql.artemis.Convert;
 import org.jnosql.artemis.Entity;
 import org.jnosql.artemis.Id;
 
@@ -36,22 +37,28 @@ public class Buddy implements Serializable {
     private Long id;
     
     @Column
-    private String name;
+    @Convert()
+    private Name name;
+
+    @Column
+    private String displayName;
 
     @Column
     private Double salary;
+
     
     Buddy(){
         
     }
 
     public Buddy(String name, Double salary) {
-        this.name = name;
+        this.name = Name.of(name);
+        this.displayName = name;
         this.salary = salary;
     }
 
-    public String getName() {
-        return name;
+    public String getDisplayName() {
+        return displayName;
     }
 
     public Double getSalary() {
