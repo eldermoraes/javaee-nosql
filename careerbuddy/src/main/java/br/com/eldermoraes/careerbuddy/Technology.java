@@ -16,12 +16,15 @@
 
 package br.com.eldermoraes.careerbuddy;
 
-import java.io.Serializable;
-import java.util.Objects;
-
 import org.jnosql.artemis.Column;
 import org.jnosql.artemis.Entity;
 import org.jnosql.artemis.Id;
+
+import java.io.Serializable;
+import java.util.Locale;
+import java.util.Objects;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  *
@@ -38,12 +41,17 @@ public class Technology implements Serializable {
     @Column
     private String name;
 
+    @Column
+    private String displayName;
+
     public Technology(Enums.Technology tech) {
         this.name = tech.name();
     }
 
     public Technology(String name) {
-        this.name = name;
+        requireNonNull(name, "name is required");
+        this.name = name.toLowerCase(Locale.US);
+        this.displayName = name;
     }
 
     Technology() {
@@ -54,10 +62,9 @@ public class Technology implements Serializable {
     }
 
 
-    public String getName() {
-        return name;
+    public String getDisplayName() {
+        return displayName;
     }
-
 
     @Override
     public boolean equals(Object o) {
