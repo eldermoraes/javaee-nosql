@@ -27,7 +27,10 @@ public class Enums {
         NOSQL,
         CLOUD,
         CONTAINER,
-        GO
+        GO;
+        public String getName() {
+            return Name.of(this.name()).get();
+        }
     }
 
     public enum City {
@@ -35,13 +38,20 @@ public class Enums {
         BELO_HORIZONTE,
         SALVADOR,
         RIO_JANEIRO,
-        CURITIBA
+        CURITIBA;
+        public String getName() {
+            return Name.of(this.name()).get();
+        }
     }
 
     public enum Buddy {
         JOSE,
         MARIO,
         JOAO,
-        PEDRO
+        PEDRO;
+
+        public String getName() {
+            return Name.of(this.name()).get();
+        }
     }
 }
