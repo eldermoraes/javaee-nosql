@@ -94,7 +94,7 @@ public class BuddyResource {
     }
 
     @GET
-    @Path("technologies/{technology}/levels/{level}")
+    @Path("technologies/{technology}/{level}")
     public List<BuddyDTO> getTechnologiesLevel(@PathParam("technology") @Name String technology,
                                                @PathParam("level") TechnologyLevel level) {
 
