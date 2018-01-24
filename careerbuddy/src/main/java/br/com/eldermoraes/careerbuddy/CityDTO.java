@@ -21,7 +21,7 @@ public class CityDTO {
     private String name;
 
     public CityDTO(City city) {
-        this.name = city.getName();
+        this.name = city.getDisplayName();
     }
 
     public void setName(String name) {

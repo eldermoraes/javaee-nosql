@@ -21,7 +21,7 @@ public class TechnologyDTO {
     private String name;
 
     public TechnologyDTO(Technology technology) {
-        this.name = technology.getName();
+        this.name = technology.getDisplayName();
     }
 
     public void setName(String name) {

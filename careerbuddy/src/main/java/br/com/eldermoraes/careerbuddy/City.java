@@ -56,6 +56,10 @@ public class City implements Serializable {
         return displayName;
     }
 
+    public boolean equals(String value) {
+        return Name.of(value).equals(name);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
