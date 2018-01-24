@@ -127,7 +127,7 @@ public class BuddyResource {
 
 
     @PUT
-    @Path("{buddy}/live/{city}")
+    @Path("{buddy}/lives/{city}")
     public void lives(@PathParam("buddy") @Name String buddyName, @PathParam("city") @Name String cityName) {
 
         Buddy buddy = buddyRepository.findByName(buddyName)
