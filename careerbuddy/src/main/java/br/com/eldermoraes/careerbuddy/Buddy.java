@@ -50,10 +50,6 @@ public class Buddy implements Serializable {
         this.salary = salary;
     }
 
-    public Long getId() {
-        return id;
-    }
-
     public String getName() {
         return name;
     }
