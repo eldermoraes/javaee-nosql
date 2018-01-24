@@ -16,12 +16,14 @@
 
 package br.com.eldermoraes.careerbuddy;
 
-import java.io.Serializable;
-import java.util.Objects;
-
+import br.com.eldermoraes.careerbuddy.driver.NameConverter;
 import org.jnosql.artemis.Column;
+import org.jnosql.artemis.Convert;
 import org.jnosql.artemis.Entity;
 import org.jnosql.artemis.Id;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  *
@@ -32,32 +34,34 @@ public class Technology implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+
     @Id
     private Long id;
-    
-    @Column
-    private String name;
 
-    public Technology(Enums.Technology tech) {
-        this.name = tech.name();
-    }
+    @Column
+    @Convert(NameConverter.class)
+    private Name name;
+
+    @Column
+    private String displayName;
 
     public Technology(String name) {
-        this.name = name;
+        this.name = Name.of(name);
+        this.displayName = name;
     }
+
+    public Technology(Enums.Technology tech) {
+        this.name = Name.of(tech.name());
+        this.displayName = tech.name();
+    }
+
 
     Technology() {
     }
-    
-    public Long getId() {
-        return id;
+
+    public String getDisplayName() {
+        return displayName;
     }
-
-
-    public String getName() {
-        return name;
-    }
-
 
     @Override
     public boolean equals(Object o) {

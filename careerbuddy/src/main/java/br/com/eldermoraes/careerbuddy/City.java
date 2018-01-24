@@ -16,7 +16,9 @@
 
 package br.com.eldermoraes.careerbuddy;
 
+import br.com.eldermoraes.careerbuddy.driver.NameConverter;
 import org.jnosql.artemis.Column;
+import org.jnosql.artemis.Convert;
 import org.jnosql.artemis.Entity;
 import org.jnosql.artemis.Id;
 
@@ -36,23 +38,23 @@ public class City implements Serializable {
     private Long id;
     
     @Column
-    private String name;
+    @Convert(NameConverter.class)
+    private Name name;
+
+    @Column
+    private String displayName;
 
     public City(String name) {
-        this.name = name;
+        this.name = Name.of(name);
+        this.displayName = name;
     }
 
     City() {
-    }    
-    
-    public Long getId() {
-        return id;
     }
 
-    public String getName() {
-        return name;
+    public String getDisplayName() {
+        return displayName;
     }
-
 
     @Override
     public boolean equals(Object o) {
