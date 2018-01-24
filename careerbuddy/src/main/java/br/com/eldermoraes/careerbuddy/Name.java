@@ -26,7 +26,7 @@ public final class Name implements Supplier<String>{
 
     private final String value;
 
-    public Name(String value) {
+    private Name(String value) {
         this.value = requireNonNull(value, "value is required").toLowerCase(US);
     }
 
@@ -51,5 +51,9 @@ public final class Name implements Supplier<String>{
     @Override
     public int hashCode() {
         return Objects.hashCode(value);
+    }
+
+    public static Name of(String name) {
+        return new Name(name);
     }
 }
