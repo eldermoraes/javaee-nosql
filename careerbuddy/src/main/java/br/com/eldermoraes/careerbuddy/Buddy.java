@@ -16,15 +16,12 @@
 
 package br.com.eldermoraes.careerbuddy;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 import org.jnosql.artemis.Column;
 import org.jnosql.artemis.Entity;
 import org.jnosql.artemis.Id;
-
-import java.io.Serializable;
-import java.util.Locale;
-import java.util.Objects;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  *
@@ -42,9 +39,6 @@ public class Buddy implements Serializable {
     private String name;
 
     @Column
-    private String displayName;
-
-    @Column
     private Double salary;
     
     Buddy(){
@@ -52,15 +46,20 @@ public class Buddy implements Serializable {
     }
 
     public Buddy(String name, Double salary) {
-        requireNonNull(name, "name is required");
-        this.name = name.toLowerCase(Locale.US);
-        this.displayName = name;
         this.name = name;
         this.salary = salary;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Double getSalary() {
+        return salary;
     }
 
     public void setSalary(Double salary) {

@@ -21,10 +21,7 @@ import org.jnosql.artemis.Entity;
 import org.jnosql.artemis.Id;
 
 import java.io.Serializable;
-import java.util.Locale;
 import java.util.Objects;
-
-import static java.util.Objects.requireNonNull;
 
 /**
  *
@@ -41,13 +38,8 @@ public class City implements Serializable {
     @Column
     private String name;
 
-    @Column
-    private String displayName;
-
     public City(String name) {
-        requireNonNull(name, "name is required");
-        this.name = name.toLowerCase(Locale.US);
-        this.displayName = name;
+        this.name = name;
     }
 
     City() {
@@ -57,9 +49,10 @@ public class City implements Serializable {
         return id;
     }
 
-    public String getDisplayName() {
-        return displayName;
+    public String getName() {
+        return name;
     }
+
 
     @Override
     public boolean equals(Object o) {
