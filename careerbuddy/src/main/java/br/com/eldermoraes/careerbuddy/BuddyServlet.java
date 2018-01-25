@@ -16,7 +16,6 @@
 
 package br.com.eldermoraes.careerbuddy;
 
-import br.com.eldermoraes.careerbuddy.Enums.Technology;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.inject.Inject;
