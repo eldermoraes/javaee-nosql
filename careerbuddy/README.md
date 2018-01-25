@@ -89,4 +89,10 @@ curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbudd
 
 ```sbtshell
 
+curl http://localhost:8080/careerbuddy/resource/buddies/technologies/java
+curl http://localhost:8080/careerbuddy/resource/buddies/technologies/cloud
+curl http://localhost:8080/careerbuddy/resource/buddies/technologies/java/advanced
+curl http://localhost:8080/careerbuddy/resource/buddies/cities/salvador
+curl http://localhost:8080/careerbuddy/resource/buddies/cities/santos/technologies/java
+
 ``` 
