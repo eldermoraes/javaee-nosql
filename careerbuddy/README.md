@@ -1,5 +1,8 @@
 # Careerbuddy
 
+![Neo4J Project](https://jnosql.github.io/images/home_logo.png)
+
+
 Recommendation system using Java EE 8 and Neo4J with JNoSQL.
 
 
