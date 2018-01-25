@@ -28,3 +28,23 @@ curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbudd
 curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/pedro/lives/santos
 curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/jose/lives/santos
 
+#works
+
+curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/jose/works/java/advanced
+curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/jose/works/nosql/beginner
+curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/jose/works/cloud/intermediate
+curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/jose/works/container/advanced
+
+curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/mario/works/golang/advanced
+curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/mario/works/nosql/advanced
+curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/mario/works/cloud/beginner
+curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/mario/works/container/beginner
+
+curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/joao/works/java/intermediate
+curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/joao/works/cloud/advanced
+curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/joao/works/container/advanced
+curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/joao/works/golang/beginner
+
+curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/pedro/works/golang/beginner
+curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/pedro/works/container/advanced
+
