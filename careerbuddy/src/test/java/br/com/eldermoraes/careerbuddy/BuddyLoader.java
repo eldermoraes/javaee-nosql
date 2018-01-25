@@ -1,20 +1,5 @@
-/*
- * Copyright 2018 Elder Moreas and others
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 package br.com.eldermoraes.careerbuddy;
+
 
 import org.apache.tinkerpop.gremlin.structure.Edge;
 import org.apache.tinkerpop.gremlin.structure.Graph;
@@ -54,11 +39,7 @@ public class BuddyLoader {
     private BuddyService buddyService;
 
     @Inject
-    private GraphTemplate template;
-
-    @Inject
     private Graph graph;
-
 
 
     @Transactional
@@ -75,22 +56,22 @@ public class BuddyLoader {
         if (!isElementEmpty()) {
             return;
         }
-        buddyRepository.save(Buddy.of(Enums.Buddy.JOSE, 3_000D));
-        buddyRepository.save(Buddy.of(Enums.Buddy.MARIO, 5_000D));
-        buddyRepository.save(Buddy.of(Enums.Buddy.JOAO, 9_000D));
-        buddyRepository.save(Buddy.of(Enums.Buddy.PEDRO, 14_000D));
+        buddyRepository.save(new Buddy(Enums.Buddy.JOSE.name(), 3_000D));
+        buddyRepository.save(new Buddy(Enums.Buddy.MARIO.name(), 5_000D));
+        buddyRepository.save(new Buddy(Enums.Buddy.JOAO.name(), 9_000D));
+        buddyRepository.save(new Buddy(Enums.Buddy.PEDRO.name(), 14_000D));
 
-        cityRepository.save(City.of(Enums.City.SAO_PAULO));
-        cityRepository.save(City.of(Enums.City.BELO_HORIZONTE));
-        cityRepository.save(City.of(Enums.City.SALVADOR));
-        cityRepository.save(City.of(Enums.City.RIO_JANEIRO));
-        cityRepository.save(City.of(Enums.City.CURITIBA));
+        cityRepository.save(new City(Enums.City.SAO_PAULO.name()));
+        cityRepository.save(new City(Enums.City.BELO_HORIZONTE.name()));
+        cityRepository.save(new City(Enums.City.SALVADOR.name()));
+        cityRepository.save(new City(Enums.City.RIO_JANEIRO.name()));
+        cityRepository.save(new City(Enums.City.CURITIBA.name()));
 
-        technologyRepository.save(Technology.of(Enums.Technology.JAVA));
-        technologyRepository.save(Technology.of(Enums.Technology.NOSQL));
-        technologyRepository.save(Technology.of(Enums.Technology.CLOUD));
-        technologyRepository.save(Technology.of(Enums.Technology.CONTAINER));
-        technologyRepository.save(Technology.of(Enums.Technology.GO));
+        technologyRepository.save(new Technology(Enums.Technology.JAVA.name()));
+        technologyRepository.save(new Technology(Enums.Technology.NOSQL.name()));
+        technologyRepository.save(new Technology(Enums.Technology.CLOUD.name()));
+        technologyRepository.save(new Technology(Enums.Technology.CONTAINER.name()));
+        technologyRepository.save(new Technology(Enums.Technology.GOLANG.name()));
     }
 
     @Transactional
@@ -101,25 +82,25 @@ public class BuddyLoader {
             throw new IllegalStateException("You cannot load");
         }
 
-        if(!isEdgeEmpty()) {
+        if (!isEdgeEmpty()) {
             return;
         }
 
-        Buddy jose = buddyRepository.findByName(Enums.Buddy.JOSE.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
-        Buddy mario = buddyRepository.findByName(Enums.Buddy.MARIO.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
-        Buddy joao = buddyRepository.findByName(Enums.Buddy.JOAO.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
-        Buddy pedro = buddyRepository.findByName(Enums.Buddy.PEDRO.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Buddy jose = buddyRepository.findByName(Enums.Buddy.JOSE.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Buddy mario = buddyRepository.findByName(Enums.Buddy.MARIO.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Buddy joao = buddyRepository.findByName(Enums.Buddy.JOAO.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Buddy pedro = buddyRepository.findByName(Enums.Buddy.PEDRO.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
 
 
-        City saopaulo = cityRepository.findByName(Enums.City.SAO_PAULO.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
-        City belohorizonte = cityRepository.findByName(Enums.City.BELO_HORIZONTE.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
-        City salvador = cityRepository.findByName(Enums.City.SALVADOR.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        City saopaulo = cityRepository.findByName(Enums.City.SAO_PAULO.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        City belohorizonte = cityRepository.findByName(Enums.City.BELO_HORIZONTE.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        City salvador = cityRepository.findByName(Enums.City.SALVADOR.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
 
-        Technology java = technologyRepository.findByName(Enums.Technology.JAVA.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
-        Technology nosql = technologyRepository.findByName(Enums.Technology.NOSQL.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
-        Technology cloud = technologyRepository.findByName(Enums.Technology.CLOUD.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
-        Technology container = technologyRepository.findByName(Enums.Technology.CONTAINER.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
-        Technology go = technologyRepository.findByName(Enums.Technology.GO.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Technology java = technologyRepository.findByName(Enums.Technology.JAVA.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Technology nosql = technologyRepository.findByName(Enums.Technology.NOSQL.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Technology cloud = technologyRepository.findByName(Enums.Technology.CLOUD.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Technology container = technologyRepository.findByName(Enums.Technology.CONTAINER.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Technology go = technologyRepository.findByName(Enums.Technology.GOLANG.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
 
 
         buddyService.work(jose, java, ADVANCED);
@@ -153,6 +134,7 @@ public class BuddyLoader {
         LOGGER.info("Edges numbers in the database: " + edges);
         return edges == 0;
     }
+
     private boolean isElementEmpty() {
         long elements = graph.traversal().V().count().tryNext().orElse(0L);
         LOGGER.info("Elements numbers in the database: " + elements);

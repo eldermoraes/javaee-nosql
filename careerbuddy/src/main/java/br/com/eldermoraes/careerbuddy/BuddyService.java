@@ -77,11 +77,11 @@ public class BuddyService {
 
         Stream<Buddy> buddies = graphTemplate.getTraversalVertex()
                 .hasLabel(Technology.class)
-                .has("name", technology)
+                .has("name", Name.of(technology).get())
                 .in(Edges.WORKS)
                 .filter(b -> graphTemplate.getEdges(b, Direction.OUT, Edges.LIVES).stream()
                             .<City>map(EdgeEntity::getInbound)
-                            .anyMatch(c -> city.equals(c.getName()))
+                            .anyMatch(c -> c.equals(city))
 
                     ).orderBy("name").asc().stream();
 

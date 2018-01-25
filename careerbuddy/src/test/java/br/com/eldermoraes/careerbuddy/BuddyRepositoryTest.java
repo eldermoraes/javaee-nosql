@@ -37,21 +37,21 @@ public class BuddyRepositoryTest {
 
     @Test
     public void shouldFindById() {
-        String name = "Elder Morares";
-        Buddy buddy = new Buddy(name, 1_000D);
+        Name name = Name.of("Elder Morares");
+        Buddy buddy = new Buddy(name.get(), 1_000D);
 
         repository.save(buddy);
-        assertTrue(repository.findByName(name).isPresent());
+        assertTrue(repository.findByName(name.get()).isPresent());
     }
 
     @Test
     public void shouldDeleteById() {
-        String name = "Elder Morares";
-        Buddy buddy = new Buddy(name, 1_000D);
+        Name name = Name.of("Elder Morares");
+        Buddy buddy = new Buddy(name.get(), 1_000D);
 
         repository.save(buddy);
-        assertTrue(repository.findByName(name).isPresent());
-        repository.deleteByName(name);
-        assertFalse(repository.findByName(name).isPresent());
+        assertTrue(repository.findByName(name.get()).isPresent());
+        repository.deleteByName(name.get());
+        assertFalse(repository.findByName(name.get()).isPresent());
     }
 }

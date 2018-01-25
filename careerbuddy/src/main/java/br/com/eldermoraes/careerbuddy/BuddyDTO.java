@@ -18,14 +18,14 @@ package br.com.eldermoraes.careerbuddy;
 
 import br.com.eldermoraes.careerbuddy.validation.Name;
 
-import javax.validation.constraints.NegativeOrZero;
+import javax.validation.constraints.PositiveOrZero;
 
 public class BuddyDTO {
 
     @Name
     private String name;
 
-    @NegativeOrZero
+    @PositiveOrZero
     private Double salary;
 
 
@@ -53,7 +53,7 @@ public class BuddyDTO {
 
     public static BuddyDTO of(Buddy buddy) {
         BuddyDTO dto = new BuddyDTO();
-        dto.setName(buddy.getName());
+        dto.setName(buddy.getDisplayName());
         dto.setSalary(buddy.getSalary());
         return dto;
     }

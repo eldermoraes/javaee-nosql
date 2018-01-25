@@ -30,4 +30,8 @@ public enum TechnologyLevel implements Supplier<String> {
     public String get() {
         return name().toLowerCase(Locale.US);
     }
+
+    public static TechnologyLevel parse(String value) {
+        return TechnologyLevel.valueOf(value.toUpperCase(Locale.US));
+    }
 }

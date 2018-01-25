@@ -16,10 +16,8 @@
 
 package br.com.eldermoraes.careerbuddy;
 
-import br.com.eldermoraes.careerbuddy.Enums.Technology;
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.ejb.EJB;
 import javax.inject.Inject;
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -37,19 +35,18 @@ public class BuddyServlet extends HttpServlet {
 
     @Inject
     private BuddyBean buddyBean;
-    
+
     @Override
     public void init(ServletConfig config) throws ServletException {
-        buddyBean.loadData();
     }
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+
         try(PrintWriter writer = response.getWriter()){
-            writer.print(Technology.JAVA + " Buddies: " + buddyBean.getBuddiesByTechnology(Technology.JAVA) + "\n");
-            writer.print(Technology.CLOUD + " Buddies: " + buddyBean.getBuddiesByTechnology(Technology.CLOUD) + "\n");
+            writer.print("Java  Buddies: " + buddyBean.getBuddiesByTechnology("java") + "\n");
+            writer.print("Cloud Buddies: " + buddyBean.getBuddiesByTechnology("cloud") + "\n");
         }
     }
 

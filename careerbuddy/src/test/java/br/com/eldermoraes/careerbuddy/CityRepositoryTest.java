@@ -35,23 +35,23 @@ public class CityRepositoryTest {
 
     @Test
     public void shouldFindById() {
-        String name = "New York";
-        City city = new City(name);
+        Name name =  Name.of("New York");
+        City city = new City(name.get());
 
         repository.save(city);
-        assertTrue(repository.findByName(name).isPresent());
+        assertTrue(repository.findByName(name.get()).isPresent());
     }
 
     @Test
     public void shouldDeleteById() {
-        String name = "New York";
+        Name name =  Name.of("New York");
 
-        City city = new City(name);
+        City city = new City(name.get());
 
         repository.save(city);
-        assertTrue(repository.findByName(name).isPresent());
-        repository.deleteByName(name);
-        assertFalse(repository.findByName(name).isPresent());
+        assertTrue(repository.findByName(name.get()).isPresent());
+        repository.deleteByName(name.get());
+        assertFalse(repository.findByName(name.get()).isPresent());
     }
 
 }

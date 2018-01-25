@@ -14,34 +14,27 @@
  * limitations under the License.
  */
 
-package br.com.eldermoraes.careerbuddy;
+package br.com.eldermoraes.careerbuddy.driver;
 
-/**
- *
- * @author eldermoraes
- */
-public class Enums {
+import br.com.eldermoraes.careerbuddy.Name;
+import org.jnosql.artemis.AttributeConverter;
 
-    public enum Technology {
-        JAVA,
-        NOSQL,
-        CLOUD,
-        CONTAINER,
-        GO
+public class NameConverter implements AttributeConverter<Name, String> {
+
+    @Override
+    public String convertToDatabaseColumn(Name attribute) {
+        if (attribute == null) {
+            return null;
+        }
+        return attribute.get();
     }
 
-    public enum City {
-        SAO_PAULO,
-        BELO_HORIZONTE,
-        SALVADOR,
-        RIO_JANEIRO,
-        CURITIBA
-    }
+    @Override
+    public Name convertToEntityAttribute(String dbData) {
 
-    public enum Buddy {
-        JOSE,
-        MARIO,
-        JOAO,
-        PEDRO
+        if (dbData == null) {
+            return null;
+        }
+        return Name.of(dbData);
     }
 }

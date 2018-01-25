@@ -36,23 +36,23 @@ public class TechonologyRepositoryTest {
 
     @Test
     public void shouldFindById() {
-        String name = "Graph database";
-        Technology technology = new Technology(name);
+        Name name = Name.of("Graph database");
+        Technology technology = new Technology(name.get());
 
         repository.save(technology);
-        assertTrue(repository.findByName(name).isPresent());
+        assertTrue(repository.findByName(name.get()).isPresent());
     }
 
     @Test
     public void shouldDeleteById() {
-        String name = "Graph database";
+        Name name = Name.of("Graph database");
 
-        Technology technology = new Technology(name);
+        Technology technology = new Technology(name.get());
 
         repository.save(technology);
-        assertTrue(repository.findByName(name).isPresent());
-        repository.deleteByName(name);
-        assertFalse(repository.findByName(name).isPresent());
+        assertTrue(repository.findByName(name.get()).isPresent());
+        repository.deleteByName(name.get());
+        assertFalse(repository.findByName(name.get()).isPresent());
     }
 
 }

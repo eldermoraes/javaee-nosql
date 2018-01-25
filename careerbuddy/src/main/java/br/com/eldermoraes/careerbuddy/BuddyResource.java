@@ -64,6 +64,7 @@ public class BuddyResource {
 
 
     @POST
+
     public void insert(@Valid BuddyDTO buddy) {
 
         buddyRepository.findByName(buddy.getName()).ifPresent(b -> {
@@ -94,11 +95,11 @@ public class BuddyResource {
     }
 
     @GET
-    @Path("technologies/{technology}/levels/{level}")
+    @Path("technologies/{technology}/{level}")
     public List<BuddyDTO> getTechnologiesLevel(@PathParam("technology") @Name String technology,
-                                               @PathParam("level") TechnologyLevel level) {
+                                               @PathParam("level") String level) {
 
-        return service.findByTechnology(technology, level).stream().map(BuddyDTO::of).collect(toList());
+        return service.findByTechnology(technology, TechnologyLevel.parse(level)).stream().map(BuddyDTO::of).collect(toList());
     }
 
     @GET
@@ -111,7 +112,7 @@ public class BuddyResource {
 
     @PUT
     @Path("{buddy}")
-    public void insert(@PathParam("buddy") @Name String buddyName, @Valid BuddyDTO dto) {
+    public void update(@PathParam("buddy") @Name String buddyName, @Valid BuddyDTO dto) {
         Buddy buddy = buddyRepository.findByName(buddyName)
                 .orElseThrow(() -> new WebApplicationException("buddy does not found", Response.Status.NOT_FOUND));
 
@@ -126,8 +127,8 @@ public class BuddyResource {
     }
 
 
-    @POST
-    @Path("{buddy}/live/{city}")
+    @PUT
+    @Path("{buddy}/lives/{city}")
     public void lives(@PathParam("buddy") @Name String buddyName, @PathParam("city") @Name String cityName) {
 
         Buddy buddy = buddyRepository.findByName(buddyName)
@@ -140,7 +141,7 @@ public class BuddyResource {
         service.live(buddy, city);
     }
 
-    @POST
+    @PUT
     @Path("{buddy}/works/{technology}")
     public void works(@PathParam("buddy") @Name String buddyName, @PathParam("technology") @Name String technologyName) {
 
@@ -153,11 +154,11 @@ public class BuddyResource {
         service.work(buddy, technology);
     }
 
-    @POST
-    @Path("{buddy}/works/{technology}/level/{level}")
+    @PUT
+    @Path("{buddy}/works/{technology}/{level}")
     public void worksLevel(@PathParam("buddy") @Name String buddyName,
                            @PathParam("technology") @Name String technologyName,
-                           @PathParam("level") TechnologyLevel level) {
+                           @PathParam("level") String level) {
 
         Buddy buddy = buddyRepository.findByName(buddyName)
                 .orElseThrow(() -> new WebApplicationException("buddy does not found", Response.Status.NOT_FOUND));
@@ -165,6 +166,7 @@ public class BuddyResource {
         Technology technology = technologyRepository.findByName(technologyName)
                 .orElseThrow(() -> new WebApplicationException("city does not found", Response.Status.NOT_FOUND));
 
-        service.work(buddy, technology, level);
+
+        service.work(buddy, technology, TechnologyLevel.parse(level));
     }
 }
