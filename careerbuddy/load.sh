@@ -1,7 +1,7 @@
 #!/bin/sh
 
 #cities
-curl -H "Content-Type: application/json" -X POST -d 'Sao Paulo' http://localhost:8080/careerbuddy/resource/cities/
+curl -H "Content-Type: application/json" -X POST -d 'Santos' http://localhost:8080/careerbuddy/resource/cities/
 curl -H "Content-Type: application/json" -X POST -d 'Salvador' http://localhost:8080/careerbuddy/resource/cities/
 curl -H "Content-Type: application/json" -X POST -d 'Belo Horizonte' http://localhost:8080/careerbuddy/resource/cities/
 curl -H "Content-Type: application/json" -X POST -d 'Rio de Janeiro' http://localhost:8080/careerbuddy/resource/cities/
@@ -24,7 +24,7 @@ curl -H "Content-Type: application/json" -X POST -d '{"name":"Pedro","salary":14
 #lives
 
 curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/mario/lives/salvador
-curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/joao/lives/belohorizonte
-curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/pedro/lives/saopaulo
-curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/jose/lives/saopaulo
+curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/joao/lives/curitiba
+curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/pedro/lives/santos
+curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/jose/lives/santos
 
