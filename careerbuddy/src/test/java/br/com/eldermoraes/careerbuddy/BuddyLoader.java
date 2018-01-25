@@ -71,7 +71,7 @@ public class BuddyLoader {
         technologyRepository.save(new Technology(Enums.Technology.NOSQL.name()));
         technologyRepository.save(new Technology(Enums.Technology.CLOUD.name()));
         technologyRepository.save(new Technology(Enums.Technology.CONTAINER.name()));
-        technologyRepository.save(new Technology(Enums.Technology.GO.name()));
+        technologyRepository.save(new Technology(Enums.Technology.GOLANG.name()));
     }
 
     @Transactional
@@ -100,7 +100,7 @@ public class BuddyLoader {
         Technology nosql = technologyRepository.findByName(Enums.Technology.NOSQL.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
         Technology cloud = technologyRepository.findByName(Enums.Technology.CLOUD.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
         Technology container = technologyRepository.findByName(Enums.Technology.CONTAINER.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
-        Technology go = technologyRepository.findByName(Enums.Technology.GO.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Technology go = technologyRepository.findByName(Enums.Technology.GOLANG.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
 
 
         buddyService.work(jose, java, ADVANCED);
