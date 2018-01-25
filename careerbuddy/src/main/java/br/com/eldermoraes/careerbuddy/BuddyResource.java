@@ -43,7 +43,6 @@ import static org.jnosql.artemis.DatabaseType.GRAPH;
 @Path("buddies")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Transactional
 public class BuddyResource {
 
 
@@ -64,6 +63,7 @@ public class BuddyResource {
 
 
     @POST
+    @Transactional
     public void insert(@Valid BuddyDTO buddy) {
 
         buddyRepository.findByName(buddy.getName()).ifPresent(b -> {
@@ -111,6 +111,7 @@ public class BuddyResource {
 
     @PUT
     @Path("{buddy}")
+    @Transactional
     public void update(@PathParam("buddy") @Name String buddyName, @Valid BuddyDTO dto) {
         Buddy buddy = buddyRepository.findByName(buddyName)
                 .orElseThrow(() -> new WebApplicationException("buddy does not found", Response.Status.NOT_FOUND));
@@ -121,6 +122,7 @@ public class BuddyResource {
 
     @DELETE
     @Path("{buddy}")
+    @Transactional
     public void delete(@PathParam("buddy") @Name String buddyName) {
         buddyRepository.deleteByName(buddyName);
     }
@@ -128,6 +130,7 @@ public class BuddyResource {
 
     @PUT
     @Path("{buddy}/lives/{city}")
+    @Transactional
     public void lives(@PathParam("buddy") @Name String buddyName, @PathParam("city") @Name String cityName) {
 
         Buddy buddy = buddyRepository.findByName(buddyName)
@@ -142,6 +145,7 @@ public class BuddyResource {
 
     @PUT
     @Path("{buddy}/works/{technology}")
+    @Transactional
     public void works(@PathParam("buddy") @Name String buddyName, @PathParam("technology") @Name String technologyName) {
 
         Buddy buddy = buddyRepository.findByName(buddyName)
@@ -155,6 +159,7 @@ public class BuddyResource {
 
     @PUT
     @Path("{buddy}/works/{technology}/{level}")
+    @Transactional
     public void worksLevel(@PathParam("buddy") @Name String buddyName,
                            @PathParam("technology") @Name String technologyName,
                            @PathParam("level") TechnologyLevel level) {

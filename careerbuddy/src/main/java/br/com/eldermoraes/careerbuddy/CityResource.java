@@ -39,7 +39,6 @@ import static org.jnosql.artemis.DatabaseType.GRAPH;
 @Path("cities")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Transactional
 public class CityResource {
 
 
@@ -49,6 +48,7 @@ public class CityResource {
 
 
     @POST
+    @Transactional
     public void insert(@Name String name) {
 
         cityRepository.findByName(name).ifPresent(b -> {
@@ -70,6 +70,7 @@ public class CityResource {
 
     @DELETE
     @Path("{name}")
+    @Transactional
     public void delete(@PathParam("name") @Name String buddyName) {
         cityRepository.deleteByName(buddyName);
     }

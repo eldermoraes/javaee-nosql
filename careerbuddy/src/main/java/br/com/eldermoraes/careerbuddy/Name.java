@@ -53,6 +53,11 @@ public final class Name implements Supplier<String>{
         return Objects.hashCode(value);
     }
 
+    @Override
+    public String toString() {
+        return value;
+    }
+
     public static Name of(String name) {
         return new Name(name);
     }
