@@ -86,8 +86,4 @@ public class City implements Serializable {
         return sb.toString();
     }
 
-    public static City of(Enums.City city){
-        return new City(city.name());
-    }
-    
 }

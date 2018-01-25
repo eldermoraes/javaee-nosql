@@ -46,8 +46,8 @@ public class BuddyServlet extends HttpServlet {
             throws ServletException, IOException {
 
         try(PrintWriter writer = response.getWriter()){
-            writer.print(Technology.JAVA + " Buddies: " + buddyBean.getBuddiesByTechnology(Technology.JAVA) + "\n");
-            writer.print(Technology.CLOUD + " Buddies: " + buddyBean.getBuddiesByTechnology(Technology.CLOUD) + "\n");
+            writer.print("Java  Buddies: " + buddyBean.getBuddiesByTechnology("java") + "\n");
+            writer.print("Cloud Buddies: " + buddyBean.getBuddiesByTechnology("cloud") + "\n");
         }
     }
 

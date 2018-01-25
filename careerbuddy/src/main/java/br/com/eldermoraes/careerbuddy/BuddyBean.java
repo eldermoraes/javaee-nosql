@@ -44,8 +44,8 @@ public class BuddyBean {
     private final Jsonb jsonbBuilder = JsonbBuilder.create();
     
 
-    public String getBuddiesByTechnology(Enums.Technology tech) {
-        return jsonbBuilder.toJson(service.findByTechnology(tech.name()));
+    public String getBuddiesByTechnology(String technology) {
+        return jsonbBuilder.toJson(service.findByTechnology(technology));
     }
 
 
