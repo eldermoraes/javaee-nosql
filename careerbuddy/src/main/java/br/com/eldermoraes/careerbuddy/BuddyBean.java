@@ -37,8 +37,6 @@ public class BuddyBean {
     @Inject
     private Graph thinkerpop;
 
-    @Inject
-    private BuddyLoader buddyLoader;
 
     @Inject
     private BuddyService service;
@@ -48,10 +46,6 @@ public class BuddyBean {
 
     public String getBuddiesByTechnology(Enums.Technology tech) {
         return jsonbBuilder.toJson(service.findByTechnology(tech.name()));
-    }
-
-    public void loadData() {
-
     }
 
 
