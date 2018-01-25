@@ -25,31 +25,27 @@ import org.neo4j.driver.v1.Driver;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 
 @ApplicationScoped
 public class DefaultGraphSupplier implements GraphSupplier {
 
-    private Neo4JGraph graph;
+    private static final Neo4JElementIdProvider<?> VERTEX_ID_PROVIDER = new Neo4JNativeElementIdProvider();
+    private static final Neo4JElementIdProvider<?> EDGE_PROVIDER = new Neo4JNativeElementIdProvider();
+
+
 
     @Inject
     @ConfigurationUnit
     private Instance<Driver> driver;
 
 
-
-    @PostConstruct
-    public void init() {
-        Neo4JElementIdProvider<?> vertexIdProvider = new Neo4JNativeElementIdProvider();
-        Neo4JElementIdProvider<?> edgeIdProvider = new Neo4JNativeElementIdProvider();
-        this.graph = new Neo4JGraph(driver.get(), vertexIdProvider, edgeIdProvider);
-        graph.setProfilerEnabled(true);
-    }
-
-
     @Override
     public Graph get() {
+        Neo4JGraph graph = new Neo4JGraph(driver.get(), VERTEX_ID_PROVIDER, EDGE_PROVIDER);
+        graph.setProfilerEnabled(true);
         return graph;
     }
 
