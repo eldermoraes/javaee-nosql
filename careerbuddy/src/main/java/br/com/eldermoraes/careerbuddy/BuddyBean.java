@@ -51,9 +51,7 @@ public class BuddyBean {
     }
 
     public void loadData() {
-        buddyLoader.clean();
-        buddyLoader.loadVertex();
-        buddyLoader.loadEdges();
+
     }
 
 

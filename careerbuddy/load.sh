@@ -12,7 +12,7 @@ curl -H "Content-Type: application/json" -X POST -d 'Java' http://localhost:8080
 curl -H "Content-Type: application/json" -X POST -d 'NoSQL' http://localhost:8080/careerbuddy/resource/technologies/
 curl -H "Content-Type: application/json" -X POST -d 'Cloud' http://localhost:8080/careerbuddy/resource/technologies/
 curl -H "Content-Type: application/json" -X POST -d 'Container' http://localhost:8080/careerbuddy/resource/technologies/
-curl -H "Content-Type: application/json" -X POST -d 'Go' http://localhost:8080/careerbuddy/resource/technologies/
+curl -H "Content-Type: application/json" -X POST -d 'Golang' http://localhost:8080/careerbuddy/resource/technologies/
 
 #buddies
 
