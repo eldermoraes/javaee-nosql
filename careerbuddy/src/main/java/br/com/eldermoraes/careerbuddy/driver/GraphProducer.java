@@ -18,6 +18,8 @@ package br.com.eldermoraes.careerbuddy.driver;
 
 import org.apache.tinkerpop.gremlin.structure.Graph;
 
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Disposes;
 import javax.enterprise.inject.Produces;
 import javax.inject.Inject;
 
@@ -27,7 +29,12 @@ public class GraphProducer {
     private GraphSupplier graphSupplier;
 
     @Produces
+    @RequestScoped
     public Graph getGraph() {
         return graphSupplier.get();
+    }
+
+    public void dispose(@Disposes Graph graph) throws Exception {
+        graph.close();
     }
 }
