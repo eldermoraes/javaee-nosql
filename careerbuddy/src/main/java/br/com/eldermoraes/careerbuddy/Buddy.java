@@ -97,10 +97,4 @@ public class Buddy implements Serializable {
         sb.append('}');
         return sb.toString();
     }
-
-    public static Buddy of (Enums.Buddy buddy, Double salary){
-        return new Buddy(buddy.name(), salary);
-    }
-
-
 }

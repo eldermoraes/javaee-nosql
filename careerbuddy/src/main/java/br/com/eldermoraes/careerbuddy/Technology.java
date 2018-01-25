@@ -50,11 +50,6 @@ public class Technology implements Serializable {
         this.displayName = name;
     }
 
-    public Technology(Enums.Technology tech) {
-        this.name = Name.of(tech.name());
-        this.displayName = tech.name();
-    }
-
 
     Technology() {
     }
@@ -89,7 +84,4 @@ public class Technology implements Serializable {
         return sb.toString();
     }
 
-    public static Technology of (Enums.Technology name){
-        return new Technology(name);
-    }
 }
