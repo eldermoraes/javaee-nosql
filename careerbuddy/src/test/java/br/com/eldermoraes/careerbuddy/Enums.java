@@ -11,7 +11,7 @@ public class Enums {
         NOSQL,
         CLOUD,
         CONTAINER,
-        GO;
+        GOLANG;
         public String getName() {
             return Name.of(this.name()).get();
         }

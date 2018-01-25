@@ -39,11 +39,7 @@ public class BuddyLoader {
     private BuddyService buddyService;
 
     @Inject
-    private GraphTemplate template;
-
-    @Inject
     private Graph graph;
-
 
 
     @Transactional
@@ -86,25 +82,25 @@ public class BuddyLoader {
             throw new IllegalStateException("You cannot load");
         }
 
-        if(!isEdgeEmpty()) {
+        if (!isEdgeEmpty()) {
             return;
         }
 
-        Buddy jose = buddyRepository.findByName(Enums.Buddy.JOSE.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
-        Buddy mario = buddyRepository.findByName(Enums.Buddy.MARIO.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
-        Buddy joao = buddyRepository.findByName(Enums.Buddy.JOAO.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
-        Buddy pedro = buddyRepository.findByName(Enums.Buddy.PEDRO.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Buddy jose = buddyRepository.findByName(Enums.Buddy.JOSE.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Buddy mario = buddyRepository.findByName(Enums.Buddy.MARIO.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Buddy joao = buddyRepository.findByName(Enums.Buddy.JOAO.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Buddy pedro = buddyRepository.findByName(Enums.Buddy.PEDRO.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
 
 
-        City saopaulo = cityRepository.findByName(Enums.City.SAO_PAULO.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
-        City belohorizonte = cityRepository.findByName(Enums.City.BELO_HORIZONTE.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
-        City salvador = cityRepository.findByName(Enums.City.SALVADOR.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        City saopaulo = cityRepository.findByName(Enums.City.SAO_PAULO.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        City belohorizonte = cityRepository.findByName(Enums.City.BELO_HORIZONTE.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        City salvador = cityRepository.findByName(Enums.City.SALVADOR.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
 
-        Technology java = technologyRepository.findByName(Enums.Technology.JAVA.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
-        Technology nosql = technologyRepository.findByName(Enums.Technology.NOSQL.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
-        Technology cloud = technologyRepository.findByName(Enums.Technology.CLOUD.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
-        Technology container = technologyRepository.findByName(Enums.Technology.CONTAINER.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
-        Technology go = technologyRepository.findByName(Enums.Technology.GO.name()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Technology java = technologyRepository.findByName(Enums.Technology.JAVA.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Technology nosql = technologyRepository.findByName(Enums.Technology.NOSQL.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Technology cloud = technologyRepository.findByName(Enums.Technology.CLOUD.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Technology container = technologyRepository.findByName(Enums.Technology.CONTAINER.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
+        Technology go = technologyRepository.findByName(Enums.Technology.GO.getName()).orElseThrow(ENTITY_DOES_NOT_FOUND);
 
 
         buddyService.work(jose, java, ADVANCED);
@@ -138,8 +134,10 @@ public class BuddyLoader {
         LOGGER.info("Edges numbers in the database: " + edges);
         return edges == 0;
     }
+
     private boolean isElementEmpty() {
         long elements = graph.traversal().V().count().tryNext().orElse(0L);
         LOGGER.info("Elements numbers in the database: " + elements);
         return elements == 0;
     }
+}
