@@ -97,9 +97,9 @@ public class BuddyResource {
     @GET
     @Path("technologies/{technology}/{level}")
     public List<BuddyDTO> getTechnologiesLevel(@PathParam("technology") @Name String technology,
-                                               @PathParam("level") TechnologyLevel level) {
+                                               @PathParam("level") String level) {
 
-        return service.findByTechnology(technology, level).stream().map(BuddyDTO::of).collect(toList());
+        return service.findByTechnology(technology, TechnologyLevel.parse(level)).stream().map(BuddyDTO::of).collect(toList());
     }
 
     @GET
@@ -158,7 +158,7 @@ public class BuddyResource {
     @Path("{buddy}/works/{technology}/{level}")
     public void worksLevel(@PathParam("buddy") @Name String buddyName,
                            @PathParam("technology") @Name String technologyName,
-                           @PathParam("level") TechnologyLevel level) {
+                           @PathParam("level") String level) {
 
         Buddy buddy = buddyRepository.findByName(buddyName)
                 .orElseThrow(() -> new WebApplicationException("buddy does not found", Response.Status.NOT_FOUND));
@@ -166,6 +166,7 @@ public class BuddyResource {
         Technology technology = technologyRepository.findByName(technologyName)
                 .orElseThrow(() -> new WebApplicationException("city does not found", Response.Status.NOT_FOUND));
 
-        service.work(buddy, technology, level);
+
+        service.work(buddy, technology, TechnologyLevel.parse(level));
     }
 }
