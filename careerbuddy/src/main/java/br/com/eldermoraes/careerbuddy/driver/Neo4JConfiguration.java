@@ -17,8 +17,12 @@
 package br.com.eldermoraes.careerbuddy.driver;
 
 import org.jnosql.diana.api.Settings;
+import org.neo4j.driver.v1.AuthToken;
+import org.neo4j.driver.v1.AuthTokens;
+import org.neo4j.driver.v1.Driver;
 
 import java.io.Serializable;
+import static org.neo4j.driver.v1.GraphDatabase.driver;
 import java.util.Objects;
 
 final class Neo4JConfiguration implements Serializable {
@@ -46,6 +50,11 @@ final class Neo4JConfiguration implements Serializable {
 
     public String getPassword() {
         return password;
+    }
+
+    public Driver getDriver() {
+        AuthToken basic = AuthTokens.basic(user, password);
+        return driver(url, basic);
     }
 
     @Override

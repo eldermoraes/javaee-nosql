@@ -21,8 +21,6 @@ import org.jnosql.artemis.ConfigurationSettingsUnit;
 import org.jnosql.artemis.ConfigurationUnit;
 import org.jnosql.artemis.configuration.ConfigurationException;
 import org.jnosql.diana.api.Settings;
-import org.neo4j.driver.v1.AuthToken;
-import org.neo4j.driver.v1.AuthTokens;
 import org.neo4j.driver.v1.Driver;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -30,10 +28,11 @@ import javax.enterprise.inject.Produces;
 import javax.enterprise.inject.spi.Annotated;
 import javax.enterprise.inject.spi.InjectionPoint;
 import javax.inject.Inject;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static org.neo4j.driver.v1.GraphDatabase.driver;
 
 @ApplicationScoped
 class DriverProducer {
@@ -42,6 +41,8 @@ class DriverProducer {
 
     @Inject
     private ConfigurationReader configurationReader;
+
+    private final Map<Neo4JConfiguration, Driver> pool = new ConcurrentHashMap<>();
 
 
     @ConfigurationUnit
@@ -54,13 +55,15 @@ class DriverProducer {
 
         Settings settings = getSettings(annotation);
 
-        String url = settings.getOrDefault("url", "bolt://localhost:7687").toString();
-        String user = settings.getOrDefault("admin", "neo4j").toString();
-        String password = settings.getOrDefault("password", "admin").toString();
 
-        AuthToken basic = AuthTokens.basic(user, password);
-        Driver driver = driver(url, basic);
+        Neo4JConfiguration configuration = new Neo4JConfiguration(settings);
 
+        Driver driver = pool.get(configuration);
+
+        if (driver == null) {
+            driver = configuration.getDriver();
+            pool.put(configuration, driver);
+        }
 
         return driver;
     }
