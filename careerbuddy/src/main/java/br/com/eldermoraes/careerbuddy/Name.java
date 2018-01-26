@@ -16,18 +16,21 @@
 
 package br.com.eldermoraes.careerbuddy;
 
+import java.util.Locale;
 import java.util.Objects;
 import java.util.function.Supplier;
 
-import static java.util.Locale.US;
+import static java.text.Normalizer.Form.NFD;
+import static java.text.Normalizer.normalize;
 import static java.util.Objects.requireNonNull;
 
-public final class Name implements Supplier<String>{
+public final class Name implements Supplier<String> {
 
     private final String value;
 
     private Name(String value) {
-        this.value = requireNonNull(value, "value is required").toLowerCase(US).trim().replace(" ", "_");
+        requireNonNull(value, "value is required");
+        this.value = normalize(value.toLowerCase(Locale.US).replace(" ", "_"), NFD);
     }
 
 
