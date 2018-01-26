@@ -27,7 +27,7 @@ public final class Name implements Supplier<String>{
     private final String value;
 
     private Name(String value) {
-        this.value = requireNonNull(value, "value is required").toLowerCase(US);
+        this.value = requireNonNull(value, "value is required").toLowerCase(US).trim().replace(" ", "_");
     }
 
 
