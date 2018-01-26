@@ -47,4 +47,11 @@ class NameTest {
         assertEquals(value, name.get());
     }
 
+    @Test
+    public void shouldRepleaceSpace() {
+        String value = "Ada Lovelace";
+        Name name = Name.of(value);
+        assertEquals("ada_lovelace", name.get());
+    }
+
 }
