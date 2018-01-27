@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package br.com.eldermoraes.careerbuddy.rest;
+package br.com.eldermoraes.careerbuddy.resource;
 
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
