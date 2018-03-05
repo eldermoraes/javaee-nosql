@@ -29,11 +29,11 @@ Neo4j is a graph database management system developed by Neo4j, Inc. Described b
 ## Build
 
 Go to the careerbuddy folder
-`mvn clean package && docker build -t br.com.eldermoraes/careerbuddy .`
+`mvn clean package && docker build -t eldermoraes/careerbuddy .`
 
 ## RUN
 
-`docker rm -f careerbuddy || true && docker run -d -p 8080:8080 -p 4848:4848 --name careerbuddy br.com.eldermoraes/careerbuddy`
+`docker rm -f careerbuddy || true && docker run -d -p 8080:8080 -p 4848:4848 --link neo4j:neo4j  --name careerbuddy eldermoraes/careerbuddy`
 
 
 ### Populate the database

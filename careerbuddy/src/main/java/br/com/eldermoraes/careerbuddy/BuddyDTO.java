@@ -46,7 +46,7 @@ public class BuddyDTO {
         this.salary = salary;
     }
 
-    public Buddy toEnity() {
+    public Buddy toEntity() {
         return new Buddy(name, salary);
     }
 

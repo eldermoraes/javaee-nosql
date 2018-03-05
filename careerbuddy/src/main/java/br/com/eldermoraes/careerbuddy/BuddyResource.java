@@ -71,7 +71,7 @@ public class BuddyResource {
             throw new WebApplicationException("There is a buddy that already does exist", Response.Status.BAD_REQUEST);
         });
 
-        buddyRepository.save(buddy.toEnity());
+        buddyRepository.save(buddy.toEntity());
     }
 
     @GET
