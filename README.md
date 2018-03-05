@@ -28,7 +28,8 @@ Neo4j is a graph database management system developed by Neo4j, Inc. Described b
 
 ## Build
 
-Go to the careerbuddy folder
+Go to the careerbuddy folder and execute:
+
 `mvn clean package && docker build -t eldermoraes/careerbuddy .`
 
 ## RUN
