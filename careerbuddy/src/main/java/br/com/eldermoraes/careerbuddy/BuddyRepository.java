@@ -25,5 +25,5 @@ public interface BuddyRepository extends Repository<Buddy, Long> {
 
     Optional<Buddy> findByName(String name);
 
-    void deleteByName(String buddyName);
+    void deleteByName(String name);
 }

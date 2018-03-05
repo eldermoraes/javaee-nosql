@@ -57,11 +57,12 @@ class DriverProducer {
 
 
         Neo4JConfiguration configuration = new Neo4JConfiguration(settings);
-
+        LOGGER.info("running from configuration: " + configuration);
         Driver driver = pool.get(configuration);
 
         if (driver == null) {
             driver = configuration.getDriver();
+            LOGGER.info("Loading the driver to pool connection");
             pool.put(configuration, driver);
         }
 
