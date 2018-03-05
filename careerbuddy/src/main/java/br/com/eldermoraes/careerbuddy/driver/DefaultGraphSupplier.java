@@ -23,9 +23,7 @@ import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.jnosql.artemis.ConfigurationUnit;
 import org.neo4j.driver.v1.Driver;
 
-import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Instance;
 import javax.inject.Inject;
 

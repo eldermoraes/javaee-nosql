@@ -34,7 +34,7 @@ final class Neo4JConfiguration implements Serializable {
     private final String password;
 
     public Neo4JConfiguration(Settings settings) {
-        this.url = settings.getOrDefault("url", "bolt://localhost:7687").toString();
+        this.url = settings.getOrDefault("url", "bolt://neo4j:7687").toString();
         this.user = settings.getOrDefault("admin", "neo4j").toString();
         this.password = settings.getOrDefault("password", "admin").toString();
     }
