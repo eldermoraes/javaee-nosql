@@ -23,7 +23,7 @@ Neo4j is a graph database management system developed by Neo4j, Inc. Described b
 1. https://store.docker.com/images/neo4j
 1. Run docker command
 1. `docker rm -f neo4j || true && docker run -d --name neo4j -p 7474:7474 -p 7687:7687 -v $HOME/neo4j/data:/data neo4j`
-1. configure Neo4J http://localhost:7474
+1. configure Neo4J http://localhost:7474 - The default initial password is "neo4j". Set it to "admin".
 
 
 ## Build
