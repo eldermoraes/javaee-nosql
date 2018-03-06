@@ -46,7 +46,6 @@ import static org.jnosql.artemis.DatabaseType.GRAPH;
 @Transactional
 public class BuddyResource {
 
-
     @Inject
     @Database(GRAPH)
     private BuddyRepository buddyRepository;
@@ -64,7 +63,6 @@ public class BuddyResource {
 
 
     @POST
-
     public void insert(@Valid BuddyDTO buddy) {
 
         buddyRepository.findByName(buddy.getName()).ifPresent(b -> {

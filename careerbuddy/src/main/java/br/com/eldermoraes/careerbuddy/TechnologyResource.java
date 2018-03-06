@@ -17,6 +17,8 @@
 package br.com.eldermoraes.careerbuddy;
 
 import br.com.eldermoraes.careerbuddy.validation.Name;
+import java.util.ArrayList;
+import java.util.List;
 import org.jnosql.artemis.Database;
 import org.jnosql.artemis.graph.Transactional;
 
@@ -66,6 +68,20 @@ public class TechnologyResource {
 
         return new TechnologyDTO(technology);
     }
+    
+    @GET
+    @Path("findAll")
+    public List<TechnologyDTO> findAll() {
+        List<Technology> technology = cityRepository.findAll()
+                .orElseThrow(() -> new WebApplicationException("technology list is empty", Response.Status.NOT_FOUND));
+
+        List<TechnologyDTO> dto = new ArrayList<>();
+        technology.forEach((t) -> {
+            dto.add(new TechnologyDTO(t));
+        });
+        
+        return dto;
+    }    
 
 
     @DELETE

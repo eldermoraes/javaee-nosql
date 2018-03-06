@@ -16,6 +16,7 @@
 
 package br.com.eldermoraes.careerbuddy;
 
+import java.util.List;
 import org.jnosql.artemis.Repository;
 
 import java.util.Optional;
@@ -25,4 +26,6 @@ public interface TechnologyRepository extends Repository<Technology, Long> {
     Optional<Technology> findByName(String name);
 
     void deleteByName(String buddyName);
+    
+    Optional<List<Technology>> findAll();
 }
