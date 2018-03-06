@@ -24,6 +24,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import javax.inject.Inject;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(CDIExtension.class)
@@ -52,6 +54,16 @@ public class CityRepositoryTest {
         assertTrue(repository.findByName(name.get()).isPresent());
         repository.deleteByName(name.get());
         assertFalse(repository.findByName(name.get()).isPresent());
+    }
+
+    @Test
+    public void shouldFindAll() {
+        Name name =  Name.of("New York");
+        City city = new City(name.get());
+
+        repository.save(city);
+        List<City> cities = repository.findAll();
+        assertFalse(cities.isEmpty());
     }
 
 }

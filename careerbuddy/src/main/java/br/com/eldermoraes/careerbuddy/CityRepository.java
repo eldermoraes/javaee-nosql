@@ -18,6 +18,7 @@ package br.com.eldermoraes.careerbuddy;
 
 import org.jnosql.artemis.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface CityRepository extends Repository<City, Long> {
@@ -25,4 +26,6 @@ public interface CityRepository extends Repository<City, Long> {
     Optional<City> findByName(String name);
 
     void deleteByName(String buddyName);
+
+    List<City> findAll();
 }
