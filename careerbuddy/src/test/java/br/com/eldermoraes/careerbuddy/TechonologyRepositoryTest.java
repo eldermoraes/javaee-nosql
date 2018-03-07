@@ -17,6 +17,8 @@
 package br.com.eldermoraes.careerbuddy;
 
 import br.com.eldermoraes.careerbuddy.cdi.CDIExtension;
+import java.util.List;
+import java.util.Optional;
 import org.jnosql.artemis.Database;
 import org.jnosql.artemis.DatabaseType;
 import org.junit.jupiter.api.Test;
@@ -53,6 +55,18 @@ public class TechonologyRepositoryTest {
         assertTrue(repository.findByName(name.get()).isPresent());
         repository.deleteByName(name.get());
         assertFalse(repository.findByName(name.get()).isPresent());
+    }
+    
+    @Test
+    public void shouldFindAll() {
+        Name name = Name.of("Graph database");
+        
+        Technology technology = new Technology(name.get());
+        
+        repository.save(technology);
+        
+        List<Technology> techs = repository.findAll();
+        assertFalse(techs.isEmpty());
     }
 
 }

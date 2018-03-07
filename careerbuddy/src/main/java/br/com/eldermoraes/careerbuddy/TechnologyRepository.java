@@ -27,5 +27,5 @@ public interface TechnologyRepository extends Repository<Technology, Long> {
 
     void deleteByName(String buddyName);
     
-    Optional<List<Technology>> findAll();
+    List<Technology> findAll();
 }

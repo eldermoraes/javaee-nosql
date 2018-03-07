@@ -71,9 +71,11 @@ public class TechnologyResource {
     
     @GET
     @Path("findAll")
+    @Produces(MediaType.APPLICATION_JSON)
     public List<TechnologyDTO> findAll() {
-        List<Technology> technology = cityRepository.findAll()
-                .orElseThrow(() -> new WebApplicationException("technology list is empty", Response.Status.NOT_FOUND));
+        List<Technology> technology = cityRepository.findAll();
+        
+        if (technology.isEmpty()) throw new WebApplicationException("technology list is empty", Response.Status.NOT_FOUND);
 
         List<TechnologyDTO> dto = new ArrayList<>();
         technology.forEach((t) -> {

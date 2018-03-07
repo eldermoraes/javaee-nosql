@@ -17,6 +17,8 @@
 package br.com.eldermoraes.careerbuddy;
 
 import br.com.eldermoraes.careerbuddy.validation.Name;
+import java.util.ArrayList;
+import java.util.List;
 import org.jnosql.artemis.Database;
 import org.jnosql.artemis.graph.Transactional;
 
@@ -66,6 +68,20 @@ public class CityResource {
 
         return new CityDTO(city);
     }
+    
+    @GET
+    @Path("findAll")
+    public List<CityDTO> findAll() {
+        List<City> city = cityRepository.findAll();
+        if (city.isEmpty()) throw new WebApplicationException("city does not found", Response.Status.NOT_FOUND);
+
+        List<CityDTO> dto = new ArrayList<>();
+        city.forEach((c) -> {
+            dto.add(new CityDTO(c));
+        });
+        
+        return dto;
+    }    
 
 
     @DELETE

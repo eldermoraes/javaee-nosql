@@ -4,17 +4,54 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>Recommendation App</title>
+        <title>Career Buddy</title>
     </h:head>
     <h:body>
+        <center><h1>CAREER BUDDY</h1></center>
         <h:form>
-            <h:panelGrid columns="3">
-                <h:outputLabel value="Search for Technology" for="selectTechnology"/>
+            <!-- SEARCH BY TECHNOLOGY-->
+            <h:panelGrid columns="4">
+                <h:outputLabel value="Search by Technology" for="selectTechnology"/>
                 <h:selectOneMenu value="#{queryBean.technologyName}" id="selectTechnology">
                     <f:selectItems value="#{queryBean.listTechnology}" var="tech" itemValue="#{tech.name}" itemLabel="#{tech.name}" />
                 </h:selectOneMenu>
-                <h:commandButton value="Search" />
+                <h:commandButton value="Search" action="#{queryBean.searchBuddiesByTechnology()}" />
             </h:panelGrid>
+            
+            <!-- SEARCH BY TECHNOLOGY AND LEVEL-->
+            <h:panelGrid columns="4">
+                <h:outputLabel value="Search by Technology and Level" for="selectTechnologyAndLevel"/>
+                <h:selectOneMenu value="#{queryBean.technologyName}" id="selectTechnologyAndLevel">
+                    <f:selectItems value="#{queryBean.listTechnology}" var="tech" itemValue="#{tech.name}" itemLabel="#{tech.name}" />
+                </h:selectOneMenu>
+                <h:selectOneMenu value="#{queryBean.level}" id="selectLevel">
+                    <f:selectItems value="#{queryBean.listLevel}" />
+                </h:selectOneMenu>                
+                <h:commandButton value="Search" action="#{queryBean.searchBuddiesByTechnologyAndLevel()}" />
+            </h:panelGrid>
+
+            <!-- SEARCH BY CITY-->
+            <h:panelGrid columns="4">
+                <h:outputLabel value="Search by City" for="selectCity"/>
+                <h:selectOneMenu value="#{queryBean.cityName}" id="selectCity">
+                    <f:selectItems value="#{queryBean.listCity}" var="city" itemValue="#{city.name}" itemLabel="#{city.name}" />
+                </h:selectOneMenu>
+                <h:commandButton value="Search" action="#{queryBean.searchBuddiesByCity()}" />
+            </h:panelGrid>
+            
+            <!-- SEARCH BY CITY AND TECHNOLOGY-->
+            <h:panelGrid columns="4">
+                <h:outputLabel value="Search by City and Technology" for="selectCityAndTechnology"/>
+                <h:selectOneMenu value="#{queryBean.cityName}" id="selectCityAndTechnology">
+                    <f:selectItems value="#{queryBean.listCity}" var="city" itemValue="#{city.name}" itemLabel="#{city.name}" />
+                </h:selectOneMenu>
+                <h:selectOneMenu value="#{queryBean.technologyName}" id="selectTechnologyForCity">
+                    <f:selectItems value="#{queryBean.listTechnology}" var="tech" itemValue="#{tech.name}" itemLabel="#{tech.name}" />
+                </h:selectOneMenu>                
+                <h:commandButton value="Search" action="#{queryBean.searchBuddiesByCityAndTechnology()}" />
+            </h:panelGrid>            
+            <br/>
+            <h:inputTextarea cols="150" rows="30" value="#{queryBean.searchResult}" />
         </h:form>
     </h:body>
 </html>
