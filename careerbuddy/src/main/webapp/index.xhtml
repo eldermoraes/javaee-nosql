@@ -12,7 +12,7 @@
             <!-- SEARCH BY TECHNOLOGY-->
             <h:panelGrid columns="4">
                 <h:outputLabel value="Search by Technology" for="selectTechnology"/>
-                <h:selectOneMenu value="#{queryBean.technologyName}" id="selectTechnology">
+                <h:selectOneMenu value="#{queryBean.technologyName1}" id="selectTechnology">
                     <f:selectItems value="#{queryBean.listTechnology}" var="tech" itemValue="#{tech.name}" itemLabel="#{tech.name}" />
                 </h:selectOneMenu>
                 <h:commandButton value="Search" action="#{queryBean.searchBuddiesByTechnology()}" />
@@ -21,7 +21,7 @@
             <!-- SEARCH BY TECHNOLOGY AND LEVEL-->
             <h:panelGrid columns="4">
                 <h:outputLabel value="Search by Technology and Level" for="selectTechnologyAndLevel"/>
-                <h:selectOneMenu value="#{queryBean.technologyName}" id="selectTechnologyAndLevel">
+                <h:selectOneMenu value="#{queryBean.technologyName2}" id="selectTechnologyAndLevel">
                     <f:selectItems value="#{queryBean.listTechnology}" var="tech" itemValue="#{tech.name}" itemLabel="#{tech.name}" />
                 </h:selectOneMenu>
                 <h:selectOneMenu value="#{queryBean.level}" id="selectLevel">
@@ -33,7 +33,7 @@
             <!-- SEARCH BY CITY-->
             <h:panelGrid columns="4">
                 <h:outputLabel value="Search by City" for="selectCity"/>
-                <h:selectOneMenu value="#{queryBean.cityName}" id="selectCity">
+                <h:selectOneMenu value="#{queryBean.cityName1}" id="selectCity">
                     <f:selectItems value="#{queryBean.listCity}" var="city" itemValue="#{city.name}" itemLabel="#{city.name}" />
                 </h:selectOneMenu>
                 <h:commandButton value="Search" action="#{queryBean.searchBuddiesByCity()}" />
@@ -42,10 +42,10 @@
             <!-- SEARCH BY CITY AND TECHNOLOGY-->
             <h:panelGrid columns="4">
                 <h:outputLabel value="Search by City and Technology" for="selectCityAndTechnology"/>
-                <h:selectOneMenu value="#{queryBean.cityName}" id="selectCityAndTechnology">
+                <h:selectOneMenu value="#{queryBean.cityName2}" id="selectCityAndTechnology">
                     <f:selectItems value="#{queryBean.listCity}" var="city" itemValue="#{city.name}" itemLabel="#{city.name}" />
                 </h:selectOneMenu>
-                <h:selectOneMenu value="#{queryBean.technologyName}" id="selectTechnologyForCity">
+                <h:selectOneMenu value="#{queryBean.technologyName3}" id="selectTechnologyForCity">
                     <f:selectItems value="#{queryBean.listTechnology}" var="tech" itemValue="#{tech.name}" itemLabel="#{tech.name}" />
                 </h:selectOneMenu>                
                 <h:commandButton value="Search" action="#{queryBean.searchBuddiesByCityAndTechnology()}" />

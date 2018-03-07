@@ -44,9 +44,12 @@ public class QueryBean implements Serializable{
     private final List<TechnologyDTO> listTechnology = new ArrayList<>();
     private final List<CityDTO> listCity = new ArrayList<>();
     private final List<String> listLevel = new ArrayList<>();
-    private String technologyName;
+    private String technologyName1;
+    private String technologyName2;
+    private String technologyName3;
     private String level;
-    private String cityName;
+    private String cityName1;
+    private String cityName2;
     private String searchResult;
     
     public QueryBean() {
@@ -87,7 +90,7 @@ public class QueryBean implements Serializable{
     public void searchBuddiesByTechnology(){
         Response response = targetBuddies
                 .path("technologies")
-                .path(technologyName.toLowerCase())
+                .path(technologyName1.toLowerCase())
                 .request(MediaType.APPLICATION_JSON)
                 .get();
         searchResult = response.readEntity(String.class);
@@ -96,7 +99,7 @@ public class QueryBean implements Serializable{
     public void searchBuddiesByTechnologyAndLevel(){
         Response response = targetBuddies
                 .path("technologies")
-                .path(technologyName.toLowerCase())
+                .path(technologyName2.toLowerCase())
                 .path(level)
                 .request(MediaType.APPLICATION_JSON)
                 .get();
@@ -106,7 +109,7 @@ public class QueryBean implements Serializable{
     public void searchBuddiesByCity(){
         Response response = targetBuddies
                 .path("cities")
-                .path(cityName.toLowerCase())
+                .path(cityName1.toLowerCase())
                 .request(MediaType.APPLICATION_JSON)
                 .get();
         searchResult = response.readEntity(String.class);
@@ -115,20 +118,20 @@ public class QueryBean implements Serializable{
     public void searchBuddiesByCityAndTechnology(){
         Response response = targetBuddies
                 .path("cities")
-                .path(cityName.toLowerCase())
+                .path(cityName2.toLowerCase())
                 .path("technologies")
-                .path(technologyName.toLowerCase())
+                .path(technologyName3.toLowerCase())
                 .request(MediaType.APPLICATION_JSON)
                 .get();
         searchResult = response.readEntity(String.class);
     }    
 
-    public String getTechnologyName() {
-        return technologyName;
+    public String getTechnologyName1() {
+        return technologyName1;
     }
 
-    public void setTechnologyName(String technologyName) {
-        this.technologyName = technologyName;
+    public void setTechnologyName1(String technologyName1) {
+        this.technologyName1 = technologyName1;
     }
 
     public List<TechnologyDTO> getListTechnology() {
@@ -155,15 +158,39 @@ public class QueryBean implements Serializable{
         this.level = level;
     }
 
-    public String getCityName() {
-        return cityName;
+    public String getCityName1() {
+        return cityName1;
     }
 
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
+    public void setCityName1(String cityName1) {
+        this.cityName1 = cityName1;
     }
 
     public List<CityDTO> getListCity() {
         return listCity;
+    }
+
+    public String getTechnologyName2() {
+        return technologyName2;
+    }
+
+    public void setTechnologyName2(String technologyName2) {
+        this.technologyName2 = technologyName2;
+    }
+
+    public String getTechnologyName3() {
+        return technologyName3;
+    }
+
+    public void setTechnologyName3(String technologyName3) {
+        this.technologyName3 = technologyName3;
+    }
+
+    public String getCityName2() {
+        return cityName2;
+    }
+
+    public void setCityName2(String cityName2) {
+        this.cityName2 = cityName2;
     }
 }
