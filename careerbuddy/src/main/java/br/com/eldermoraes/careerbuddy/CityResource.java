@@ -17,13 +17,12 @@
 package br.com.eldermoraes.careerbuddy;
 
 import br.com.eldermoraes.careerbuddy.validation.Name;
-import java.util.ArrayList;
-import java.util.List;
 import org.jnosql.artemis.Database;
 import org.jnosql.artemis.graph.Transactional;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
+import javax.validation.Valid;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
@@ -34,6 +33,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.WebApplicationException;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.jnosql.artemis.DatabaseType.GRAPH;
 
@@ -51,9 +52,9 @@ public class CityResource {
 
 
     @POST
-    public void insert(@Name String name) {
+    public void insert(@Valid @Name String name) {
 
-        cityRepository.findByName(name).ifPresent(b -> {
+        cityRepository.findByName(br.com.eldermoraes.careerbuddy.Name.of(name).get()).ifPresent(b -> {
             throw new WebApplicationException("There is city that already does exist", Response.Status.BAD_REQUEST);
         });
 
@@ -62,26 +63,18 @@ public class CityResource {
 
     @GET
     @Path("{name}")
-    public CityDTO get(@PathParam("name")String name) {
-        City city = cityRepository.findByName(name)
+    public CityDTO get(@PathParam("name") String name) {
+        City city = cityRepository.findByName(br.com.eldermoraes.careerbuddy.Name.of(name).get())
                 .orElseThrow(() -> new WebApplicationException("city does not found", Response.Status.NOT_FOUND));
 
         return new CityDTO(city);
     }
-    
+
     @GET
     @Path("findAll")
     public List<CityDTO> findAll() {
-        List<City> city = cityRepository.findAll();
-        if (city.isEmpty()) throw new WebApplicationException("city does not found", Response.Status.NOT_FOUND);
-
-        List<CityDTO> dto = new ArrayList<>();
-        city.forEach((c) -> {
-            dto.add(new CityDTO(c));
-        });
-        
-        return dto;
-    }    
+        return cityRepository.findAll().map(CityDTO::new).collect(Collectors.toList());
+    }
 
 
     @DELETE

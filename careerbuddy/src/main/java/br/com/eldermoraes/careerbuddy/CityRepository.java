@@ -20,6 +20,7 @@ import org.jnosql.artemis.Repository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 public interface CityRepository extends Repository<City, Long> {
 
@@ -27,5 +28,5 @@ public interface CityRepository extends Repository<City, Long> {
 
     void deleteByName(String buddyName);
 
-    List<City> findAll();
+    Stream<City> findAll();
 }
