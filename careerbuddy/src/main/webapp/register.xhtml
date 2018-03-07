@@ -1,0 +1,50 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Career Buddy</title>
+    </h:head>
+    <h:body>
+        <center><h1>CAREER BUDDY</h1></center>
+        <h:form>
+            <center>
+                <h:commandButton action="query" value="Query" style="width: 100px;" />
+                <h:commandButton action="index" value="Home" style="width: 100px;" />        
+            </center>
+
+            <h:panelGrid columns="4">
+                <h:outputLabel value="Name" for="textName"/>
+                <h:inputText id="textName" value="#{registerBean.buddyName}" size="30"/>
+                <h:outputLabel value="Salary" for="textSalary"/>
+                <h:inputText id="textSalary" value="#{registerBean.buddySalary}" converter="javax.faces.Double" />
+            </h:panelGrid>
+            <h:panelGrid columns="4">
+                <h:outputLabel value="Search by City" for="selectCity"/>
+                <h:selectOneMenu value="#{registerBean.cityName}" id="selectCity">
+                    <f:selectItems value="#{registerBean.listCity}" var="city" itemValue="#{city.name}" itemLabel="#{city.name}" />
+                </h:selectOneMenu>
+            </h:panelGrid>
+            <h:panelGrid columns="4">
+                <h:outputLabel value="Technology 1" for="selectTech1"/>
+                <h:selectOneMenu value="#{registerBean.tech1}" id="selectTech1">
+                    <f:selectItems value="#{registerBean.listTechnology}" var="tech" itemValue="#{tech.name}" itemLabel="#{tech.name}" />
+                </h:selectOneMenu>
+                <h:selectOneMenu value="#{registerBean.level1}" id="selectLevel1">
+                    <f:selectItems value="#{registerBean.listLevel}" />
+                </h:selectOneMenu>                
+            </h:panelGrid>
+            <h:panelGrid columns="4">
+                <h:outputLabel value="Technology 2" for="selectTech2"/>
+                <h:selectOneMenu value="#{registerBean.tech2}" id="selectTech2">
+                    <f:selectItems value="#{registerBean.listTechnology}" var="tech" itemValue="#{tech.name}" itemLabel="#{tech.name}" />
+                </h:selectOneMenu>
+                <h:selectOneMenu value="#{registerBean.level2}" id="selectLevel2">
+                    <f:selectItems value="#{registerBean.listLevel}" />
+                </h:selectOneMenu>                
+            </h:panelGrid>            
+        </h:form>
+    </h:body>
+</html>
+

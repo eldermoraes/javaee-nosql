@@ -18,7 +18,6 @@ package br.com.eldermoraes.careerbuddy;
 
 import org.jnosql.artemis.Repository;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 

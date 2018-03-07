@@ -79,7 +79,7 @@ public class QueryBean implements Serializable{
                 .request(MediaType.APPLICATION_JSON)
                 .get();
         listCity.addAll(response.readEntity(List.class));
-    }    
+    }
     
     private void loadLevel(){
         listLevel.add("beginner");

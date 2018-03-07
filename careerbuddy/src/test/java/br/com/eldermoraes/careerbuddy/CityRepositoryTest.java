@@ -24,7 +24,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 
 import javax.inject.Inject;
 
-import java.util.List;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -62,8 +62,8 @@ public class CityRepositoryTest {
         City city = new City(name.get());
 
         repository.save(city);
-        List<City> cities = repository.findAll();
-        assertFalse(cities.isEmpty());
+        Stream<City> cities = repository.findAll();
+        assertFalse(cities.count() == 0);
     }
 
 }
