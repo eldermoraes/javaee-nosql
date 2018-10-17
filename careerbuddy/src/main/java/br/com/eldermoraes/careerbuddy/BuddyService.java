@@ -79,7 +79,7 @@ public class BuddyService {
                 .has("name", Name.of(technology).get())
                 .in(Edges.WORKS)
                 .filter(b -> graphTemplate.getEdges(b, Direction.OUT, Edges.LIVES).stream()
-                            .<City>map(EdgeEntity::getInbound)
+                            .<City>map(EdgeEntity::getIncoming)
                             .anyMatch(c -> c.equals(city))
 
                     ).orderBy("name").asc().stream();
