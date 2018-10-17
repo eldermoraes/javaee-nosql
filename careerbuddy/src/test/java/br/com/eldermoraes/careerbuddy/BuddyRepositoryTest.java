@@ -34,7 +34,7 @@ public class BuddyRepositoryTest {
     @Inject
     @Database(DatabaseType.GRAPH)
     private BuddyRepository repository;
-q
+
     @Test
     public void shouldFindById() {
         Name name = Name.of("Elder Morares");

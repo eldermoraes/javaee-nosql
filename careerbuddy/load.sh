@@ -1,11 +1,11 @@
 #!/bin/sh
 
 #cities
-curl -H "Content-Type: application/json" -X POST -d 'Santos' http://localhost:8080/careerbuddy/resource/cities/
-curl -H "Content-Type: application/json" -X POST -d 'Salvador' http://localhost:8080/careerbuddy/resource/cities/
-curl -H "Content-Type: application/json" -X POST -d 'Belo Horizonte' http://localhost:8080/careerbuddy/resource/cities/
-curl -H "Content-Type: application/json" -X POST -d 'Rio de Janeiro' http://localhost:8080/careerbuddy/resource/cities/
-curl -H "Content-Type: application/json" -X POST -d 'Curitiba' http://localhost:8080/careerbuddy/resource/cities/
+curl -H "Content-Type: application/json" -X POST -d 'Miami' http://localhost:8080/careerbuddy/resource/cities/
+curl -H "Content-Type: application/json" -X POST -d 'Belmont' http://localhost:8080/careerbuddy/resource/cities/
+curl -H "Content-Type: application/json" -X POST -d 'San Francisco' http://localhost:8080/careerbuddy/resource/cities/
+curl -H "Content-Type: application/json" -X POST -d 'New York' http://localhost:8080/careerbuddy/resource/cities/
+curl -H "Content-Type: application/json" -X POST -d 'Washington' http://localhost:8080/careerbuddy/resource/cities/
 
 #technologies
 curl -H "Content-Type: application/json" -X POST -d 'Java' http://localhost:8080/careerbuddy/resource/technologies/
@@ -23,10 +23,10 @@ curl -H "Content-Type: application/json" -X POST -d '{"name":"Pedro","salary":14
 
 #lives
 
-curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/mario/lives/salvador
-curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/joao/lives/curitiba
-curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/pedro/lives/santos
-curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/jose/lives/santos
+curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/mario/lives/miami
+curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/joao/lives/belmont
+curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/pedro/lives/washington
+curl -H "Content-Type: application/json" -X PUT http://localhost:8080/careerbuddy/resource/buddies/jose/lives/washington
 
 #works
 

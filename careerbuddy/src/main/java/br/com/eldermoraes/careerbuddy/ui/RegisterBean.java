@@ -96,34 +96,28 @@ public class RegisterBean implements Serializable {
     }    
     
     public void register(){
-        targetCities.request(MediaType.APPLICATION_JSON).post(Entity.json(cityName));
-        
         buddy = BuddyDTO.of(new Buddy(buddyName, buddySalary));
-        targetTechnologies.request(MediaType.APPLICATION_JSON).post(Entity.json(buddy));
-        
+        targetBuddies.request(MediaType.APPLICATION_JSON).post(Entity.json(buddy));
+                
         targetBuddies
                 .path(buddyName)
                 .path("lives")
                 .path(cityName)
-                .request(MediaType.APPLICATION_JSON).put(null);
+                .request(MediaType.APPLICATION_JSON).get();
                 
-        targetTechnologies.request(MediaType.APPLICATION_JSON).post(Entity.json(tech1));
-        
         targetBuddies
                 .path(buddyName)
                 .path("works")
                 .path(tech1)
                 .path(level1)
-                .request(MediaType.APPLICATION_JSON).put(null);
+                .request(MediaType.APPLICATION_JSON).get();
 
-        targetTechnologies.request(MediaType.APPLICATION_JSON).post(Entity.json(tech2));
-        
         targetBuddies
                 .path(buddyName)
                 .path("works")
                 .path(tech2)
                 .path(level2)
-                .request(MediaType.APPLICATION_JSON).put(null);        
+                .request(MediaType.APPLICATION_JSON).get();
     }
 
     public String getCityName() {
