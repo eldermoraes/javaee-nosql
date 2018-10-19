@@ -103,21 +103,21 @@ public class RegisterBean implements Serializable {
                 .path(buddyName)
                 .path("lives")
                 .path(cityName)
-                .request(MediaType.APPLICATION_JSON).get();
+                .request(MediaType.APPLICATION_JSON).put(Entity.json(null));
                 
         targetBuddies
                 .path(buddyName)
                 .path("works")
                 .path(tech1)
                 .path(level1)
-                .request(MediaType.APPLICATION_JSON).get();
+                .request(MediaType.APPLICATION_JSON).put(Entity.json(null));
 
         targetBuddies
                 .path(buddyName)
                 .path("works")
                 .path(tech2)
                 .path(level2)
-                .request(MediaType.APPLICATION_JSON).get();
+                .request(MediaType.APPLICATION_JSON).put(Entity.json(null));
     }
 
     public String getCityName() {
