@@ -17,12 +17,7 @@ package br.com.eldermoraes.careerbuddy.ui;
 
 import br.com.eldermoraes.careerbuddy.Buddy;
 import br.com.eldermoraes.careerbuddy.BuddyDTO;
-import br.com.eldermoraes.careerbuddy.CityDTO;
-import br.com.eldermoraes.careerbuddy.TechnologyDTO;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.TimeUnit;
+
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 import javax.ws.rs.client.Client;
@@ -30,7 +25,8 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
+import java.io.Serializable;
+import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -45,10 +41,7 @@ public class RegisterBean implements Serializable {
     private final WebTarget targetTechnologies;
     private final WebTarget targetBuddies;
     
-    private final List<CityDTO> listCity = new ArrayList<>();
-    private final List<TechnologyDTO> listTechnology = new ArrayList<>();
-    private final List<String> listLevel = new ArrayList<>();
-    
+
     private String cityName;
     private BuddyDTO buddy;
     private String buddyName;
@@ -68,33 +61,9 @@ public class RegisterBean implements Serializable {
         targetCities = client.target("http://localhost:8080/careerbuddy/resource/cities");
         targetTechnologies = client.target("http://localhost:8080/careerbuddy/resource/technologies");
         targetBuddies = client.target("http://localhost:8080/careerbuddy/resource/buddies");
-        loadCity();
-        loadTechnology();
-        loadLevel();
     }
     
-    private void loadCity(){
-        Response response = targetCities
-                .path("findAll")
-                .request(MediaType.APPLICATION_JSON)
-                .get();
-        listCity.addAll(response.readEntity(List.class));
-    }    
-    
-    private void loadTechnology(){
-        Response response = targetTechnologies
-                .path("findAll")
-                .request(MediaType.APPLICATION_JSON)
-                .get();
-        listTechnology.addAll(response.readEntity(List.class));
-    }  
-    
-    private void loadLevel(){
-        listLevel.add("beginner");
-        listLevel.add("intermediate");
-        listLevel.add("advanced");
-    }    
-    
+
     public void register(){
         buddy = BuddyDTO.of(new Buddy(buddyName, buddySalary));
         targetBuddies.request(MediaType.APPLICATION_JSON).post(Entity.json(buddy));
@@ -182,18 +151,6 @@ public class RegisterBean implements Serializable {
 
     public void setLevel2(String level2) {
         this.level2 = level2;
-    }
-
-    public List<CityDTO> getListCity() {
-        return listCity;
-    }
-
-    public List<TechnologyDTO> getListTechnology() {
-        return listTechnology;
-    }
-
-    public List<String> getListLevel() {
-        return listLevel;
     }
 
 }
