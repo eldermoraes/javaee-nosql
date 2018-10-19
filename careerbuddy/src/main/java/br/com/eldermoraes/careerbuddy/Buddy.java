@@ -97,4 +97,8 @@ public class Buddy implements Serializable {
         sb.append('}');
         return sb.toString();
     }
+
+    public boolean isNew() {
+        return id == null;
+    }
 }

@@ -15,18 +15,14 @@
  */
 package br.com.eldermoraes.careerbuddy.ui;
 
-import br.com.eldermoraes.careerbuddy.Buddy;
 import br.com.eldermoraes.careerbuddy.BuddyDTO;
+import br.com.eldermoraes.careerbuddy.BuddyService;
+import br.com.eldermoraes.careerbuddy.Register;
 
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
 import java.io.Serializable;
-import java.util.concurrent.TimeUnit;
 
 /**
  *
@@ -36,54 +32,25 @@ import java.util.concurrent.TimeUnit;
 @ViewScoped
 public class RegisterBean implements Serializable {
 
-    private final Client client;
-    private final WebTarget targetBuddies;
-    
+
 
     private String cityName;
     private BuddyDTO buddy;
-    private String buddyName;
-    private Double buddySalary;
-    
+
     private String tech1;
     private String level1;
     private String tech2;
     private String level2;
-    
 
-    public RegisterBean() {
-        client = ClientBuilder.newBuilder()
-                .readTimeout(10, TimeUnit.SECONDS)
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .build();
-
-        targetBuddies = client.target("http://localhost:8080/careerbuddy/resource/buddies");
-    }
-    
+    @Inject
+    private BuddyService buddyService;
 
     public void register(){
-        buddy = BuddyDTO.of(new Buddy(buddyName, buddySalary));
-        targetBuddies.request(MediaType.APPLICATION_JSON).post(Entity.json(buddy));
-                
-        targetBuddies
-                .path(buddyName)
-                .path("lives")
-                .path(cityName)
-                .request(MediaType.APPLICATION_JSON).get();
-                
-        targetBuddies
-                .path(buddyName)
-                .path("works")
-                .path(tech1)
-                .path(level1)
-                .request(MediaType.APPLICATION_JSON).get();
-
-        targetBuddies
-                .path(buddyName)
-                .path("works")
-                .path(tech2)
-                .path(level2)
-                .request(MediaType.APPLICATION_JSON).get();
+        Register register = buddyService.getRegister();
+        register.buddy(buddy).lives(cityName)
+                .works(tech1)
+                .with(level1);
+        buddyService.getRegister().buddy(buddy).works(tech2).with(level2);
     }
 
     public String getCityName() {
@@ -100,22 +67,6 @@ public class RegisterBean implements Serializable {
 
     public void setBuddy(BuddyDTO buddy) {
         this.buddy = buddy;
-    }
-
-    public String getBuddyName() {
-        return buddyName;
-    }
-
-    public void setBuddyName(String buddyName) {
-        this.buddyName = buddyName;
-    }
-
-    public Double getBuddySalary() {
-        return buddySalary;
-    }
-
-    public void setBuddySalary(Double buddySalary) {
-        this.buddySalary = buddySalary;
     }
 
     public String getTech1() {
