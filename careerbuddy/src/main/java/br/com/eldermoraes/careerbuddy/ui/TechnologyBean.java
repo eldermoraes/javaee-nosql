@@ -8,6 +8,7 @@ import javax.annotation.PostConstruct;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,7 +20,7 @@ import static org.jnosql.artemis.DatabaseType.GRAPH;
  */
 @Named
 @ViewScoped
-public class TechnologyBean {
+public class TechnologyBean implements Serializable {
 
     private List<TechnologyDTO> technologies = Collections.emptyList();
 
