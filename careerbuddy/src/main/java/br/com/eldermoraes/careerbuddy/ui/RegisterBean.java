@@ -37,8 +37,6 @@ import java.util.concurrent.TimeUnit;
 public class RegisterBean implements Serializable {
 
     private final Client client;
-    private final WebTarget targetCities;
-    private final WebTarget targetTechnologies;
     private final WebTarget targetBuddies;
     
 
@@ -58,8 +56,7 @@ public class RegisterBean implements Serializable {
                 .readTimeout(10, TimeUnit.SECONDS)
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .build();
-        targetCities = client.target("http://localhost:8080/careerbuddy/resource/cities");
-        targetTechnologies = client.target("http://localhost:8080/careerbuddy/resource/technologies");
+
         targetBuddies = client.target("http://localhost:8080/careerbuddy/resource/buddies");
     }
     

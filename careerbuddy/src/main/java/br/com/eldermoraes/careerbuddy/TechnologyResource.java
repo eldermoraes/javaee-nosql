@@ -70,7 +70,6 @@ public class TechnologyResource {
     }
     
     @GET
-    @Path("findAll")
     @Produces(MediaType.APPLICATION_JSON)
     public List<TechnologyDTO> findAll() {
         List<Technology> technology = cityRepository.findAll();
