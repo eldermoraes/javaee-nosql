@@ -19,19 +19,36 @@ package br.com.eldermoraes.careerbuddy.driver;
 import org.apache.tinkerpop.gremlin.neo4j.structure.Neo4jGraph;
 import org.apache.tinkerpop.gremlin.structure.Graph;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Priority;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.inject.Alternative;
 import javax.enterprise.inject.Produces;
 import javax.interceptor.Interceptor;
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Comparator;
 
 @ApplicationScoped
 @Alternative
-@Priority(Interceptor.Priority.APPLICATION+10)
+@Priority(Interceptor.Priority.APPLICATION + 10)
 public class EmbeddedSupplier implements GraphSupplier {
 
-    private Graph graph = Neo4jGraph.open(new File("").getAbsolutePath() + "/target/jnosql-graph");
+    private Graph graph;
+
+
+    @PostConstruct
+    public void setUp() throws IOException {
+        String directory = new File("").getAbsolutePath() + "/target/jnosql-graph";
+        Files.walk(Paths.get(directory))
+                .sorted(Comparator.reverseOrder())
+                .map(Path::toFile)
+                .forEach(File::delete);
+        this.graph = Neo4jGraph.open(directory);
+    }
 
     @Override
     @Produces
