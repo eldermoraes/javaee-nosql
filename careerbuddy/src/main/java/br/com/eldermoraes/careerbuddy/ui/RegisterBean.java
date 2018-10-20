@@ -17,13 +17,18 @@ package br.com.eldermoraes.careerbuddy.ui;
 
 import br.com.eldermoraes.careerbuddy.Buddy;
 import br.com.eldermoraes.careerbuddy.BuddyDTO;
+import br.com.eldermoraes.careerbuddy.BuddyService;
+import br.com.eldermoraes.careerbuddy.City;
 import br.com.eldermoraes.careerbuddy.CityDTO;
+import br.com.eldermoraes.careerbuddy.Technology;
 import br.com.eldermoraes.careerbuddy.TechnologyDTO;
+import br.com.eldermoraes.careerbuddy.TechnologyLevel;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -50,7 +55,7 @@ public class RegisterBean implements Serializable {
     private final List<String> listLevel = new ArrayList<>();
     
     private String cityName;
-    private BuddyDTO buddy;
+    private BuddyDTO buddyDTO;
     private String buddyName;
     private Double buddySalary;
     
@@ -58,6 +63,9 @@ public class RegisterBean implements Serializable {
     private String level1;
     private String tech2;
     private String level2;
+    
+    @Inject
+    private BuddyService buddyService;
     
 
     public RegisterBean() {
@@ -96,28 +104,43 @@ public class RegisterBean implements Serializable {
     }    
     
     public void register(){
-        buddy = BuddyDTO.of(new Buddy(buddyName, buddySalary));
-        targetBuddies.request(MediaType.APPLICATION_JSON).post(Entity.json(buddy));
+        Buddy buddy = buddyService.findByName(buddyName);
+        
+        if (buddy == null){
+            buddy = new Buddy(buddyName, buddySalary);
+            buddyDTO = BuddyDTO.of(buddy);
+            Response resp = targetBuddies.request(MediaType.APPLICATION_JSON).post(Entity.json(buddyDTO));
+            buddy = buddyService.findByName(buddyName);
+        }
+        
+        City city = new City(cityName);
+        buddyService.live(buddy, city);
+        
+        Technology technology1 = new Technology(tech1);
+        buddyService.work(buddy, technology1, TechnologyLevel.parse(tech1));
+        
+        Technology technology2 = new Technology(tech2);
+        buddyService.work(buddy, technology2, TechnologyLevel.parse(tech2));
                 
-        targetBuddies
-                .path(buddyName)
+        /*targetBuddies
+                .path(buddyName.toLowerCase())
                 .path("lives")
-                .path(cityName)
+                .path(cityName.toLowerCase())
                 .request(MediaType.APPLICATION_JSON).get();
                 
         targetBuddies
-                .path(buddyName)
+                .path(buddyName.toLowerCase())
                 .path("works")
-                .path(tech1)
-                .path(level1)
+                .path(tech1.toLowerCase())
+                .path(level1.toLowerCase())
                 .request(MediaType.APPLICATION_JSON).get();
 
         targetBuddies
-                .path(buddyName)
+                .path(buddyName.toLowerCase())
                 .path("works")
-                .path(tech2)
-                .path(level2)
-                .request(MediaType.APPLICATION_JSON).get();
+                .path(tech2.toLowerCase())
+                .path(level2.toLowerCase())
+                .request(MediaType.APPLICATION_JSON).get();*/
     }
 
     public String getCityName() {
@@ -128,12 +151,12 @@ public class RegisterBean implements Serializable {
         this.cityName = cityName;
     }
 
-    public BuddyDTO getBuddy() {
-        return buddy;
+    public BuddyDTO getBuddyDTO() {
+        return buddyDTO;
     }
 
-    public void setBuddy(BuddyDTO buddy) {
-        this.buddy = buddy;
+    public void setBuddyDTO(BuddyDTO buddyDTO) {
+        this.buddyDTO = buddyDTO;
     }
 
     public String getBuddyName() {
