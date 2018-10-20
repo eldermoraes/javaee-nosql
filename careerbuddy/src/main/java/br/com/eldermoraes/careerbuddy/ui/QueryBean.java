@@ -15,13 +15,12 @@
  */
 package br.com.eldermoraes.careerbuddy.ui;
 
-import br.com.eldermoraes.careerbuddy.CityDTO;
-import br.com.eldermoraes.careerbuddy.TechnologyDTO;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
 import javax.inject.Named;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
@@ -35,14 +34,10 @@ import javax.ws.rs.core.Response;
  */
 @Named
 @ViewScoped
-public class QueryBean implements Serializable{
-    
+public class QueryBean implements Serializable {
+
     private final Client client;
-    private final WebTarget targetTechnologies;
-    private final WebTarget targetCities;
     private final WebTarget targetBuddies;
-    private final List<TechnologyDTO> listTechnology = new ArrayList<>();
-    private final List<CityDTO> listCity = new ArrayList<>();
     private final List<String> listLevel = new ArrayList<>();
     private String technologyName1;
     private String technologyName2;
@@ -51,43 +46,23 @@ public class QueryBean implements Serializable{
     private String cityName1;
     private String cityName2;
     private String searchResult;
-    
+
+    @Inject
+    protected TechnologyBean technologyBean;
+
+    @Inject
+    protected CityBean cityBean;
+
     public QueryBean() {
         client = ClientBuilder.newBuilder()
                 .readTimeout(10, TimeUnit.SECONDS)
                 .connectTimeout(10, TimeUnit.SECONDS)
                 .build();
-        targetTechnologies = client.target("http://localhost:8080/careerbuddy/resource/technologies");
-        targetCities = client.target("http://localhost:8080/careerbuddy/resource/cities");
+
         targetBuddies = client.target("http://localhost:8080/careerbuddy/resource/buddies");
-        loadTechnology();
-        loadLevel();
-        loadCity();
     }
-    
-    private void loadTechnology(){
-        Response response = targetTechnologies
-                .path("findAll")
-                .request(MediaType.APPLICATION_JSON)
-                .get();
-        listTechnology.addAll(response.readEntity(List.class));
-    }
-    
-    private void loadCity(){
-        Response response = targetCities
-                .path("findAll")
-                .request(MediaType.APPLICATION_JSON)
-                .get();
-        listCity.addAll(response.readEntity(List.class));
-    }
-    
-    private void loadLevel(){
-        listLevel.add("beginner");
-        listLevel.add("intermediate");
-        listLevel.add("advanced");
-    }
-    
-    public void searchBuddiesByTechnology(){
+
+    public void searchBuddiesByTechnology() {
         Response response = targetBuddies
                 .path("technologies")
                 .path(technologyName1.toLowerCase())
@@ -95,8 +70,8 @@ public class QueryBean implements Serializable{
                 .get();
         searchResult = response.readEntity(String.class);
     }
-    
-    public void searchBuddiesByTechnologyAndLevel(){
+
+    public void searchBuddiesByTechnologyAndLevel() {
         Response response = targetBuddies
                 .path("technologies")
                 .path(technologyName2.toLowerCase())
@@ -104,9 +79,9 @@ public class QueryBean implements Serializable{
                 .request(MediaType.APPLICATION_JSON)
                 .get();
         searchResult = response.readEntity(String.class);
-    }    
-    
-    public void searchBuddiesByCity(){
+    }
+
+    public void searchBuddiesByCity() {
         Response response = targetBuddies
                 .path("cities")
                 .path(cityName1.toLowerCase())
@@ -115,7 +90,7 @@ public class QueryBean implements Serializable{
         searchResult = response.readEntity(String.class);
     }
 
-    public void searchBuddiesByCityAndTechnology(){
+    public void searchBuddiesByCityAndTechnology() {
         Response response = targetBuddies
                 .path("cities")
                 .path(cityName2.toLowerCase())
@@ -124,7 +99,7 @@ public class QueryBean implements Serializable{
                 .request(MediaType.APPLICATION_JSON)
                 .get();
         searchResult = response.readEntity(String.class);
-    }    
+    }
 
     public String getTechnologyName1() {
         return technologyName1;
@@ -132,10 +107,6 @@ public class QueryBean implements Serializable{
 
     public void setTechnologyName1(String technologyName1) {
         this.technologyName1 = technologyName1;
-    }
-
-    public List<TechnologyDTO> getListTechnology() {
-        return listTechnology;
     }
 
     public String getSearchResult() {
@@ -147,6 +118,12 @@ public class QueryBean implements Serializable{
     }
 
     public List<String> getListLevel() {
+        if (listLevel.isEmpty()) {
+            listLevel.add("beginner");
+            listLevel.add("intermediate");
+            listLevel.add("advanced");
+        }
+
         return listLevel;
     }
 
@@ -164,10 +141,6 @@ public class QueryBean implements Serializable{
 
     public void setCityName1(String cityName1) {
         this.cityName1 = cityName1;
-    }
-
-    public List<CityDTO> getListCity() {
-        return listCity;
     }
 
     public String getTechnologyName2() {
