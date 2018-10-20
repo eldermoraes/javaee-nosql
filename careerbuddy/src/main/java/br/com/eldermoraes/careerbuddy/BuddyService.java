@@ -23,12 +23,10 @@ import org.jnosql.artemis.graph.GraphTemplate;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static java.util.Objects.requireNonNull;
-import java.util.Optional;
 
 @ApplicationScoped
 public class BuddyService {
@@ -47,18 +45,6 @@ public class BuddyService {
         return buddies.collect(Collectors.toList());
     }
     
-    public Buddy findByName(String name){
-        Optional<Object> resp = graphTemplate.getTraversalVertex()
-                .hasLabel(Buddy.class)
-                .has("displayName", name.toLowerCase()).getSingleResult();
-        
-        if (resp.isPresent()){
-            return (Buddy)resp.get();
-        } else{
-            return null;
-        }
-    }
-
     public List<Buddy> findByTechnology(String technology, TechnologyLevel level) throws NullPointerException {
         requireNonNull(technology, "technology is required");
         requireNonNull(level, "level is required");

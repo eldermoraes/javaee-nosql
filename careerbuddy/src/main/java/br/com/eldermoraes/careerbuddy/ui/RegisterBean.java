@@ -15,19 +15,20 @@
  */
 package br.com.eldermoraes.careerbuddy.ui;
 
+import br.com.eldermoraes.careerbuddy.Buddy;
 import br.com.eldermoraes.careerbuddy.BuddyDTO;
 import br.com.eldermoraes.careerbuddy.BuddyService;
-import br.com.eldermoraes.careerbuddy.Register;
-
-import br.com.eldermoraes.careerbuddy.City;
 import br.com.eldermoraes.careerbuddy.CityDTO;
-import br.com.eldermoraes.careerbuddy.Technology;
+import br.com.eldermoraes.careerbuddy.Register;
 import br.com.eldermoraes.careerbuddy.TechnologyDTO;
-import br.com.eldermoraes.careerbuddy.TechnologyLevel;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.TimeUnit;
+import javax.ejb.EJB;
+import javax.faces.view.ViewScoped;
+import javax.inject.Inject;
+import javax.inject.Named;
 
 /**
  *
@@ -37,61 +38,63 @@ import java.util.concurrent.TimeUnit;
 @ViewScoped
 public class RegisterBean implements Serializable {
 
-
-
     private String cityName;
     private BuddyDTO buddy;
 
     private BuddyDTO buddyDTO;
     private String buddyName;
     private Double buddySalary;
-    
+
     @Inject
     private BuddyService buddyService;
 
-    public void register(){
-        Register register = buddyService.getRegister();
-        register.buddy(buddy).lives(cityName)
-                .works(tech1)
-                .with(level1);
-        buddyService.getRegister().buddy(buddy).works(tech2).with(level2);
-    }    
+    @Inject
+    private CityBean cityBean;
+    
+    @Inject
+    private TechnologyBean technologyBean;
+
+    private String tech1;
+    private String level1;
+    private String tech2;
+    private String level2;
+
+    private final List<String> listLevel = new ArrayList<>();
+    private List<CityDTO> listCity = new ArrayList<>();
+    private List<TechnologyDTO> listTechnology = new ArrayList<>();
 
     public RegisterBean() {
-        client = ClientBuilder.newBuilder()
-                .readTimeout(10, TimeUnit.SECONDS)
-                .connectTimeout(10, TimeUnit.SECONDS)
-                .build();
-        targetCities = client.target("http://localhost:8080/careerbuddy/resource/cities");
-        targetTechnologies = client.target("http://localhost:8080/careerbuddy/resource/technologies");
-        targetBuddies = client.target("http://localhost:8080/careerbuddy/resource/buddies");
+        loadLevel();
         loadCity();
         loadTechnology();
-        loadLevel();
     }
-    
-    private void loadCity(){
-        Response response = targetCities
-                .path("findAll")
-                .request(MediaType.APPLICATION_JSON)
-                .get();
-        listCity.addAll(response.readEntity(List.class));
-    }    
-    
-    private void loadTechnology(){
-        Response response = targetTechnologies
-                .path("findAll")
-                .request(MediaType.APPLICATION_JSON)
-                .get();
-        listTechnology.addAll(response.readEntity(List.class));
-    }  
-    
-    private void loadLevel(){
+
+    public void register() {
+        buddy = BuddyDTO.of(new Buddy(buddyName, buddySalary));
+        buddyService.getRegister()
+                .buddy(buddy).lives(cityName)
+                .works(tech1)
+                .with(level1);
+        buddyService.getRegister()
+                .buddy(buddy)
+                .works(tech2)
+                .with(level2);
+    }
+
+    private void loadLevel() {
         listLevel.add("beginner");
         listLevel.add("intermediate");
         listLevel.add("advanced");
-    }    
-    
+    }
+
+    private void loadCity() {
+        listCity.addAll(cityBean.getCities());
+    }
+
+    private void loadTechnology() {
+        listTechnology.addAll(technologyBean.getTechnologies());
+    }
+
     public String getCityName() {
         return cityName;
     }
