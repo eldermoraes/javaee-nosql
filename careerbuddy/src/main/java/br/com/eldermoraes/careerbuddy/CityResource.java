@@ -79,7 +79,6 @@ public class CityResource {
     }
 
     @GET
-    @Path("findAll")
     public List<CityDTO> findAll() {
         return cityRepository.findAll().map(CityDTO::new).collect(Collectors.toList());
     }

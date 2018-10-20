@@ -15,9 +15,10 @@
  */
 package br.com.eldermoraes.careerbuddy.ui;
 
-import br.com.eldermoraes.careerbuddy.Buddy;
 import br.com.eldermoraes.careerbuddy.BuddyDTO;
 import br.com.eldermoraes.careerbuddy.BuddyService;
+import br.com.eldermoraes.careerbuddy.Register;
+
 import br.com.eldermoraes.careerbuddy.City;
 import br.com.eldermoraes.careerbuddy.CityDTO;
 import br.com.eldermoraes.careerbuddy.Technology;
@@ -27,15 +28,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import javax.faces.view.ViewScoped;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.ws.rs.client.Client;
-import javax.ws.rs.client.ClientBuilder;
-import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 
 /**
  *
@@ -45,28 +37,25 @@ import javax.ws.rs.core.Response;
 @ViewScoped
 public class RegisterBean implements Serializable {
 
-    private final Client client;
-    private final WebTarget targetCities;
-    private final WebTarget targetTechnologies;
-    private final WebTarget targetBuddies;
-    
-    private final List<CityDTO> listCity = new ArrayList<>();
-    private final List<TechnologyDTO> listTechnology = new ArrayList<>();
-    private final List<String> listLevel = new ArrayList<>();
-    
+
+
     private String cityName;
+    private BuddyDTO buddy;
+
     private BuddyDTO buddyDTO;
     private String buddyName;
     private Double buddySalary;
     
-    private String tech1;
-    private String level1;
-    private String tech2;
-    private String level2;
-    
     @Inject
     private BuddyService buddyService;
-    
+
+    public void register(){
+        Register register = buddyService.getRegister();
+        register.buddy(buddy).lives(cityName)
+                .works(tech1)
+                .with(level1);
+        buddyService.getRegister().buddy(buddy).works(tech2).with(level2);
+    }    
 
     public RegisterBean() {
         client = ClientBuilder.newBuilder()
@@ -103,46 +92,6 @@ public class RegisterBean implements Serializable {
         listLevel.add("advanced");
     }    
     
-    public void register(){
-        Buddy buddy = buddyService.findByName(buddyName);
-        
-        if (buddy == null){
-            buddy = new Buddy(buddyName, buddySalary);
-            buddyDTO = BuddyDTO.of(buddy);
-            Response resp = targetBuddies.request(MediaType.APPLICATION_JSON).post(Entity.json(buddyDTO));
-            buddy = buddyService.findByName(buddyName);
-        }
-        
-        City city = new City(cityName);
-        buddyService.live(buddy, city);
-        
-        Technology technology1 = new Technology(tech1);
-        buddyService.work(buddy, technology1, TechnologyLevel.parse(tech1));
-        
-        Technology technology2 = new Technology(tech2);
-        buddyService.work(buddy, technology2, TechnologyLevel.parse(tech2));
-                
-        /*targetBuddies
-                .path(buddyName.toLowerCase())
-                .path("lives")
-                .path(cityName.toLowerCase())
-                .request(MediaType.APPLICATION_JSON).get();
-                
-        targetBuddies
-                .path(buddyName.toLowerCase())
-                .path("works")
-                .path(tech1.toLowerCase())
-                .path(level1.toLowerCase())
-                .request(MediaType.APPLICATION_JSON).get();
-
-        targetBuddies
-                .path(buddyName.toLowerCase())
-                .path("works")
-                .path(tech2.toLowerCase())
-                .path(level2.toLowerCase())
-                .request(MediaType.APPLICATION_JSON).get();*/
-    }
-
     public String getCityName() {
         return cityName;
     }
@@ -157,22 +106,6 @@ public class RegisterBean implements Serializable {
 
     public void setBuddyDTO(BuddyDTO buddyDTO) {
         this.buddyDTO = buddyDTO;
-    }
-
-    public String getBuddyName() {
-        return buddyName;
-    }
-
-    public void setBuddyName(String buddyName) {
-        this.buddyName = buddyName;
-    }
-
-    public Double getBuddySalary() {
-        return buddySalary;
-    }
-
-    public void setBuddySalary(Double buddySalary) {
-        this.buddySalary = buddySalary;
     }
 
     public String getTech1() {
@@ -205,18 +138,6 @@ public class RegisterBean implements Serializable {
 
     public void setLevel2(String level2) {
         this.level2 = level2;
-    }
-
-    public List<CityDTO> getListCity() {
-        return listCity;
-    }
-
-    public List<TechnologyDTO> getListTechnology() {
-        return listTechnology;
-    }
-
-    public List<String> getListLevel() {
-        return listLevel;
     }
 
 }

@@ -23,6 +23,7 @@ import org.jnosql.artemis.graph.GraphTemplate;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -92,15 +93,15 @@ public class BuddyService {
                 .has("name", Name.of(technology).get())
                 .in(Edges.WORKS)
                 .filter(b -> graphTemplate.getEdges(b, Direction.OUT, Edges.LIVES).stream()
-                            .<City>map(EdgeEntity::getIncoming)
-                            .anyMatch(c -> c.equals(city))
+                        .<City>map(EdgeEntity::getIncoming)
+                        .anyMatch(c -> c.equals(city))
 
-                    ).orderBy("name").asc().stream();
+                ).orderBy("name").asc().stream();
 
         return buddies.collect(Collectors.toList());
     }
 
-    public void live(Buddy buddy, City city) throws NullPointerException{
+    public void live(Buddy buddy, City city) throws NullPointerException {
         requireNonNull(buddy, "buddy is required");
         requireNonNull(city, "city is required");
         graphTemplate.edge(buddy, Edges.LIVES, city);
@@ -110,7 +111,7 @@ public class BuddyService {
         requireNonNull(buddy, "buddy is required");
         requireNonNull(technology, "technology is required");
 
-        graphTemplate.edge(buddy, Edges.WORKS,technology);
+        graphTemplate.edge(buddy, Edges.WORKS, technology);
     }
 
     public void work(Buddy buddy, Technology technology, TechnologyLevel level) {
@@ -121,4 +122,13 @@ public class BuddyService {
         EdgeEntity edge = graphTemplate.edge(buddy, Edges.WORKS, technology);
         edge.add(TechnologyLevel.EDGE_PROPERTY, level.get());
     }
+
+
+    public Register getRegister() {
+        return new DefaultRegister(graphTemplate);
+    }
+
+
+
+
 }
