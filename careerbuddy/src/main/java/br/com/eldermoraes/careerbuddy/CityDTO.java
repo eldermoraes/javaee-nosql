@@ -31,7 +31,7 @@ public class CityDTO {
     public String getName() {
         return name;
     }
-
+    
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CityDTO{");
