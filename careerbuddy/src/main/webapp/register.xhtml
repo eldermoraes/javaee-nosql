@@ -26,13 +26,13 @@
 
                 <h:outputLabel value="City" for="selectCity"/>
                 <p:selectOneMenu value="#{registerBean.cityName}" id="selectCity" style="width: 200px;">
-                    <f:selectItems value="#{registerBean.listCity}" var="city" itemValue="#{city.name}" itemLabel="#{city.name}" />
+                    <f:selectItems value="#{cityBean.cities}" var="city" itemValue="#{city.name}" itemLabel="#{city.name}" />
                 </p:selectOneMenu>
             </h:panelGrid>
             <h:panelGrid columns="3" cellpadding="7">                
                 <h:outputLabel value="Technology 1" for="selectTech1"/>
                 <p:selectOneMenu value="#{registerBean.tech1}" id="selectTech1" style="width: 100px;">
-                    <f:selectItems value="#{registerBean.listTechnology}" var="tech" itemValue="#{tech.name}" itemLabel="#{tech.name}" />
+                    <f:selectItems value="#{technologyBean.technologies}" var="tech" itemValue="#{tech.name}" itemLabel="#{tech.name}" />
                 </p:selectOneMenu>
                 <p:selectOneMenu value="#{registerBean.level1}" id="selectLevel1" style="width: 100px;">
                     <f:selectItems value="#{registerBean.listLevel}" />
@@ -40,7 +40,7 @@
 
                 <h:outputLabel value="Technology 2" for="selectTech2"/>
                 <p:selectOneMenu value="#{registerBean.tech2}" id="selectTech2" style="width: 100px;">
-                    <f:selectItems value="#{registerBean.listTechnology}" var="tech" itemValue="#{tech.name}" itemLabel="#{tech.name}" />
+                    <f:selectItems value="#{technologyBean.technologies}" var="tech" itemValue="#{tech.name}" itemLabel="#{tech.name}" />
                 </p:selectOneMenu>
                 <p:selectOneMenu value="#{registerBean.level2}" id="selectLevel2" style="width: 100px;">
                     <f:selectItems value="#{registerBean.listLevel}" />

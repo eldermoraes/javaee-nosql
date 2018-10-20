@@ -3,8 +3,8 @@
 #cities
 curl -H "Content-Type: application/json" -X POST -d 'Miami' http://localhost:8080/careerbuddy/resource/cities/
 curl -H "Content-Type: application/json" -X POST -d 'Belmont' http://localhost:8080/careerbuddy/resource/cities/
-curl -H "Content-Type: application/json" -X POST -d 'San Francisco' http://localhost:8080/careerbuddy/resource/cities/
-curl -H "Content-Type: application/json" -X POST -d 'Sao' http://localhost:8080/careerbuddy/resource/cities/
+curl -H "Content-Type: application/json" -X POST -d 'San_Francisco' http://localhost:8080/careerbuddy/resource/cities/
+curl -H "Content-Type: application/json" -X POST -d 'New_York' http://localhost:8080/careerbuddy/resource/cities/
 curl -H "Content-Type: application/json" -X POST -d 'Washington' http://localhost:8080/careerbuddy/resource/cities/
 
 #technologies

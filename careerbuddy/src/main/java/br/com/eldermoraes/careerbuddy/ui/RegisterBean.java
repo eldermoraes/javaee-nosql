@@ -19,13 +19,11 @@ import br.com.eldermoraes.careerbuddy.Buddy;
 import br.com.eldermoraes.careerbuddy.BuddyDTO;
 import br.com.eldermoraes.careerbuddy.BuddyService;
 import br.com.eldermoraes.careerbuddy.CityDTO;
-import br.com.eldermoraes.careerbuddy.Register;
 import br.com.eldermoraes.careerbuddy.TechnologyDTO;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -43,16 +41,17 @@ public class RegisterBean implements Serializable {
 
     private BuddyDTO buddyDTO;
     private String buddyName;
+
     private Double buddySalary;
 
     @Inject
     private BuddyService buddyService;
 
     @Inject
-    private CityBean cityBean;
-    
+    protected CityBean cityBean;
+
     @Inject
-    private TechnologyBean technologyBean;
+    protected TechnologyBean technologyBean;
 
     private String tech1;
     private String level1;
@@ -60,13 +59,9 @@ public class RegisterBean implements Serializable {
     private String level2;
 
     private final List<String> listLevel = new ArrayList<>();
-    private List<CityDTO> listCity = new ArrayList<>();
-    private List<TechnologyDTO> listTechnology = new ArrayList<>();
 
     public RegisterBean() {
-        loadLevel();
-        loadCity();
-        loadTechnology();
+        
     }
 
     public void register() {
@@ -79,20 +74,6 @@ public class RegisterBean implements Serializable {
                 .buddy(buddy)
                 .works(tech2)
                 .with(level2);
-    }
-
-    private void loadLevel() {
-        listLevel.add("beginner");
-        listLevel.add("intermediate");
-        listLevel.add("advanced");
-    }
-
-    private void loadCity() {
-        listCity.addAll(cityBean.getCities());
-    }
-
-    private void loadTechnology() {
-        listTechnology.addAll(technologyBean.getTechnologies());
     }
 
     public String getCityName() {
@@ -141,6 +122,31 @@ public class RegisterBean implements Serializable {
 
     public void setLevel2(String level2) {
         this.level2 = level2;
+    }
+
+    public List<String> getListLevel() {
+        if (listLevel.isEmpty()) {
+            listLevel.add("beginner");
+            listLevel.add("intermediate");
+            listLevel.add("advanced");
+        }
+        return listLevel;
+    }
+
+    public String getBuddyName() {
+        return buddyName;
+    }
+
+    public void setBuddyName(String buddyName) {
+        this.buddyName = buddyName;
+    }
+
+    public Double getBuddySalary() {
+        return buddySalary;
+    }
+
+    public void setBuddySalary(Double buddySalary) {
+        this.buddySalary = buddySalary;
     }
 
 }
