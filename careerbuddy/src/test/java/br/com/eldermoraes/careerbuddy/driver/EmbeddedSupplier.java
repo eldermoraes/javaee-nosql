@@ -27,10 +27,6 @@ import javax.enterprise.inject.Produces;
 import javax.interceptor.Interceptor;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Comparator;
 
 @ApplicationScoped
 @Alternative
@@ -43,10 +39,6 @@ public class EmbeddedSupplier implements GraphSupplier {
     @PostConstruct
     public void setUp() throws IOException {
         String directory = new File("").getAbsolutePath() + "/target/jnosql-graph";
-        Files.walk(Paths.get(directory))
-                .sorted(Comparator.reverseOrder())
-                .map(Path::toFile)
-                .forEach(File::delete);
         this.graph = Neo4jGraph.open(directory);
     }
 
