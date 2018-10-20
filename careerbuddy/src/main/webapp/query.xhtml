@@ -13,81 +13,82 @@
             <center>
                 <p:commandButton action="index" value="Home" style="width: 200px;" />
                 <p:commandButton action="register" value="Register" style="width: 200px;" />        
+
+                <p:panelGrid style="margin-top:20px">
+                    <!-- SEARCH BY TECHNOLOGY-->
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Search by Technology" for="selectTechnology"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{queryBean.technologyName1}" id="selectTechnology" style="width: 100px;">
+                                <f:selectItems value="#{technologyBean.technologies}" var="tech" itemValue="#{tech.name}" itemLabel="#{tech.name}" />
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column colspan="2">
+                            <p:commandButton value="Search" actionListener="#{queryBean.searchBuddiesByTechnology()}" ajax="false" style="float: right;" />
+                        </p:column>
+                    </p:row>
+
+                    <!-- SEARCH BY TECHNOLOGY AND LEVEL-->
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Search by Technology and Level" for="selectTechnologyAndLevel"/>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{queryBean.technologyName2}" id="selectTechnologyAndLevel" style="width: 100px;">
+                                <f:selectItems value="#{technologyBean.technologies}" var="tech" itemValue="#{tech.name}" itemLabel="#{tech.name}" />
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{queryBean.level}" id="selectLevel">
+                                <f:selectItems value="#{queryBean.listLevel}" />
+                            </p:selectOneMenu>                        
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Search" actionListener="#{queryBean.searchBuddiesByTechnologyAndLevel()}" ajax="false" />                        
+                        </p:column>
+                    </p:row>
+
+                    <!-- SEARCH BY CITY-->
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Search by City" for="selectCity"/>                        
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{queryBean.cityName1}" id="selectCity" style="width: 100px;">
+                                <f:selectItems value="#{cityBean.cities}" var="city" itemValue="#{city.name}" itemLabel="#{city.name}" />
+                            </p:selectOneMenu>                        
+                        </p:column>
+                        <p:column colspan="2">
+                            <p:commandButton value="Search" actionListener="#{queryBean.searchBuddiesByCity()}" ajax="false" style="float: right;" />
+                        </p:column>
+                    </p:row>
+
+                    <!-- SEARCH BY CITY AND TECHNOLOGY-->
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Search by City and Technology" for="selectCityAndTechnology"/>                        
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{queryBean.cityName2}" id="selectCityAndTechnology" style="width: 100px;">
+                                <f:selectItems value="#{cityBean.cities}" var="city" itemValue="#{city.name}" itemLabel="#{city.name}" />
+                            </p:selectOneMenu>                        
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{queryBean.technologyName3}" id="selectTechnologyForCity" style="width: 100px;">
+                                <f:selectItems value="#{technologyBean.technologies}" var="tech" itemValue="#{tech.name}" itemLabel="#{tech.name}" />
+                            </p:selectOneMenu>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Search" actionListener="#{queryBean.searchBuddiesByCityAndTechnology()}" ajax="false" />                        
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
+                <br/>
+                <p:inputTextarea cols="100" rows="15" value="#{queryBean.searchResult}" />
             </center>
 
-            <p:panelGrid style="margin-top:20px">
-                <!-- SEARCH BY TECHNOLOGY-->
-                <p:row>
-                    <p:column>
-                        <h:outputLabel value="Search by Technology" for="selectTechnology"/>
-                    </p:column>
-                    <p:column>
-                        <p:selectOneMenu value="#{queryBean.technologyName1}" id="selectTechnology" style="width: 100px;">
-                            <f:selectItems value="#{technologyBean.technologies}" var="tech" itemValue="#{tech.name}" itemLabel="#{tech.name}" />
-                        </p:selectOneMenu>
-                    </p:column>
-                    <p:column colspan="2">
-                        <p:commandButton value="Search" actionListener="#{queryBean.searchBuddiesByTechnology()}" ajax="false" style="float: right;" />
-                    </p:column>
-                </p:row>
-
-                <!-- SEARCH BY TECHNOLOGY AND LEVEL-->
-                <p:row>
-                    <p:column>
-                        <h:outputLabel value="Search by Technology and Level" for="selectTechnologyAndLevel"/>
-                    </p:column>
-                    <p:column>
-                        <p:selectOneMenu value="#{queryBean.technologyName2}" id="selectTechnologyAndLevel" style="width: 100px;">
-                            <f:selectItems value="#{technologyBean.technologies}" var="tech" itemValue="#{tech.name}" itemLabel="#{tech.name}" />
-                        </p:selectOneMenu>
-                    </p:column>
-                    <p:column>
-                        <p:selectOneMenu value="#{queryBean.level}" id="selectLevel">
-                            <f:selectItems value="#{queryBean.listLevel}" />
-                        </p:selectOneMenu>                        
-                    </p:column>
-                    <p:column>
-                        <p:commandButton value="Search" actionListener="#{queryBean.searchBuddiesByTechnologyAndLevel()}" ajax="false" />                        
-                    </p:column>
-                </p:row>
-
-                <!-- SEARCH BY CITY-->
-                <p:row>
-                    <p:column>
-                        <h:outputLabel value="Search by City" for="selectCity"/>                        
-                    </p:column>
-                    <p:column>
-                        <p:selectOneMenu value="#{queryBean.cityName1}" id="selectCity" style="width: 100px;">
-                            <f:selectItems value="#{cityBean.cities}" var="city" itemValue="#{city.name}" itemLabel="#{city.name}" />
-                        </p:selectOneMenu>                        
-                    </p:column>
-                    <p:column colspan="2">
-                        <p:commandButton value="Search" actionListener="#{queryBean.searchBuddiesByCity()}" ajax="false" style="float: right;" />
-                    </p:column>
-                </p:row>
-
-                <!-- SEARCH BY CITY AND TECHNOLOGY-->
-                <p:row>
-                    <p:column>
-                        <h:outputLabel value="Search by City and Technology" for="selectCityAndTechnology"/>                        
-                    </p:column>
-                    <p:column>
-                        <p:selectOneMenu value="#{queryBean.cityName2}" id="selectCityAndTechnology" style="width: 100px;">
-                            <f:selectItems value="#{cityBean.cities}" var="city" itemValue="#{city.name}" itemLabel="#{city.name}" />
-                        </p:selectOneMenu>                        
-                    </p:column>
-                    <p:column>
-                        <p:selectOneMenu value="#{queryBean.technologyName3}" id="selectTechnologyForCity" style="width: 100px;">
-                            <f:selectItems value="#{technologyBean.technologies}" var="tech" itemValue="#{tech.name}" itemLabel="#{tech.name}" />
-                        </p:selectOneMenu>
-                    </p:column>
-                    <p:column>
-                        <p:commandButton value="Search" actionListener="#{queryBean.searchBuddiesByCityAndTechnology()}" ajax="false" />                        
-                    </p:column>
-                </p:row>
-            </p:panelGrid>
-            <br/>
-            <p:inputTextarea cols="100" rows="15" value="#{queryBean.searchResult}" />
         </h:form>
     </h:body>
 </html>

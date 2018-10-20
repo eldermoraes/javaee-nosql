@@ -11,42 +11,80 @@
         <center><h1>Career Buddy</h1></center>
         <h:form>
             <center>
-                <p:commandButton action="query" value="Query" style="width: 100px;" />
-                <p:commandButton action="index" value="Home" style="width: 100px;" />        
+                <p:commandButton action="query" value="Query" style="width: 200px;" />
+                <p:commandButton action="index" value="Home" style="width: 200px;" />        
+
+                <p:panelGrid style="margin-top:20px">
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Name" for="textName"/>                        
+                        </p:column>
+                        <p:column colspan="2">
+                            <p:inputText id="textName" value="#{registerBean.buddyName}" size="30" style="width: 290px;"/>                        
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Salary" for="textSalary"/>                        
+                        </p:column>
+                        <p:column colspan="2">
+                            <p:inputNumber id="textSalary" value="#{registerBean.buddySalary}" 
+                                           converter="javax.faces.Double" symbol=" US$" symbolPosition="s" 
+                                           decimalSeparator="," thousandSeparator="." />
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="City" for="selectCity"/>                        
+                        </p:column>
+                        <p:column colspan="2">
+                            <p:selectOneMenu value="#{registerBean.cityName}" id="selectCity" style="width: 260px;">
+                                <f:selectItems value="#{cityBean.cities}" var="city" itemValue="#{city.name}" itemLabel="#{city.name}" />
+                            </p:selectOneMenu>                        
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Technology 1" for="selectTech1"/>                        
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{registerBean.tech1}" id="selectTech1" style="width: 100px;">
+                                <f:selectItems value="#{technologyBean.technologies}" var="tech" itemValue="#{tech.name}" itemLabel="#{tech.name}" />
+                            </p:selectOneMenu>                        
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{registerBean.level1}" id="selectLevel1" style="width: 100px;">
+                                <f:selectItems value="#{registerBean.listLevel}" />
+                            </p:selectOneMenu>                        
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column>
+                            <h:outputLabel value="Technology 2" for="selectTech2"/>                        
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{registerBean.tech2}" id="selectTech2" style="width: 100px;">
+                                <f:selectItems value="#{technologyBean.technologies}" var="tech" itemValue="#{tech.name}" itemLabel="#{tech.name}" />
+                            </p:selectOneMenu>                        
+                        </p:column>
+                        <p:column>
+                            <p:selectOneMenu value="#{registerBean.level2}" id="selectLevel2" style="width: 100px;">
+                                <f:selectItems value="#{registerBean.listLevel}" />
+                            </p:selectOneMenu>                        
+                        </p:column>
+                    </p:row>
+
+                    <p:row>
+                        <p:column colspan="3">
+                            <p:commandButton value="Register" id="registerButton" actionListener="#{registerBean.register()}" ajax="false" style="width: 420px;"/>
+                        </p:column>
+                    </p:row>
+                </p:panelGrid>
             </center>
-
-            <h:panelGrid columns="2" cellpadding="5">
-                <h:outputLabel value="Name" for="textName"/>
-                <p:inputText id="textName" value="#{registerBean.buddyName}" size="30" style="width: 200px;"/>
-                
-                <h:outputLabel value="Salary" for="textSalary"/>
-                <p:inputNumber id="textSalary" value="#{registerBean.buddySalary}" 
-                                converter="javax.faces.Double" symbol=" US$" symbolPosition="s" 
-                               decimalSeparator="," thousandSeparator="." style="width: 200px;"/>
-
-                <h:outputLabel value="City" for="selectCity"/>
-                <p:selectOneMenu value="#{registerBean.cityName}" id="selectCity" style="width: 200px;">
-                    <f:selectItems value="#{cityBean.cities}" var="city" itemValue="#{city.name}" itemLabel="#{city.name}" />
-                </p:selectOneMenu>
-            </h:panelGrid>
-            <h:panelGrid columns="3" cellpadding="7">                
-                <h:outputLabel value="Technology 1" for="selectTech1"/>
-                <p:selectOneMenu value="#{registerBean.tech1}" id="selectTech1" style="width: 100px;">
-                    <f:selectItems value="#{technologyBean.technologies}" var="tech" itemValue="#{tech.name}" itemLabel="#{tech.name}" />
-                </p:selectOneMenu>
-                <p:selectOneMenu value="#{registerBean.level1}" id="selectLevel1" style="width: 100px;">
-                    <f:selectItems value="#{registerBean.listLevel}" />
-                </p:selectOneMenu>
-
-                <h:outputLabel value="Technology 2" for="selectTech2"/>
-                <p:selectOneMenu value="#{registerBean.tech2}" id="selectTech2" style="width: 100px;">
-                    <f:selectItems value="#{technologyBean.technologies}" var="tech" itemValue="#{tech.name}" itemLabel="#{tech.name}" />
-                </p:selectOneMenu>
-                <p:selectOneMenu value="#{registerBean.level2}" id="selectLevel2" style="width: 100px;">
-                    <f:selectItems value="#{registerBean.listLevel}" />
-                </p:selectOneMenu>
-            </h:panelGrid>            
-            <p:commandButton value="Register" id="registerButton" actionListener="#{registerBean.register()}" ajax="false" style="width: 200px;"/>
         </h:form>
     </h:body>
 </html>
